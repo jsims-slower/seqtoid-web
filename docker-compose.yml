@@ -135,6 +135,7 @@ services:
       - ./test/fixtures/czid-private-key.pem:/tmp/czid-private-key.pem
     ports:
       - 3001:3001
+      - 12345:12345
     depends_on:
       - db
       - redis
@@ -145,6 +146,7 @@ services:
     environment:
       <<: [*web-variables, *aws-variables, *auth0-variables, *env-variables]
       GRAPHQL_FEDERATION_SERVICE_URL: http://web-proxy:3000/graphqlfed
+      RUBY_DEBUG_SKIP_BP: true
     command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0 -p 3001"
   resque:
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/idseq-web:latest
