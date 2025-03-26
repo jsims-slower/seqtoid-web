@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Auth0Controller < ApplicationController
-  skip_before_action :authenticate_user!, :verify_authenticity_token
+  skip_before_action :authenticate_user!, only: [:verify_authenticity_token, :direct_user_login]
   skip_before_action :check_for_maintenance, only: :background_refresh
 
   include Auth0Helper
@@ -35,6 +35,13 @@ class Auth0Controller < ApplicationController
       action: :refresh_token,
       params: { mode: "login" }
     )
+  end
+
+  def direct_user_login
+    user_id = params[:user_id]
+    direct_login(user_id)
+    @token_based_login_request = true
+    redirect_to home_path
   end
 
   def logout
