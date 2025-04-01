@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Auth0Controller < ApplicationController
-  skip_before_action :authenticate_user!, only: [:verify_authenticity_token, :direct_user_login]
+  skip_before_action :authenticate_user!, :verify_authenticity_token
   skip_before_action :check_for_maintenance, only: :background_refresh
 
   include Auth0Helper
