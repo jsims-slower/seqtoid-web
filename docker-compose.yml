@@ -165,7 +165,7 @@ services:
     env_file:
       - web.env
     environment:
-      <<: [*web-variables, *aws-variables]
+      <<: [*web-variables, *aws-variables, *env-variables]
       GRAPHQL_FEDERATION_SERVICE_URL: http://web-proxy:3000/graphqlfed
     command: bundle exec "COUNT=2 rake resque:workers"
   resque-scheduler:
@@ -234,7 +234,7 @@ services:
       - ~/.aws/cli/cache:/root/.aws/cli/cache
       - ./test/fixtures/czid-private-key.pem:/tmp/czid-private-key.pem
     environment:
-      <<: [*web-variables, *aws-variables]
+      <<: [*web-variables, *aws-variables, *env-variables]
       SFN_NOTIFICATIONS_QUEUE_ARN:
     command: bundle exec "shoryuken -R -C config/shoryuken-dev.yml"
   concurrency-lambda:
