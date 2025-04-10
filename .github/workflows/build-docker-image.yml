@@ -52,6 +52,7 @@ jobs:
           path: ~/.cache
           key: ${{runner.os}}-cache
       - name: configure aws credentials
+        id: configure_aws_credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::941377154785:role/gha-cypherid-workflow-infra-terraform
