@@ -162,6 +162,7 @@ class ConsolidateMigrationsPriorTo20240326 < ActiveRecord::Migration[6.1]
     end
 
     create_table "data_migrations", primary_key: "version", id: :string, charset: "utf8", collation: "utf8_unicode_ci", if_not_exists: true do |t|
+    end
 
     create_table "deletion_logs", charset: "utf8", collation: "utf8_unicode_ci" do |t|
       t.bigint "object_id", null: false, comment: "The id of the object that was deleted"
