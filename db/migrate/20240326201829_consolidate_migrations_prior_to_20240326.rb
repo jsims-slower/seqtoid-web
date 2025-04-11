@@ -162,7 +162,7 @@ class ConsolidateMigrationsPriorTo20240326 < ActiveRecord::Migration[6.1]
     end
 
     if table_exists?(:data_migrations)
-      set_primary_key "version"
+      self.primary_key = "version"
     else
       create_table "data_migrations", primary_key: "version", id: :string, charset: "utf8", collation: "utf8_unicode_ci" do |t|
       end
