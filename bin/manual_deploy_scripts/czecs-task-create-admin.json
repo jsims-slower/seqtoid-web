@@ -4,7 +4,10 @@
     "containerOverrides": [
       {
         "name": "rails",
-        "command": ["rails", "local_user_creation:admin[\"test.user@test.com\",\"test\"]"]
+        "command": [
+          "rails",
+          "local_user_creation:admin[test.user@test.com,test]"
+        ]
       }
     ]
   },
