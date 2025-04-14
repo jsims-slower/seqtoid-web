@@ -25,7 +25,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    Rails.logger.info("Rails env: " + Rails.env + ", ALLOW_DIRECT_USER_LOGIN: " + ENV["ALLOW_DIRECT_USER_LOGIN"])
     if (Rails.env.development? || Rails.env.sandbox? || Rails.env == "sandbox") && !current_user.nil? && ENV["ALLOW_DIRECT_USER_LOGIN"] == "true"
       return true
     end
