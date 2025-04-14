@@ -55,7 +55,7 @@ jobs:
         id: configure_aws_credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::941377154785:role/gha-cypherid-workflow-infra-terraform
+          role-to-assume: arn:aws:iam::941377154785:role/gha-seqtoid
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
       - name: Login to ECR
