@@ -53,6 +53,7 @@ module Auth0Helper
 
   def direct_login(user_id)
     auth_user = User.find(user_id) rescue nil
+    Rails.logger.info("direct_login: user_id: #{user_id}, auth_user: #{auth_user}")
     warden.logout(:user)
     warden.set_user(auth_user, scope: :auth0_user)
   end
