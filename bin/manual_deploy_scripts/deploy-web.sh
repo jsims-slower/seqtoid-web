@@ -40,15 +40,17 @@ fi
 echo "running migrations"
 #echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-drop.json"
 #echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-create.json"
-#echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-create-admin.json"
 echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-migrate.json"
+#echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-create-admin.json"
+#echo "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-seed.json"
 echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_arn} ${cluster} czid-${env}-web"
 
 # Run migration tasks.
 # /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-drop.json
 # /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-create.json
-# /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-create-admin.json
  /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-migrate.json
+# /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-create-admin.json
+# /tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-seed.json
  /tmp/czecs upgrade --timeout 900 --task-definition-arn "${task_definition_arn}" "${cluster}" "czid-${env}-web"
 
 echo "image: ${image}, env: ${env}, aws_account_id: ${aws_account_id}, cluster: ${cluster}"

@@ -33,15 +33,15 @@ ActiveRecord::Base.transaction do
 
   AppConfig.create({"key"=>"long-read-mngs-version", "value"=>"0.7.11"})
 
-  AppConfig.create({"key"=>"sfn_single_wdl_arn", "value"=>"arn:aws:states:us-west-2:732052188396:stateMachine:idseq-swipe-dev-default-wdl"})
+  AppConfig.create({"key"=>"sfn_single_wdl_arn", "value"=>"arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-default-wdl"})
 
   AppConfig.create({"key"=>"enable_sfn_notifications", "value"=>"1"})
 
-  AppConfig.create({"key"=>"sfn_arn", "value"=>"arn:aws:states:us-west-2:732052188396:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
+  AppConfig.create({"key"=>"sfn_arn", "value"=>"arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
 
-  AppConfig.create({"key"=>"sfn_mngs_arn", "value"=>"arn:aws:states:us-west-2:732052188396:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
+  AppConfig.create({"key"=>"sfn_mngs_arn", "value"=>"arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
 
-  AppConfig.create({"key"=>"sfn_cg_arn", "value"=>"arn:aws:states:us-west-2:732052188396:stateMachine:idseq-swipe-dev-default-wdl"})
+  AppConfig.create({"key"=>"sfn_cg_arn", "value"=>"arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-default-wdl"})
 
   AppConfig.create({"key"=>"default_alignment_config_name", "value"=>"2024-02-06"})
 

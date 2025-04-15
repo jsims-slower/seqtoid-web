@@ -6,7 +6,7 @@
         "name": "rails",
         "command": [
           "rails",
-          "db:drop"
+          "db:seed"
         ]
       }
     ]
