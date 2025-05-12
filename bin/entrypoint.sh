@@ -1,7 +1,7 @@
 #!/bin/sh
 if test -z "$ENVIRONMENT"; then
     # If ENVIRONMENT not set, assume local development
-    export ENVIRONMENT=sandbox
+    export ENVIRONMENT=dev
 fi
 
 if [ "$OFFLINE" = "1" ]
