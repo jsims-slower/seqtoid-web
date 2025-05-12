@@ -4,10 +4,12 @@ if test -z "$ENVIRONMENT"; then
     export ENVIRONMENT=dev
 fi
 
-if [ "$OFFLINE" = "1" ]
-then
-    exec bundle exec "$@"
-else
+# if [ "$OFFLINE" = "1" ]
+# then
+#     exec bundle exec "$@"
+# else
     # Use Chamber to inject secrets via environment variables.
-    exec chamber exec idseq-$ENVIRONMENT-web -- bundle exec "$@"
-fi
+echo "running chamber"
+exec chamber exec idseq-$ENVIRONMENT-web -- bundle exec "$@"
+echo "chamber completed"
+# fi
