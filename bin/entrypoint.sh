@@ -9,9 +9,16 @@ fi
 #     exec bundle exec "$@"
 # else
     # Use Chamber to inject secrets via environment variables.
-echo "running chamber"
-eval $(chamber exec idseq-sandbox-web -- env | sed 's/^/export /')
-env
-bundle exec "$@"
-echo "chamber completed"
+echo "Running chamber env export..."
+chamber_vars=$(chamber exec idseq-sandbox-web -- env) || {
+  echo "❌ chamber failed"; exit 1;
+}
+
+echo "$chamber_vars" | while IFS='=' read -r k v; do
+  export "$k=$v"
+done
+
+env | grep -E 'RAILS|REDIS|AWS'
+
+exec bundle exec "$@"
 # fi
