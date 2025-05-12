@@ -10,6 +10,7 @@ fi
 # else
     # Use Chamber to inject secrets via environment variables.
 echo "running chamber"
+echo $(exec chamber exec idseq-$ENVIRONMENT-web -- env)
 exec chamber exec idseq-$ENVIRONMENT-web -- bundle exec "$@"
 echo "chamber completed"
 # fi
