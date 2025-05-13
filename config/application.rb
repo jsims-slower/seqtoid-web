@@ -6,6 +6,11 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+puts "[BOOT] Dumping selected ENV vars before Rails loads:"
+ENV.each do |key, value|
+  puts "#{key}=#{value}"
+end
+
 module Czid
   class Application < Rails::Application
     # Load configuration defaults from Rails 6.1.
