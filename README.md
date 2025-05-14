@@ -19,4 +19,3 @@ Check out our repositories:
 - [czid-bench](https://github.com/chanzuckerberg/czid-bench) - Pipeline benchmarking tools
 
 Check out our [wiki](https://github.com/chanzuckerberg/czid-web/wiki) for getting started with development in this repository and in CZ ID in general.
-
