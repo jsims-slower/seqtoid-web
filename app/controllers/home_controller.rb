@@ -164,9 +164,17 @@ class HomeController < ApplicationController
     puts S3_WORKFLOWS_BUCKET
     puts "S3 KEY"
     puts "#{workflow}-v#{version}/#{filename}"
-    response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
-    puts response
-    return response[:content_length] > 0
+    begin
+      response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
+      puts response.to_h
+      return response[:content_length] > 0
+    rescue Aws::S3::Errors::NoSuchKey => e
+      puts "S3 object not found: #{e.message}"
+      return false
+    rescue => e
+      puts "Error fetching S3 object: #{e.message}"
+      return false
+    end
   end
 
   def user_profile_form
