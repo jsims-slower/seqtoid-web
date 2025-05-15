@@ -160,7 +160,12 @@ class HomeController < ApplicationController
                else
                  "run.wdl"
                end
+    puts "S3 BUCKET"
+    puts S3_WORKFLOWS_BUCKET
+    puts "S3 KEY"
+    puts "#{workflow}-v#{version}/#{filename}"
     response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
+    puts response
     return response[:content_length] > 0
   end
 
