@@ -42,8 +42,8 @@ const WhitePaper = () => {
       <div className={cs.whitePaper__Inner_Copy}>
         <h2>Check out Our Paper in GigaScience</h2>
         <p>
-          We describe SeqToID (formerly IDseq), its capabilities, and how the
-          tool was validated. SeqToID is a continuously evolving service. For
+          We describe SeqtoID (formerly IDseq), its capabilities, and how the
+          tool was validated. SeqtoID is a continuously evolving service. For
           the most up to date analysis pipeline, check out{" "}
           <a
             href="https://github.com/chanzuckerberg/czid-workflows#workflows"
@@ -58,7 +58,7 @@ const WhitePaper = () => {
           <CtaButton
             className={`${CtaButtonStyles.filled} ${cs.solidBtn}`}
             text="Read Paper"
-            aria-label="Read the SeqToID white paper (opens in new window)"
+            aria-label="Read the SeqtoID white paper (opens in new window)"
             linkUrl={WHITE_PAPER_LINK}
           />
           <div

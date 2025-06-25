@@ -30,20 +30,20 @@ export function TermsOfUse() {
       </p>
       <p>
         Please read these Terms of Use (“Terms”) before using Chan Zuckerberg ID
-        (“Services” or “SeqToID”). These Terms are entered into between the Chan
+        (“Services” or “SeqtoID”). These Terms are entered into between the Chan
         Zuckerberg Biohub, Inc. (“CZ Biohub”, “ we”, “us” or “our”) and you
-        (“User” or “ you”) and govern your use of SeqToID. SeqToID is comprised
+        (“User” or “ you”) and govern your use of SeqtoID. SeqtoID is comprised
         of our research portal, any associated online services or platforms that
         link to or refer to these Terms, and any databases or data accessible
-        through the portal, associated services or platforms. SeqToID is
+        through the portal, associated services or platforms. SeqtoID is
         designed to enable the research community to investigate pathogens using
         metagenomic sequencing data and to help further the study of infectious
         diseases.
       </p>
       <p>
         Please carefully read these terms and indicate your acceptance by
-        registering for SeqToID. If you do not agree to these Terms, do not
-        register for an account or use SeqToID. For more information about our
+        registering for SeqtoID. If you do not agree to these Terms, do not
+        register for an account or use SeqtoID. For more information about our
         privacy practices, please see our <a href="/privacy">Privacy Notice</a>.
       </p>
     </>
@@ -58,7 +58,7 @@ export function TermsOfUse() {
         <List
           listItems={[
             <React.Fragment key={nanoid()}>
-              SeqToID does not provide medical advice. The output from SeqToID
+              SeqtoID does not provide medical advice. The output from SeqtoID
               does not constitute and should not be relied upon to provide
               medical advice, diagnosis or treatment. It is intended for
               research, educational, or informational purposes only.
@@ -66,26 +66,26 @@ export function TermsOfUse() {
             <React.Fragment key={nanoid()}>
               You must ensure that all personally-identifying information and
               Protected Health Information is fully removed from Sample Metadata
-              before it is uploaded to SeqToID.
+              before it is uploaded to SeqtoID.
             </React.Fragment>,
             <React.Fragment key={nanoid()}>
               You are responsible for obtaining the permissions necessary to
               collect and submit the Upload Data. You represent that you have
               obtained, and will maintain, all consents, permissions, and
               authorizations needed to collect, share, use, and export Upload
-              Data within SeqToID, and for SeqToID to use and share the
+              Data within SeqtoID, and for SeqtoID to use and share the
               information as described in its{" "}
               <a href="/privacy">Privacy Notice</a>.
             </React.Fragment>,
             <React.Fragment key={nanoid()}>
-              You may not attempt to re-identify Upload Data. By using SeqToID,
+              You may not attempt to re-identify Upload Data. By using SeqtoID,
               you agree that you will not attempt to re-identify any Upload Data
               with a person, and you will not disclose any Upload Data of other
               Users downloaded from the Database except for the limited purposes
               described in these Terms.
             </React.Fragment>,
             <React.Fragment key={nanoid()}>
-              SeqToID does not own any research outputs you create with your
+              SeqtoID does not own any research outputs you create with your
               Report Data, such as consensus genomes and phylogenetic trees for
               pathogens of interest. This is your data and you control it.
             </React.Fragment>,
@@ -98,22 +98,22 @@ export function TermsOfUse() {
   const renderAboutCZID = () => {
     return (
       <>
-        <h3>About SeqToID</h3>
+        <h3>About SeqtoID</h3>
         <p>
-          Here’s how SeqToID works: Users submit Upload Data (as described
+          Here’s how SeqtoID works: Users submit Upload Data (as described
           below). This data may contain human and non-human genetic sequences
           (“Sample Data” as further defined below), as well as information about
           those sequences, such as the date the sample was collected and the
           species it was collected from (“Sample Metadata” as further defined
           below). For example, a researcher might upload genetic information
           from mosquitoes, which are often a source of infectious disease, or
-          from humans, who can be infected by such diseases. SeqToID then
+          from humans, who can be infected by such diseases. SeqtoID then
           processes this Upload Data in order to identify pathogens found within
           the genetic sequence (e.g., the mosquito may be carrying the
           chikungunya virus).
         </p>
         <p>
-          “Upload Data” is data that Users upload to SeqToID (other than the
+          “Upload Data” is data that Users upload to SeqtoID (other than the
           information Users provide during registration to create an account).
           Upload Data consists of genetic sequence information (human or
           non-human) and metadata about those genetic sequences (such as time
@@ -125,7 +125,7 @@ export function TermsOfUse() {
           sequence data contains genetic information about pathogens in the
           sample and of the host from which the sample was taken. The host could
           be a human or non-human (e.g., mosquito). You should not be able to
-          find any human sequence data in SeqToID other than those embedded in
+          find any human sequence data in SeqtoID other than those embedded in
           samples you yourself have uploaded. This is because we filter out and
           discard host sequence data in order to generate Reports.
         </p>
@@ -137,9 +137,9 @@ export function TermsOfUse() {
           the individual to whom the Sample Data relates.
         </p>
         <p>
-          “Report Data” is information SeqToID produced from Upload Data. We
+          “Report Data” is information SeqtoID produced from Upload Data. We
           generate Report Data by processing Upload Data through our Data
-          Pipeline. SeqToID’s “Data Pipeline” cleans (e.g., by removing
+          Pipeline. SeqtoID’s “Data Pipeline” cleans (e.g., by removing
           duplicate nucleotides) and analyzes (e.g., by matching Sample Data
           nucleotide sequences with known pathogen sequences) the Upload Data.
           Report Data may include, for example, data about the pathogen
@@ -148,7 +148,7 @@ export function TermsOfUse() {
           non-personally identifying gene expression profiles that were found in
           the Sample Data (“Gene Counts”).
         </p>
-        <p>“Database” refers to both the data and database(s) of SeqToID.</p>
+        <p>“Database” refers to both the data and database(s) of SeqtoID.</p>
       </>
     );
   };
@@ -162,20 +162,20 @@ export function TermsOfUse() {
         listItems={[
           <React.Fragment key={nanoid()}>
             1.1 Use of Your Upload Data. We need limited rights to your Upload
-            Data solely in order to offer SeqToID for you and other Users.
+            Data solely in order to offer SeqtoID for you and other Users.
             Specifically, you grant to us a worldwide, non-exclusive,
             royalty-free, transferable (in accordance with Section 9.2 below),
             perpetual and irrevocable (except as set forth herein), license
             (with the right to grant further licenses) to use, reproduce,
             distribute, display, and create derivative works (e.g. phylogenetic
             trees) from Upload Data in connection with providing, developing and
-            improving SeqToID. You may request deletion of your Upload Data from
-            SeqToID by emailing{" "}
+            improving SeqtoID. You may request deletion of your Upload Data from
+            SeqtoID by emailing{" "}
             <a href="mailto:privacy@czid.org">privacy@czid.org</a> and including
             a description of your Upload Data that you wish to have removed. We
             will delete the requested Upload Data within the timelines set forth
             under applicable privacy laws. Please note, that our removal of your
-            Upload Data from SeqToID will not impact any use of Upload Data by
+            Upload Data from SeqtoID will not impact any use of Upload Data by
             others you may have chosen to share it with prior to the effective
             date of removal and we are not able to require others Users to stop
             using Upload Data they accessed or downloaded prior to removal. More
@@ -184,19 +184,19 @@ export function TermsOfUse() {
           </React.Fragment>,
           <React.Fragment key={nanoid()}>
             1.2 Use and Visibility of Your Report Data. You understand that your
-            Report Data is data generated by SeqToID, does not contain
+            Report Data is data generated by SeqtoID, does not contain
             personally-identifying information (i.e. personal data) and may be
-            shared with other SeqToID Users in order to further SeqToID’s
+            shared with other SeqtoID Users in order to further SeqtoID’s
             mission and advance the study of infectious diseases.
           </React.Fragment>,
           <React.Fragment key={nanoid()}>
             1.3 You represent and warrant to us and our service partners that
-            (A) your provision of the Upload Data to SeqToID complies with all
+            (A) your provision of the Upload Data to SeqtoID complies with all
             applicable laws, rules, and regulations, including the Nagoya
             Protocol and relevant export laws (“Applicable Law”) and industry
             guidelines and ethical standards that apply to you (e.g. CIOMS or
             GA4GH) (“Applicable Standards”), and you will otherwise comply with
-            all Applicable Law in connection with SeqToID; (B) you have all
+            all Applicable Law in connection with SeqtoID; (B) you have all
             consents, permissions, and authorizations necessary and sufficient
             to upload, share, use, and export the Upload Data to us for the
             purposes described in these Terms and in our{" "}
@@ -224,12 +224,12 @@ export function TermsOfUse() {
             subject, you also specifically represent and warrant to us and our
             service partners that (A) you have provided any required notice to,
             and obtained any necessary informed consent of, any such person for
-            the collection, use, and provision to SeqToID of the Upload Data;
-            and (B) your provision of the Upload Data to SeqToID is covered
+            the collection, use, and provision to SeqtoID of the Upload Data;
+            and (B) your provision of the Upload Data to SeqtoID is covered
             under all such notices and consents, as well as Applicable Standards
             and Applicable Law. Please note that we filter out and discard human
             sequence data as part of generating Report Data because we don’t
-            need this data for SeqToID. See <a href="/faqs">here</a> for more
+            need this data for SeqtoID. See <a href="/faqs">here</a> for more
             details.
           </React.Fragment>,
         ]}
@@ -240,15 +240,15 @@ export function TermsOfUse() {
   const renderAuthorizationToUseCZID = () => (
     <>
       <h2>
-        <span className={cs.number}>2.</span>Authorization To Use SeqToID.
+        <span className={cs.number}>2.</span>Authorization To Use SeqtoID.
       </h2>
       <List
         listItems={[
-          `2.1 Subject to and conditioned on your compliance with these Terms, we grant you permission to access and use SeqToID in accordance with Applicable Law, solely for your own internal academic or internal scientific research purposes. You may not permit any third party to access or use or “share” your Account. All persons wishing to access the Service must create their own separate account and agree to these Terms.`,
-          `2.2 SeqToID may not be used to provide medical or other services to any third party (for instance, to inform or provide disease diagnoses). SeqToID is not intended to diagnose, treat, cure, or prevent any disease and is not a substitute for medical advice.`,
+          `2.1 Subject to and conditioned on your compliance with these Terms, we grant you permission to access and use SeqtoID in accordance with Applicable Law, solely for your own internal academic or internal scientific research purposes. You may not permit any third party to access or use or “share” your Account. All persons wishing to access the Service must create their own separate account and agree to these Terms.`,
+          `2.2 SeqtoID may not be used to provide medical or other services to any third party (for instance, to inform or provide disease diagnoses). SeqtoID is not intended to diagnose, treat, cure, or prevent any disease and is not a substitute for medical advice.`,
           `2.3 You shall not disclose or distribute the Database, in whole or in part, or any works derived from the Database to any third party for any purpose, except for the following:`,
-          `You may disclose the documents that you download from the Database using SeqToID’s intended functionality to your employees and agents who are registered Users of the Service and who are engaged in conducting your research (“Research Associates”) for the sole purpose of carrying out your internal research. Your Research Associates must also agree to use SeqToID and Database in accordance with these Terms.`,
-          `You may share research findings derived from use of SeqToID to others, including with the public, so long as these findings include no personally-identifying information and you comply with Applicable Law and these Terms.`,
+          `You may disclose the documents that you download from the Database using SeqtoID’s intended functionality to your employees and agents who are registered Users of the Service and who are engaged in conducting your research (“Research Associates”) for the sole purpose of carrying out your internal research. Your Research Associates must also agree to use SeqtoID and Database in accordance with these Terms.`,
+          `You may share research findings derived from use of SeqtoID to others, including with the public, so long as these findings include no personally-identifying information and you comply with Applicable Law and these Terms.`,
           `You may disclose the Database to the minimum extent necessary to comply with Applicable Law or court order, so long as you promptly notify us prior to making such disclosure (to the extent Applicable Law and court order permit you to so notify us).`,
         ]}
       />
@@ -263,9 +263,9 @@ export function TermsOfUse() {
       <List
         listItems={[
           `3.1 You shall not re-identify or attempt to re-identify any Database records or content for any purpose other than responding to a request from the individual whom the record within your Upload Data is about, including without limitation to make employment decisions or to make eligibility, coverage, underwriting, premium-setting or other decisions with respect to insurance.`,
-          `3.2 You shall not otherwise access or use, or attempt to access or use, SeqToID to take any action that could harm us, SeqToID or its Users, or any third party, or use SeqToID in any manner that violates Applicable Law or infringes or otherwise violates third party rights.`,
-          `3.3 You represent and warrant that you are a natural person of legal age who is competent and able to enter into and carry out these Terms, and, if you are using SeqToID on behalf of any entity, that you are authorized to enter into these Terms on such entity’s behalf and that such entity agrees to be responsible to us if you or that entity violates these Terms.`,
-          `3.4 We may restrict or terminate your access to SeqToID at any time, including for breach of these Terms. In such case we will attempt to provide you notice through the contact information we have for you.`,
+          `3.2 You shall not otherwise access or use, or attempt to access or use, SeqtoID to take any action that could harm us, SeqtoID or its Users, or any third party, or use SeqtoID in any manner that violates Applicable Law or infringes or otherwise violates third party rights.`,
+          `3.3 You represent and warrant that you are a natural person of legal age who is competent and able to enter into and carry out these Terms, and, if you are using SeqtoID on behalf of any entity, that you are authorized to enter into these Terms on such entity’s behalf and that such entity agrees to be responsible to us if you or that entity violates these Terms.`,
+          `3.4 We may restrict or terminate your access to SeqtoID at any time, including for breach of these Terms. In such case we will attempt to provide you notice through the contact information we have for you.`,
         ]}
       />
     </>
@@ -279,12 +279,12 @@ export function TermsOfUse() {
       </h2>
       <List
         listItems={[
-          `4.1 To access SeqToID you will need to be a registered “User.” At registration, you will be asked to provide certain information (“Account Information”) to create an individual user account (an “Account”). You agree that you will not create more than one Account, or create an Account for anyone other than yourself. You may not share your Account credentials.`,
+          `4.1 To access SeqtoID you will need to be a registered “User.” At registration, you will be asked to provide certain information (“Account Information”) to create an individual user account (an “Account”). You agree that you will not create more than one Account, or create an Account for anyone other than yourself. You may not share your Account credentials.`,
           <>
             4.2 You agree to keep your Account Information accurate and
             up-to-date. You agree that we may send to the e-mail address you
             provide us or otherwise electronically deliver notices or
-            communications regarding SeqToID, including notices of updates to
+            communications regarding SeqtoID, including notices of updates to
             these terms and the <a href="/privacy">Privacy Notice</a>.
           </>,
         ]}
@@ -295,11 +295,11 @@ export function TermsOfUse() {
   const renderChangesToCZIDOrTerms = () => (
     <>
       <h2>
-        <span className={cs.number}>5.</span>Changes To SeqToID Or These Terms.
+        <span className={cs.number}>5.</span>Changes To SeqtoID Or These Terms.
       </h2>
       <List
         listItems={[
-          `5.1 Changes to SeqToID. We may, from time to time, withdraw, suspend, change or update SeqToID (including the Database) or its features without notice, subject to Applicable Law. Neither we, nor our service providers, will be liable if all or any part of SeqToID is unavailable or changes at any time.`,
+          `5.1 Changes to SeqtoID. We may, from time to time, withdraw, suspend, change or update SeqtoID (including the Database) or its features without notice, subject to Applicable Law. Neither we, nor our service providers, will be liable if all or any part of SeqtoID is unavailable or changes at any time.`,
           `5.2 Changes to these Terms. We may update these Terms from time to time and will notify you of material changes to the Terms, prior to their becoming effective. If you do not agree to the updated Terms, your remedy will be to close your Account prior to the effective date of those changes.`,
           <>
             5.3 Closing Your Account. You can close your Account at any time.
@@ -318,9 +318,9 @@ export function TermsOfUse() {
       </h2>
       <List
         listItems={[
-          `6.1 Intellectual Property Rights. Just because you upload data to SeqToID, you are not giving us any ownership of your intellectual property rights (see Section 1.1 above). Subject to these Terms, we grant you a limited right to access SeqToID, and we reserve all other of our intellectual property rights in SeqToID. Using SeqToID does not give you any ownership in SeqToID, our services or the content or information made available through SeqToID that is not already yours. Trademarks and logos used in connection with SeqToID are the trademarks of their respective owners. Our logos and other trademarks, service marks, graphics, and logos used for our services are trademarks or registered trademarks of ours and these Terms do not grant you any rights to use them.`,
+          `6.1 Intellectual Property Rights. Just because you upload data to SeqtoID, you are not giving us any ownership of your intellectual property rights (see Section 1.1 above). Subject to these Terms, we grant you a limited right to access SeqtoID, and we reserve all other of our intellectual property rights in SeqtoID. Using SeqtoID does not give you any ownership in SeqtoID, our services or the content or information made available through SeqtoID that is not already yours. Trademarks and logos used in connection with SeqtoID are the trademarks of their respective owners. Our logos and other trademarks, service marks, graphics, and logos used for our services are trademarks or registered trademarks of ours and these Terms do not grant you any rights to use them.`,
           <>
-            6.2 Feedback. We’d love your feedback about how to improve SeqToID
+            6.2 Feedback. We’d love your feedback about how to improve SeqtoID
             at {<a href="mailto:help@czid.org">help@czid.org</a>}. That said, by
             giving us feedback, you agree that we can use and share it for any
             purpose without compensation to you. You agree that we are not
@@ -330,13 +330,13 @@ export function TermsOfUse() {
             6.3 Security. You will establish, implement, and maintain
             appropriate physical, technical and organizational measures that are
             designed to: (a) protect the security and integrity of any network
-            or system used to access SeqToID, including any Database records;
+            or system used to access SeqtoID, including any Database records;
             and (b) guard against the accidental or unauthorized access, use,
-            alteration or disclosure of SeqToID through your Account. Please
+            alteration or disclosure of SeqtoID through your Account. Please
             notify us immediately at{" "}
             {<a href="mailto:security@czid.org">security@czid.org</a>} if you
             suspect your Account has been compromised or are aware of any other
-            security issues relating to SeqToID.
+            security issues relating to SeqtoID.
           </>,
         ]}
       />
@@ -353,16 +353,16 @@ export function TermsOfUse() {
           <>
             7.1 In order to further infectious disease research, we rely upon
             Users to upload data to the Database. We and our service providers
-            do not review or correct any data uploaded into SeqToID. If you
-            would like to report any issue with SeqToID or the Database please
+            do not review or correct any data uploaded into SeqtoID. If you
+            would like to report any issue with SeqtoID or the Database please
             contact us at {<a href="mailto:help@czid.org">help@czid.org</a>}.
-            SeqToID is not intended as a storage service, so please back up your
+            SeqtoID is not intended as a storage service, so please back up your
             Upload Data using a secure service of your choice.
           </>,
           `7.2 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:`,
-          `7.2.1 YOUR ACCESS AND USE SeqToID AT YOUR SOLE RISK AND AGREE THAT WE AND OUR SERVICE PROVIDERS WILL NOT BE RESPONSIBLE FOR ANY ACTIONS YOU TAKE BASED ON SeqToID OR FOR ANY INACCURATE DATA OR OUTPUTS OF SeqToID (INCLUDING MISIDENTIFICATION OF -- OR THE FAILURE TO IDENTIFY -- DISEASE SEQUENCES).`,
-          `7.2.2 SeqToID IS PROVIDED “AS IS” WITH ALL FAULTS, AND WE AND OUR SERVICE PROVIDERS HEREBY DISCLAIM ALL REPRESENTATIONS AND WARRANTIES, EXPRESS, STATUTORY, OR IMPLIED (INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND ALL WARRANTIES ARISING FROM THE COURSE OF DEALING, USAGE, OR TRADE PRACTICE) WITH RESPECT TO SeqToID. SeqToID IS NOT INTENDED TO BE USED AND SHOULD NOT BE USED AS A MEDICAL DEVICE OR FOR PURPOSES OF MEDICAL DIAGNOSIS OR TREATMENT.`,
-          `7.2.3 FOR CLARITY AND WITHOUT LIMITING THE FOREGOING, WE AND OUR SERVICE PROVIDERS DO NOT MAKE ANY GUARANTEES (I) REGARDING THE ACCURACY, COMPLETENESS, TIMELINESS, SECURITY, AVAILABILITY OR INTEGRITY OF SeqToID, (II) THAT SeqToID WILL BE UNINTERRUPTED OR OPERATE IN COMBINATION WITH ANY SOFTWARE, SERVICE, SYSTEM OR OTHER DATA, OR (III) THAT SeqToID WILL MEET ANY REQUIREMENTS OF ANY PERSON OR ENTITY, OR ANY REGULATORY APPROVALS OR REQUIREMENTS. WITHOUT LIMITATION, YOU ACKNOWLEDGE THAT SeqToID IS NOT A BUSINESS ASSOCIATE FOR PURPOSES OF HIPAA.`,
+          `7.2.1 YOUR ACCESS AND USE SeqtoID AT YOUR SOLE RISK AND AGREE THAT WE AND OUR SERVICE PROVIDERS WILL NOT BE RESPONSIBLE FOR ANY ACTIONS YOU TAKE BASED ON SeqtoID OR FOR ANY INACCURATE DATA OR OUTPUTS OF SeqtoID (INCLUDING MISIDENTIFICATION OF -- OR THE FAILURE TO IDENTIFY -- DISEASE SEQUENCES).`,
+          `7.2.2 SeqtoID IS PROVIDED “AS IS” WITH ALL FAULTS, AND WE AND OUR SERVICE PROVIDERS HEREBY DISCLAIM ALL REPRESENTATIONS AND WARRANTIES, EXPRESS, STATUTORY, OR IMPLIED (INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND ALL WARRANTIES ARISING FROM THE COURSE OF DEALING, USAGE, OR TRADE PRACTICE) WITH RESPECT TO SeqtoID. SeqtoID IS NOT INTENDED TO BE USED AND SHOULD NOT BE USED AS A MEDICAL DEVICE OR FOR PURPOSES OF MEDICAL DIAGNOSIS OR TREATMENT.`,
+          `7.2.3 FOR CLARITY AND WITHOUT LIMITING THE FOREGOING, WE AND OUR SERVICE PROVIDERS DO NOT MAKE ANY GUARANTEES (I) REGARDING THE ACCURACY, COMPLETENESS, TIMELINESS, SECURITY, AVAILABILITY OR INTEGRITY OF SeqtoID, (II) THAT SeqtoID WILL BE UNINTERRUPTED OR OPERATE IN COMBINATION WITH ANY SOFTWARE, SERVICE, SYSTEM OR OTHER DATA, OR (III) THAT SeqtoID WILL MEET ANY REQUIREMENTS OF ANY PERSON OR ENTITY, OR ANY REGULATORY APPROVALS OR REQUIREMENTS. WITHOUT LIMITATION, YOU ACKNOWLEDGE THAT SeqtoID IS NOT A BUSINESS ASSOCIATE FOR PURPOSES OF HIPAA.`,
         ]}
       />
     </>
@@ -377,7 +377,7 @@ export function TermsOfUse() {
       <List
         listItems={[
           `8.1 To the maximum extent permitted by Applicable Law, you agree to indemnify and hold harmless CZ Biohub, its affiliates (including without limitation the Chan Zuckerberg Initiative Foundation (CZIF), the Chan Zuckerberg Initiative, LLC (CZI LLC), and their successors, assigns, officers, directors, employees, and agents (collectively, the “CZ Biohub Protected Parties”) from and against any and all liabilities, costs, damages, charges, losses, penalties, judgments, settlements, and expenses (including reasonable attorney’s fees) (“Losses”) arising out of or related to any suit, demand, action, proceeding, or other claim by a third party (“Claims”) arising out of or relating to: (a) your actual or alleged failure to comply with Applicable Law or these Terms, (b) your Upload Data, or (c) your actual or alleged violation of any third party rights.`,
-          `8.2 LIMITATION OF LIABILITY. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE CZ BIOHUB PROTECTED PARTIES WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES OF ANY KIND (INCLUDING LOST PROFITS, LOST DATA, BUSINESS INTERRUPTION, OR LOSS OF GOODWILL) IRRESPECTIVE OF WHETHER SUCH DAMAGES ARISE FROM CLAIMS BROUGHT IN CONTRACT, TORT, NEGLIGENCE, WARRANTY, STRICT LIABILITY, OR ANY OTHER THEORY AT LAW OR IN EQUITY, AND EVEN IF ANY CZ BIOHUB PROTECTED PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. WITHOUT LIMITING THE FOREGOING, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL THE CZ BIOHUB PROTECTED PARTIES’ AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR SeqToID EXCEED USD $100. THE EXCLUSIONS AND LIMITATIONS SET FORTH IN THIS SECTION 8 DO NOT APPLY TO LOSSES ARISING FROM A CZ BIOHUB PROTECTED PARTY’S GROSS NEGLIGENCE OR WILLFUL MISCONDUCT. IF ANY LIMITATION IN THIS SECTION 8 IS UNENFORCEABLE IN ANY INSTANCE, THEN SUCH LIMITATION WILL APPLY TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW.`,
+          `8.2 LIMITATION OF LIABILITY. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE CZ BIOHUB PROTECTED PARTIES WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, PUNITIVE, OR CONSEQUENTIAL DAMAGES OF ANY KIND (INCLUDING LOST PROFITS, LOST DATA, BUSINESS INTERRUPTION, OR LOSS OF GOODWILL) IRRESPECTIVE OF WHETHER SUCH DAMAGES ARISE FROM CLAIMS BROUGHT IN CONTRACT, TORT, NEGLIGENCE, WARRANTY, STRICT LIABILITY, OR ANY OTHER THEORY AT LAW OR IN EQUITY, AND EVEN IF ANY CZ BIOHUB PROTECTED PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. WITHOUT LIMITING THE FOREGOING, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL THE CZ BIOHUB PROTECTED PARTIES’ AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR SeqtoID EXCEED USD $100. THE EXCLUSIONS AND LIMITATIONS SET FORTH IN THIS SECTION 8 DO NOT APPLY TO LOSSES ARISING FROM A CZ BIOHUB PROTECTED PARTY’S GROSS NEGLIGENCE OR WILLFUL MISCONDUCT. IF ANY LIMITATION IN THIS SECTION 8 IS UNENFORCEABLE IN ANY INSTANCE, THEN SUCH LIMITATION WILL APPLY TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW.`,
           `SOME LAWS DO NOT ALLOW THE LIMITATION OR EXCLUSION OF LIABILITY, SO THESE LIMITS MAY NOT APPLY TO YOU.`,
           `Choice of Law / Jurisdiction / Venue. These Terms, and all matters arising out of or relating to these Terms, whether sounding in contract, tort, or statute, will be governed by, and construed in accordance with, the laws of the State of California and/or applicable federal law (including the Federal Arbitration Act), without regard to conflict of law provisions. Subject to and without waiver of the arbitration provisions below, and unless prohibited by the laws of your country, you agree that any judicial proceedings (other than small claims actions as discussed above) will be brought in and you hereby consent to the exclusive jurisdiction and venue in the state courts in the City and County of San Mateo, California, or federal court for the Northern District of California. For countries where this is not permissible, this won’t deprive you of any protection you have under the law of the country where you live, or access to the courts in that country.`,
         ]}
@@ -398,7 +398,7 @@ export function TermsOfUse() {
           <>
             9.4 Entire Agreement. These Terms (along with the{" "}
             <a href="/privacy">Privacy Notice</a>) constitute the entire
-            agreement between you and us regarding SeqToID. If you wish to
+            agreement between you and us regarding SeqtoID. If you wish to
             modify these Terms, any amendment must be provided to us in writing
             and signed by our authorized representative.
           </>,
@@ -527,7 +527,7 @@ export function TermsOfUse() {
                 ordered
                 listItems={[
                   `To initiate a Dispute, a party must send to the other party written notice of that Dispute containing: (a) the name, address, and contact information of the party giving notice; (b) the facts giving rise to the Dispute; and (c) the relief requested.`,
-                  `You and we agree that we shall (in good faith) meet and attempt to resolve the Dispute within 30 days. If the Dispute is not resolved during that time period, then you and a representative of the applicable SeqToID Party shall (in good faith) meet and attempt to resolve the Dispute through non-binding mediation with a mutually agreed-upon mediator within 30 additional days. If you and we do not reach an agreement to resolve the dispute within that 60-day period, you or we may commence an arbitration proceeding or file a claim in small claims court.`,
+                  `You and we agree that we shall (in good faith) meet and attempt to resolve the Dispute within 30 days. If the Dispute is not resolved during that time period, then you and a representative of the applicable SeqtoID Party shall (in good faith) meet and attempt to resolve the Dispute through non-binding mediation with a mutually agreed-upon mediator within 30 additional days. If you and we do not reach an agreement to resolve the dispute within that 60-day period, you or we may commence an arbitration proceeding or file a claim in small claims court.`,
                 ]}
               />
             </div>

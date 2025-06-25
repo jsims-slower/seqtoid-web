@@ -47,7 +47,7 @@ export function CZIDUsecaseFormField({
     <div className={cs.main}>
       <div className={cs.titleSection}>
         <span className={cs.titleMainText}>
-          How do you plan to use SeqToID?
+          How do you plan to use SeqtoID?
         </span>
         <span className={cs.titleSubText}>
           {" "}

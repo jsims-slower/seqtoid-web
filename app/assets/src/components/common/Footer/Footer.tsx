@@ -10,7 +10,7 @@ export const Footer = () => {
   return (
     <div className={cs.footer}>
       <div className={cs.topNavContainer}>
-        <a aria-label="Go to the SeqToID homepage" href="/">
+        <a aria-label="Go to the SeqtoID homepage" href="/">
           <CZIDLogoReversed className={cs.footerLogo} />
         </a>
         <div className={cs.topNavMenu}>
@@ -33,7 +33,7 @@ export const Footer = () => {
           </a>
           <a
             href="http://help.czid.org"
-            aria-label="View the SeqToID help page (opens in new window)"
+            aria-label="View the SeqtoID help page (opens in new window)"
             target="_blank"
             rel="noreferrer"
           >
@@ -46,7 +46,7 @@ export const Footer = () => {
           <div>
             <a
               href="http://czid.org/privacy"
-              aria-label="View the SeqToID privacy notice (opens in new window)"
+              aria-label="View the SeqtoID privacy notice (opens in new window)"
               target="_blank"
               rel="noreferrer"
             >
@@ -55,7 +55,7 @@ export const Footer = () => {
             <span>|</span>
             <a
               href="http://czid.org/terms"
-              aria-label="View the SeqToID terms of use (opens in new window)"
+              aria-label="View the SeqtoID terms of use (opens in new window)"
               target="_blank"
               rel="noreferrer"
             >
@@ -67,7 +67,7 @@ export const Footer = () => {
             </a>
             <span>|</span>
             <span
-              aria-label="View the SeqToID cookie settings (opens in a modal)"
+              aria-label="View the SeqtoID cookie settings (opens in a modal)"
               className={cx(cs.cookieSettings, "optanon-show-settings")}
             >
               Cookie Settings

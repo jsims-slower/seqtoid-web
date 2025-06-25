@@ -442,7 +442,7 @@ const SamplesHeatmapFilters = ({
               <span>
                 Organisms with known human pathogenicity based on{" "}
                 <Link external href="/pathogen_list">
-                  SeqToID&#39;s current pathogen list.
+                  SeqtoID&#39;s current pathogen list.
                 </Link>{" "}
                 <br />
                 <br />

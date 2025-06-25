@@ -29,8 +29,8 @@ export const SHARED_SAMPLE_TABLE_COLUMNS = {
     tooltip: "User-supplied metadata field indicating the sample type.",
   },
   totalRuntime: {
-    tooltip: `Total time required by the SeqToID pipeline to process .fastq files into
-    SeqToID reports.`,
+    tooltip: `Total time required by the SeqtoID pipeline to process .fastq files into
+    SeqtoID reports.`,
   },
   water_control: {
     tooltip: "Whether a sample is water-only as a control.",

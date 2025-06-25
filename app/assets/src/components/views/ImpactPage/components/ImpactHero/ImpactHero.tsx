@@ -4,9 +4,9 @@ import cs from "./ImpactHero.scss";
 const ImpactHero = () => {
   return (
     <div className={cs.hero}>
-      <h1>Explore SeqToID&apos;s Impact</h1>
+      <h1>Explore SeqtoID&apos;s Impact</h1>
       <p>
-        Chan Zuckerberg ID (SeqToID): The free, cloud-based metagenomics
+        Chan Zuckerberg ID (SeqtoID): The free, cloud-based metagenomics
         platform for researchers
       </p>
       <a className={cs.heroButtonLink} href="#videoSection">
