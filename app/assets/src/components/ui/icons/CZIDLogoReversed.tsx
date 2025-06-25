@@ -8,7 +8,7 @@ const CZIDLogoReversed = (props: IconProps) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 211.46 68.91"
     >
-      <g id="CZ_ID" data-name="CZ ID" fillRule="nonzero" fill="#FFFFFF">
+      <g id="CZ_ID" data-name="SeqToID" fillRule="nonzero" fill="#FFFFFF">
         <path
           fill="#93c151"
           d="M8.24,0a8.17,8.17,0,0,1,8.24,8.1,8.18,8.18,0,0,1-8.24,8.11A8.18,8.18,0,0,1,0,8.1,8.17,8.17,0,0,1,8.24,0Z"

@@ -32,7 +32,7 @@ export const LandingHeader = ({
       />
 
       <div className={cs.header} data-testid="home-top-nav-bar">
-        <a aria-label="Go to the CZ ID homepage" href="/">
+        <a aria-label="Go to the SeqToID homepage" href="/">
           <CZIDLogoReversed className={cs.headerLogo} />
         </a>
         <nav className={cs.nav} data-test-id="home-top-nav">
@@ -42,7 +42,7 @@ export const LandingHeader = ({
                 impactPage ? cs.textLinkActive : null
               }`}
               href="/impact"
-              aria-label="View the CZ ID impact page"
+              aria-label="View the SeqToID impact page"
               data-testid="home-top-nav-impact"
             >
               Case Studies
@@ -52,7 +52,7 @@ export const LandingHeader = ({
               href="http://help.czid.org"
               target="_blank"
               rel="noreferrer"
-              aria-label="View the CZ ID help page (opens in new window)"
+              aria-label="View the SeqToID help page (opens in new window)"
               data-testid="home-top-nav-resources"
             >
               Resources
@@ -100,7 +100,7 @@ export const LandingHeader = ({
                 style={menuOpen ? { opacity: "1" } : { opacity: "0" }}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="View the CZ ID impact page (opens in new window)"
+                aria-label="View the SeqToID impact page (opens in new window)"
                 data-testid="home-mobile-menu-impact"
               >
                 Case Studies
@@ -111,7 +111,7 @@ export const LandingHeader = ({
                 style={menuOpen ? { opacity: "1" } : { opacity: "0" }}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="View the CZ ID help page (opens in new window)"
+                aria-label="View the SeqToID help page (opens in new window)"
                 data-testid="home-mobile-menu-resources"
               >
                 Resources
