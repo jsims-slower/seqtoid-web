@@ -3,7 +3,7 @@ import { IconProps } from "~/interface/icon";
 
 const CZIDLogoReversed = (props: IconProps) => {
   return (
-    <img src="/assets/logo-new.png" style="max-height: 40px;" />
+    <img src="/assets/logo-new.png" style={{ maxHeight: "40px" }} />
     // <svg
     //   className={props.className}
     //   xmlns="http://www.w3.org/2000/svg"
