@@ -4,8 +4,8 @@
     {
       "name": "idseq-{{ .Values.name }}",
       "image": "{{ .Values.account_id }}.dkr.ecr.{{ .Values.region }}.amazonaws.com/idseq-web:{{ .Values.tag }}",
-      "cpu": 1024,
-      "memoryReservation": 3072,
+      "cpu": 512,
+      "memoryReservation": 2048,
       "essential": true,
       "command": ["shoryuken {{ .Values.entry_command }}"],
       "environment": [
