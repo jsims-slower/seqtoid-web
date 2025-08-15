@@ -16,7 +16,7 @@ describe BulkDownload, type: :model do
       RSpec::Support::ObjectFormatter.default_instance.max_formatted_output_length = nil
     end
 
-    #TODO - update for new UCSF domain
+    # TODO: update for new UCSF domain
     it "returns correct success url for prod" do
       stub_const('ENV', ENV.to_hash.merge("SERVER_DOMAIN" => "https://czid.org"))
       expect(@bulk_download.success_url).to eq("https://czid.org/bulk_downloads/#{@bulk_download.id}/success/#{@bulk_download.access_token}")

@@ -160,19 +160,17 @@ class HomeController < ApplicationController
                else
                  "run.wdl"
                end
-    puts "S3 BUCKET"
-    puts S3_WORKFLOWS_BUCKET
-    puts "S3 KEY"
-    puts "#{workflow}-v#{version}/#{filename}"
+    Rails.logger.info "S3 BUCKET: #{S3_WORKFLOWS_BUCKET}"
+    Rails.logger.info "S3 KEY: #{workflow}-v#{version}/#{filename}"
     begin
       response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
-      puts response.to_h
+      Rails.logger.info response.to_h
       return response[:content_length] > 0
     rescue Aws::S3::Errors::NoSuchKey => e
-      puts "S3 object not found: #{e.message}"
+      Rails.logger.error "S3 object not found: #{e.message}"
       return false
-    rescue => e
-      puts "Error fetching S3 object: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.error "Error fetching S3 object: #{e.message}"
       return false
     end
   end

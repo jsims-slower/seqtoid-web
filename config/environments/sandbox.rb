@@ -88,7 +88,7 @@ Rails.application.configure do
     "https://assets.#{Rails.env}.czid.org",
     "https://#{Rails.env}.ucsf.czid.org",
     "https://www.#{Rails.env}.ucsf.czid.org",
-    "https://assets.#{Rails.env}.ucsf.czid.org"
+    "https://assets.#{Rails.env}.ucsf.czid.org",
   ]
 
   config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.idseq.net" => "#{Rails.env}.idseq.net"
