@@ -2,7 +2,7 @@ import { isEmpty } from "lodash/fp";
 import React, { useState } from "react";
 import AnnouncementBanner from "~/components/common/AnnouncementBanner";
 import IconMobileNavClose from "~/components/ui/icons/IconMobileNavClose";
-import { CZIDLogoReversed } from "~ui/icons";
+import { SeqtoIDLogoReversed } from "~ui/icons";
 import cs from "./LandingHeader.scss";
 
 interface LandingHeaderProps {
@@ -33,7 +33,7 @@ export const LandingHeader = ({
 
       <div className={cs.header} data-testid="home-top-nav-bar">
         <a aria-label="Go to the SeqtoID homepage" href="/">
-          <CZIDLogoReversed className={cs.headerLogo} />
+          <SeqtoIDLogoReversed className={cs.headerLogo} />
         </a>
         <nav className={cs.nav} data-test-id="home-top-nav">
           <span className={cs.hideMobile}>

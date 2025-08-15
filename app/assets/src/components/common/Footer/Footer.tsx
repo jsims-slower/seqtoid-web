@@ -3,7 +3,7 @@ import React from "react";
 import IconBiohubSFLogo from "~/components/ui/icons/IconBiohubSFLogo";
 import IconCziLogo from "~/components/ui/icons/IconCziLogo";
 import { CONTACT_US_LINK } from "~/components/utils/documentationLinks";
-import { CZIDLogoReversed } from "~ui/icons";
+import { SeqtoIDLogoReversed } from "~ui/icons";
 import cs from "./Footer.scss";
 
 export const Footer = () => {
@@ -11,7 +11,7 @@ export const Footer = () => {
     <div className={cs.footer}>
       <div className={cs.topNavContainer}>
         <a aria-label="Go to the SeqtoID homepage" href="/">
-          <CZIDLogoReversed className={cs.footerLogo} />
+          <SeqtoIDLogoReversed className={cs.footerLogo} />
         </a>
         <div className={cs.topNavMenu}>
           <a

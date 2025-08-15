@@ -3,7 +3,7 @@ import React from "react";
 import AnnouncementBanner from "~/components/common/AnnouncementBanner";
 import ExternalLink from "~/components/ui/controls/ExternalLink";
 import ToastContainer from "~ui/containers/ToastContainer";
-import { CZIDLogoReversed } from "~ui/icons";
+import { SeqtoIDLogoReversed } from "~ui/icons";
 import { postToUrlWithCSRF } from "~utils/links";
 import cs from "./header.scss";
 import MainMenu from "./MainMenu";
@@ -37,7 +37,7 @@ const Header = ({
     return (
       <div className={cs.header}>
         <div className={cs.logo}>
-          <CZIDLogoReversed className={cs.icon} />
+          <SeqtoIDLogoReversed className={cs.icon} />
         </div>
       </div>
     );
@@ -46,7 +46,7 @@ const Header = ({
     return (
       <div className={cs.header}>
         <div className={cs.logo}>
-          <CZIDLogoReversed className={cs.icon} />
+          <SeqtoIDLogoReversed className={cs.icon} />
         </div>
         <div className={cs.fill} />
         <div className={cs.logout}>
@@ -98,7 +98,7 @@ const Header = ({
       <div className={cs.header}>
         <div className={cs.logo}>
           <a href="/">
-            <CZIDLogoReversed className={cs.icon} />
+            <SeqtoIDLogoReversed className={cs.icon} />
           </a>
         </div>
         <div className={cs.fill} />
