@@ -4,8 +4,8 @@
     {
       "name": "rails",
       "image": "{{ .Values.account_id }}.dkr.ecr.{{ .Values.region }}.amazonaws.com/idseq-web:{{ .Values.tag }}",
-      "cpu": 2560,
-      "memoryReservation": 6144,
+      "cpu": {{ .Values.cpu_web }},
+      "memoryReservation": {{ .Values.mem_web }},
       "essential": true,
       "portMappings": [
         {
