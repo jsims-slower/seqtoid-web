@@ -28,14 +28,14 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/cache@v1
+        uses: actions/checkout@v4
+      - uses: actions/cache@v4
         with:
           path: ~/.cache
           key: ${{runner.os}}-cache
       - name: Configure AWS Credentials
         id: configure_aws_credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-west-2
           role-to-assume: ${{ secrets.DEV_AWS_ROLE }}
@@ -60,14 +60,14 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - uses: actions/cache@v1
+        uses: actions/checkout@v4
+      - uses: actions/cache@v4
         with:
           path: ~/.cache
           key: ${{runner.os}}-cache
       - name: Configure AWS Credentials
         id: configure_aws_credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-west-2
           role-to-assume: ${{ secrets.PROD_AWS_ROLE }}

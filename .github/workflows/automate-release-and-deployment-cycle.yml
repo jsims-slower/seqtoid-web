@@ -16,12 +16,18 @@ jobs:
     runs-on: [self-hosted, idseq-dev]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Ensure a full clone with all history and tags
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.4.1
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: |
             ${{ secrets.GH_SSH_KEY }}
+      - name: Force prune and fetch tags
+        run: |
+          git tag -l | xargs -r git tag -d # Delete all local tags
+          git fetch --all --tags --prune
       - name: Update release fix checklist
         run:  ./bin/deploy_automation/update_release_checklist.sh
       - name: Automate release cycle
@@ -63,12 +69,12 @@ jobs:
     runs-on: [self-hosted, idseq-dev]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Number of commits to fetch. 0 indicates all history for all branches and tags.
           fetch-depth: '0'
       - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.4.1
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: |
             ${{ secrets.GH_SSH_KEY }}
