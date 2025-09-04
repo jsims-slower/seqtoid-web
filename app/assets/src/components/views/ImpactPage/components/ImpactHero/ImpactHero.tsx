@@ -6,8 +6,7 @@ const ImpactHero = () => {
     <div className={cs.hero}>
       <h1>Explore SeqtoID&apos;s Impact</h1>
       <p>
-        Chan Zuckerberg ID (SeqtoID): The free, cloud-based metagenomics
-        platform for researchers
+        SeqtoID: The free, cloud-based metagenomics platform for researchers
       </p>
       <a className={cs.heroButtonLink} href="#videoSection">
         Take the video tour
