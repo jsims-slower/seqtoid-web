@@ -88,7 +88,7 @@ const Header = ({
             }
             <ExternalLink
               className={cs.link}
-              href="https://chanzuckerberg.zendesk.com/hc/en-us/articles/33940279703828-FAQs-CZ-ID-s-Transfer-to-the-University-of-California-San-Francisco"
+              href="https://helpcenter.seqtoid.org/articles/faqs-czid-s-transfer-to-the-university-of-california-san-francisco/"
             >
               HERE
             </ExternalLink>
