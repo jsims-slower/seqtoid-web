@@ -1,0 +1,52 @@
+@import "~styles/views/user_storage_consumption";
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.backLink {
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  background: $sds-color-gray-white;
+  color: $sds-color-gray-500;
+  border: 1px solid $sds-color-gray-300;
+  font-weight: 600;
+}
+.backLink:hover {
+  background: $sds-color-gray-100;
+}
+
+.sampleName {
+  font-weight: 700;
+  color: $sds-color-primary-400;
+}
+
+.projectName {
+  font-size: 0.875rem;
+  color: $sds-color-gray-500;
+  font-style: italic;
+  display: block;
+  margin-top: 0.125rem;
+}
+
+.tdFileName {
+  font-family: "Andale Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.truncate {
+  max-width: 21.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tilesContainer {
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+  margin: 3rem 0 3rem;
+}

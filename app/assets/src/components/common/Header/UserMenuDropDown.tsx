@@ -57,6 +57,18 @@ const UserMenuDropDown = ({
             </a>
           }
         />,
+        <BareDropdown.Item
+          key="user_storage_consumption"
+          text={
+            <a
+              className={cs.option}
+              href='/user_storage_consumption'
+              data-testid="user-storage-consumption"
+            >
+              User Storage Consumption
+            </a>
+          }
+        />,
       );
     }
 

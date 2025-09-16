@@ -1,0 +1,26 @@
+@import "~@czi-sds/components/dist/variables";
+
+.chartTile {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+}
+
+.chartTileTitle {
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: $sds-color-gray-500;
+}
+
+.chartTileContent {
+  width: 100%;
+}

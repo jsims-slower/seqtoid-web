@@ -131,6 +131,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'user_storage_consumption', to: 'user_storage_consumption#index', as: :user_storage_consumption
+  get 'user_storage_consumption/:id', to: 'user_storage_consumption#show', as: :user_storage_consumption_user
+
   # SupportController:
   get 'faqs', to: 'support#faqs'
   get 'privacy_notice_for_user_research', to: "support#privacy_notice_for_user_research"

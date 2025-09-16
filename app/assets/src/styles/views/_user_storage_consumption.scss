@@ -1,0 +1,99 @@
+@import "~@czi-sds/components/dist/variables";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  min-height: 100%;
+  overflow-x: auto;
+}
+
+.wrapper h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: $sds-color-gray-black;
+  letter-spacing: 0.2px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $sds-color-gray-white;
+  border: 1px solid $sds-color-gray-200;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: $sds-color-primary-600;
+  color: $sds-color-gray-white;
+  text-align: left;
+  padding: 1rem 0.875rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid $sds-color-gray-200;
+  z-index: 1;
+}
+
+.table td {
+  padding: 1rem 0.875rem;
+  border-bottom: 1px solid $sds-color-gray-200;
+  color: $sds-color-gray-black;
+  vertical-align: center;
+  font-size: 1rem;
+}
+
+.table tbody:nth-child(odd) {
+  background: $sds-color-primary-100;
+}
+
+.table tbody:hover {
+  background: $sds-color-primary-200;
+}
+
+.emptyState {
+  display: grid;
+  gap: 0.375rem;
+  color: $sds-color-gray-500;
+  padding: 1.125rem;
+  background: $sds-color-gray-white;
+  border: 1px dashed $sds-color-gray-300;
+  border-radius: 0.75rem;
+  text-align: center;
+}
+.emptyState a {
+  color: $sds-color-primary-400;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.pagination {
+  margin-top: 0.875rem;
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 0.875rem;
+  color: $sds-color-gray-500;
+}
+
+.pagination a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  border: 1px solid $sds-color-gray-300;
+  background: $sds-color-gray-white;
+  color: $sds-color-gray-600;
+  text-decoration: none;
+  font-weight: 600;
+}
+.pagination a:hover {
+  background: $sds-color-gray-100;
+}
