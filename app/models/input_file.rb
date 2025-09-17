@@ -40,6 +40,8 @@ class InputFile < ApplicationRecord
   ] }
   validate :s3_source_check, on: :create
 
+  after_create_commit :enqueue_storage_size_update
+
   BULK_FILE_PAIRED_REGEX = /\A([A-Za-z0-9_][-.A-Za-z0-9_]{1,119})_R(\d)(_001)?\.(fastq.gz|fq.gz|fastq|fq|fasta.gz|fa.gz|fasta|fa)\z/.freeze
   BULK_FILE_SINGLE_REGEX = /\A([A-Za-z0-9_][-.A-Za-z0-9_]{1,119})\.(fastq.gz|fq.gz|fastq|fq|fasta.gz|fa.gz|fasta|fa)\z/.freeze
 
@@ -80,5 +82,11 @@ class InputFile < ApplicationRecord
     true
   rescue Aws::S3::Errors::NotFound
     false
+  end
+
+  private
+
+  def enqueue_storage_size_update
+    Resque.enqueue(UpdateInputFileStorageSizeJob, id)
   end
 end

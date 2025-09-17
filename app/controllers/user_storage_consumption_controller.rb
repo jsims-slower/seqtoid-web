@@ -1,4 +1,6 @@
 class UserStorageConsumptionController < ApplicationController
+  include ActionView::Helpers::NumberHelper
+
   before_action :admin_required
   before_action :set_user, only: :show
 
@@ -12,7 +14,7 @@ class UserStorageConsumptionController < ApplicationController
     @total_users = users_scope.count
     @total_samples = Sample.count
     @total_input_files = InputFile.count
-    @total_input_files_size = InputFile.sum(:storage_size)
+    @total_input_files_size = number_to_human_size(InputFile.sum(:storage_size))
 
     set_pagination_data(paginated_users)
   end
@@ -67,7 +69,7 @@ class UserStorageConsumptionController < ApplicationController
         name: u.name,
         sampleCount: u.attributes['samples_count'].to_i,
         inputFileCount: u.attributes['input_files_count'].to_i,
-        totalInputFilesSize: u.attributes['total_input_files_size'].to_i,
+        totalInputFilesSize: number_to_human_size(u.attributes['total_input_files_size'].to_i),
       }
     end
   end
@@ -98,7 +100,7 @@ class UserStorageConsumptionController < ApplicationController
       name: @user.name,
       totalSamples: total_samples,
       totalInputFiles: total_input_files,
-      totalInputFilesSize: total_input_files_size,
+      totalInputFilesSize: number_to_human_size(total_input_files_size),
     }
   end
 
@@ -126,7 +128,7 @@ class UserStorageConsumptionController < ApplicationController
       fileId: file&.id,
       fileName: file&.name,
       fileType: file&.file_type,
-      fileSize: file&.storage_size,
+      fileSize: file&.storage_size ? number_to_human_size(file.storage_size) : nil,
       sourceType: file&.source_type,
     }
   end

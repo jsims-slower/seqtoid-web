@@ -10,7 +10,7 @@ export interface UserStorageConsumptionIndexProps {
     name: string;
     sampleCount: number;
     inputFileCount: number;
-    totalInputFilesSize: number;
+    totalInputFilesSize: string;
   }>;
   page: number;
   perPage: number;
@@ -19,7 +19,7 @@ export interface UserStorageConsumptionIndexProps {
   totalUsers: number;
   totalSamples: number;
   totalInputFiles: number;
-  totalInputFilesSize: number;
+  totalInputFilesSize: string;
 }
 
 const generateLast7DaysData = (label: string) => {

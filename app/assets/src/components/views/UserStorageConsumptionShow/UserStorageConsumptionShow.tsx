@@ -9,7 +9,7 @@ export interface UserStorageConsumptionShowProps {
     name: string;
     totalSamples: number;
     totalInputFiles: number;
-    totalInputFilesSize: number;
+    totalInputFilesSize: string;
   };
   sampleFileRows: Array<{
     sampleId: number;
@@ -19,7 +19,7 @@ export interface UserStorageConsumptionShowProps {
     fileId: number | null;
     fileName: string | null;
     fileType: string | null;
-    fileSize: number | null;
+    fileSize: string | null;
     sourceType: string | null;
   }>;
   page: number;
