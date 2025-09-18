@@ -8,6 +8,7 @@
     totalUsers: JSON.parse('<%= raw escape_json(@total_users) %>'),
     totalSamples: JSON.parse('<%= raw escape_json(@total_samples) %>'),
     totalInputFiles: JSON.parse('<%= raw escape_json(@total_input_files) %>'),
-    totalInputFilesSize: JSON.parse('<%= raw escape_json(@total_input_files_size) %>')
+    totalInputFilesSize: JSON.parse('<%= raw escape_json(@total_input_files_size) %>'),
+    snapshotData: JSON.parse('<%= raw escape_json(@snapshot_data) %>')
   }, 'page_content');
 <% end %>

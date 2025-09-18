@@ -6,25 +6,31 @@ class UserStorageConsumptionController < ApplicationController
 
   # GET /user_storage_consumption
   def index
-    users_scope = User.then { |rel| filter_by_search(rel, params[:search_by]) }
-    paginated_users = paginated_users_with_stats(users_scope)
-
     @search_by = params[:search_by].presence
-    @users_data = format_users_for_index(paginated_users)
-    @total_users = users_scope.count
-    @total_samples = Sample.count
-    @total_input_files = InputFile.count
-    @total_input_files_size = number_to_human_size(InputFile.sum(:storage_size))
 
-    set_pagination_data(paginated_users)
+    total_data = query_service.total_data
+    @total_users = total_data[:total_users]
+    @total_samples = total_data[:total_samples]
+    @total_input_files = total_data[:total_input_files]
+    @total_input_files_size = number_to_human_size(total_data[:total_input_files_size])
+
+    @snapshot_data = format_snapshot_data(query_service.snapshots)
+
+    users = query_service.paginated_users(@search_by, params[:page])
+    @users_data = format_users_for_index(users)
+
+    assign_pagination_data(users)
   end
 
   # GET /user_storage_consumption/:id
   def show
-    @user_details = format_user_for_show
-    @sample_file_rows = format_sample_file_rows(paginated_samples)
+    stats = query_service.user_stats(@user.id)
+    @user_details = format_user_for_show(@user, stats)
 
-    set_pagination_data(paginated_samples)
+    samples = query_service.paginated_samples(@user, params[:page])
+    @sample_file_rows = format_sample_file_rows(samples)
+
+    assign_pagination_data(samples)
   end
 
   private
@@ -33,32 +39,8 @@ class UserStorageConsumptionController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def filter_by_search(scope, raw_query)
-    q = raw_query.to_s.strip
-    return scope if q.blank?
-
-    like = "%#{ActiveRecord::Base.sanitize_sql_like(q)}%"
-
-    if q.match?(/\A\d+\z/)
-      scope.where('users.email ILIKE :like OR users.id = :id', like: like, id: q.to_i)
-    else
-      scope.where('users.email ILIKE :like', like: like)
-    end
-  end
-
-  def paginated_users_with_stats(scope)
-    scope
-      .left_joins(samples: :input_files)
-      .select(
-        'users.*',
-        'COUNT(DISTINCT samples.id) AS samples_count',
-        'COUNT(DISTINCT input_files.id) AS input_files_count',
-        'COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size'
-      )
-      .group('users.id')
-      .order(id: :desc)
-      .page(params[:page])
-      .per(params[:per_page])
+  def query_service
+    @query_service ||= UserStorageConsumptionQueryService.new
   end
 
   def format_users_for_index(users)
@@ -67,40 +49,21 @@ class UserStorageConsumptionController < ApplicationController
         id: u.id,
         email: u.email,
         name: u.name,
-        sampleCount: u.attributes['samples_count'].to_i,
-        inputFileCount: u.attributes['input_files_count'].to_i,
-        totalInputFilesSize: number_to_human_size(u.attributes['total_input_files_size'].to_i),
+        sampleCount: u.attributes["samples_count"].to_i,
+        inputFileCount: u.attributes["input_files_count"].to_i,
+        totalInputFilesSize: number_to_human_size(u.attributes["total_input_files_size"].to_i),
       }
     end
   end
 
-  def paginated_samples
-    @paginated_samples ||= @user
-                           .samples
-                           .includes(:project, :input_files)
-                           .order(created_at: :desc)
-                           .page(params[:page])
-                           .per(params[:per_page])
-  end
-
-  def format_user_for_show
-    total_samples = @user.samples.count
-
-    total_input_files, total_input_files_size = InputFile
-                                                .joins(:sample)
-                                                .where(samples: { user_id: @user.id })
-                                                .pick(
-                                                  Arel.sql('COUNT(*)'),
-                                                  Arel.sql('COALESCE(SUM(storage_size), 0)')
-                                                ) || [0, 0]
-
+  def format_user_for_show(user, stats)
     {
-      id: @user.id,
-      email: @user.email,
-      name: @user.name,
-      totalSamples: total_samples,
-      totalInputFiles: total_input_files,
-      totalInputFilesSize: number_to_human_size(total_input_files_size),
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      totalSamples: stats[:total_samples],
+      totalInputFiles: stats[:total_input_files],
+      totalInputFilesSize: number_to_human_size(stats[:total_input_files_size]),
     }
   end
 
@@ -113,7 +76,7 @@ class UserStorageConsumptionController < ApplicationController
       sampleId: sample.id,
       sampleName: sample.name.to_s,
       projectName: sample.project&.name.to_s,
-      sampleCreatedAt: sample.created_at.strftime('%Y-%m-%d'),
+      sampleCreatedAt: sample.created_at.strftime("%Y-%m-%d"),
     }
 
     if sample.input_files.any?
@@ -133,9 +96,21 @@ class UserStorageConsumptionController < ApplicationController
     }
   end
 
-  def set_pagination_data(paginated_scope)
-    @page = paginated_scope.current_page
-    @per_page = paginated_scope.limit_value
-    @total_count = paginated_scope.total_count
+  def format_snapshot_data(snapshots)
+    snapshots.map do |s|
+      {
+        snapshotDate: s.snapshot_date.strftime("%y-%m-%d"),
+        totalUsers: s.total_users,
+        totalSamples: s.total_samples,
+        totalInputFiles: s.total_input_files,
+        totalInputFilesSize: s.total_input_files_size,
+      }
+    end
+  end
+
+  def assign_pagination_data(scope)
+    @page = scope.current_page
+    @per_page = scope.limit_value
+    @total_count = scope.total_count
   end
 end

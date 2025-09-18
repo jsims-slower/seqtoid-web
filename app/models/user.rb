@@ -79,6 +79,19 @@ class User < ApplicationRecord
   IDSEQ_BUCKET_PREFIXES = ['idseq-'].freeze
   CZBIOHUB_BUCKET_PREFIXES = ['czb-', 'czbiohub-'].freeze
 
+  scope :search_by, lambda { |query|
+    return all if query.blank?
+
+    q = query.to_s.strip
+    like = "%#{sanitize_sql_like(q)}%"
+
+    if q.match?(/\A\d+\z/)
+      where("users.id = :id OR users.email ILIKE :like OR users.name ILIKE :like", id: q.to_i, like: like)
+    else
+      where("users.email ILIKE :like OR users.name ILIKE :like", like: like)
+    end
+  }
+
   def as_json(options = {})
     super({ methods: [:admin] }.merge(options))
   end

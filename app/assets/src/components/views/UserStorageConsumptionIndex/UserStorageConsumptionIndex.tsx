@@ -20,40 +20,14 @@ export interface UserStorageConsumptionIndexProps {
   totalSamples: number;
   totalInputFiles: number;
   totalInputFilesSize: string;
+  snapshotData: Array<{
+    snapshotDate: string;
+    totalUsers: number;
+    totalSamples: number;
+    totalInputFiles: number;
+    totalInputFilesSize: number;
+  }>;
 }
-
-const generateLast7DaysData = (label: string) => {
-  const labels: string[] = [];
-  const data: number[] = [];
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    labels.push(
-      date.toLocaleDateString(undefined, {
-        month: "numeric",
-        day: "numeric",
-        year: "2-digit",
-      }),
-    );
-    data.push(
-      i === 6
-        ? Math.floor(Math.random() * 1000)
-        : data[5 - i] + Math.floor(Math.random() * 100),
-    );
-  }
-  return {
-    labels,
-    datasets: [
-      {
-        label,
-        data,
-        borderColor: "#a9bdfc",
-        backgroundColor: "#2b52cd",
-        tension: 0.4,
-      },
-    ],
-  };
-};
 
 export const UserStorageConsumptionIndex: React.FC<
   UserStorageConsumptionIndexProps
@@ -67,15 +41,63 @@ export const UserStorageConsumptionIndex: React.FC<
   totalSamples,
   totalInputFiles,
   totalInputFilesSize,
+  snapshotData,
 }) => {
   if (!users || users.length === 0) {
     return <div className={cs.emptyState}>No users found.</div>;
   }
 
-  const usersData = generateLast7DaysData("Users");
-  const samplesData = generateLast7DaysData("Samples");
-  const inputFilesData = generateLast7DaysData("Input Files");
-  const inputFilesSizeData = generateLast7DaysData("Input Files Size");
+  const chartLabels = snapshotData.map(d => d.snapshotDate);
+
+  const CHART_THEME = {
+    borderColor: "#a9bdfc",
+    backgroundColor: "#2b52cd",
+    tension: 0.4,
+  };
+
+  const usersData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Users",
+        data: snapshotData.map(d => d.totalUsers),
+        ...CHART_THEME,
+      },
+    ],
+  };
+
+  const samplesData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Samples",
+        data: snapshotData.map(d => d.totalSamples),
+        ...CHART_THEME,
+      },
+    ],
+  };
+
+  const inputFilesData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Input Files",
+        data: snapshotData.map(d => d.totalInputFiles),
+        ...CHART_THEME,
+      },
+    ],
+  };
+
+  const inputFilesSizeData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        label: "Input Files Size",
+        data: snapshotData.map(d => d.totalInputFilesSize / 1_000_000), // Convert to MB
+        ...CHART_THEME,
+      },
+    ],
+  };
 
   return (
     <div className={cs.wrapper}>
@@ -98,7 +120,7 @@ export const UserStorageConsumptionIndex: React.FC<
             title="Total Input Files Size"
             value={totalInputFilesSize}
           />
-          <ChartTile title="Last 7 Days" data={inputFilesSizeData} />
+          <ChartTile title="Last 7 Days (MB)" data={inputFilesSizeData} />
         </div>
       </div>
       <table className={cs.table}>
