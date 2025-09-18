@@ -1,0 +1,32 @@
+@import "~@czi-sds/components/dist/variables";
+
+.searchContainer {
+  margin: 0 auto 1.5rem;
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid $sds-color-gray-300;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 1rem 2rem;
+  outline: none;
+  border: none;
+}
+
+.searchButton {
+  padding: 1rem 1rem;
+  background: $sds-color-primary-400;
+  color: $sds-color-gray-white;
+  cursor: pointer;
+  outline: none;
+  border: none;
+
+  &:hover {
+    background: $sds-color-primary-500;
+    border-color: $sds-color-primary-500;
+  }
+}

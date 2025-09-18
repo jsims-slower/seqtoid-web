@@ -1,4 +1,5 @@
 import React from "react";
+import Pagination from "~/components/common/UserStorageConsumption/Pagination";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
 import cs from "./user_storage_consumption_show.scss";
 
@@ -137,27 +138,12 @@ export const UserStorageConsumptionShow: React.FC<
           );
         })}
       </table>
-      <div className={cs.pagination}>
-        {page > 1 && (
-          <a
-            href={`/user_storage_consumption/${id}?page=${
-              page - 1
-            }&per_page=${perPage}`}
-          >
-            Prev
-          </a>
-        )}
-        Page {page}
-        {page * perPage < totalCount && (
-          <a
-            href={`/user_storage_consumption/${id}?page=${
-              page + 1
-            }&per_page=${perPage}`}
-          >
-            Next
-          </a>
-        )}
-      </div>
+      <Pagination
+        page={page}
+        perPage={perPage}
+        totalCount={totalCount}
+        baseUrl={`/user_storage_consumption/${id}`}
+      />
     </div>
   );
 };

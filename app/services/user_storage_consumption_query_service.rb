@@ -1,4 +1,6 @@
 class UserStorageConsumptionQueryService
+  SORTABLE_COLUMNS = Set["samples_count", "input_files_count", "total_input_files_size"].freeze
+
   def total_data
     {
       total_users: User.count,
@@ -26,19 +28,26 @@ class UserStorageConsumptionQueryService
     }
   end
 
-  def paginated_users(query, page)
-    User
-      .search_by(query)
-      .left_joins(samples: :input_files)
-      .select(
-        "users.*",
-        "COUNT(DISTINCT samples.id) AS samples_count",
-        "COUNT(DISTINCT input_files.id) AS input_files_count",
-        "COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size"
-      )
-      .group("users.id")
-      .order(id: :desc)
-      .page(page)
+  def paginated_users(query:, page:, sort_by: nil, sort_dir: nil)
+    scope = User
+            .search_by(query)
+            .left_joins(samples: :input_files)
+            .select(
+              "users.*",
+              "COUNT(DISTINCT samples.id) AS samples_count",
+              "COUNT(DISTINCT input_files.id) AS input_files_count",
+              "COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size"
+            )
+            .group("users.id")
+
+    if SORTABLE_COLUMNS.include?(sort_by)
+      direction = sort_dir == "asc" ? "ASC" : "DESC"
+      scope = scope.order("#{sort_by} #{direction}")
+    else
+      scope = scope.order(id: :desc) # Default sort
+    end
+
+    scope.page(page)
   end
 
   def paginated_samples(user, page)

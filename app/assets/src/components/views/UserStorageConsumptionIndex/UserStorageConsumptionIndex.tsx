@@ -1,6 +1,9 @@
 import React from "react";
 import ChartTile from "~/components/common/UserStorageConsumption/ChartTile";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
+import Pagination from "~/components/common/UserStorageConsumption/Pagination";
+import SearchBar from "./components/SearchBar";
+import SortableHeader from "./components/SortableHeader";
 import cs from "./user_storage_consumption_index.scss";
 
 export interface UserStorageConsumptionIndexProps {
@@ -16,6 +19,8 @@ export interface UserStorageConsumptionIndexProps {
   perPage: number;
   totalCount: number;
   searchBy?: string;
+  sortBy?: string;
+  sortDir?: string;
   totalUsers: number;
   totalSamples: number;
   totalInputFiles: number;
@@ -37,6 +42,8 @@ export const UserStorageConsumptionIndex: React.FC<
   perPage,
   totalCount,
   searchBy,
+  sortBy,
+  sortDir,
   totalUsers,
   totalSamples,
   totalInputFiles,
@@ -123,15 +130,31 @@ export const UserStorageConsumptionIndex: React.FC<
           <ChartTile title="Last 7 Days (MB)" data={inputFilesSizeData} />
         </div>
       </div>
+      <SearchBar searchBy={searchBy} />
       <table className={cs.table}>
         <thead>
           <tr>
             <th>ID</th>
             <th>Email</th>
             <th>Name</th>
-            <th>Total Samples</th>
-            <th>Total Input Files</th>
-            <th>Total Input Files Size</th>
+            <SortableHeader
+              columnKey="samples_count"
+              columnLabel="Total Samples"
+              sortBy={sortBy}
+              sortDir={sortDir}
+            />
+            <SortableHeader
+              columnKey="input_files_count"
+              columnLabel="Total Input Files"
+              sortBy={sortBy}
+              sortDir={sortDir}
+            />
+            <SortableHeader
+              columnKey="total_input_files_size"
+              columnLabel="Total Input Files Size"
+              sortBy={sortBy}
+              sortDir={sortDir}
+            />
             <th>Action</th>
           </tr>
         </thead>
@@ -153,34 +176,24 @@ export const UserStorageConsumptionIndex: React.FC<
                 <td>{inputFileCount}</td>
                 <td>{totalInputFilesSize}</td>
                 <td>
-                  <a href={`/user_storage_consumption/${id}`}>Details</a>
+                  <a
+                    href={`/user_storage_consumption/${id}`}
+                    className={cs.actionButton}
+                  >
+                    Details
+                  </a>
                 </td>
               </tr>
             </tbody>
           ),
         )}
       </table>
-      <div className={cs.pagination}>
-        {page > 1 && (
-          <a
-            href={`/user_storage_consumption?page=${
-              page - 1
-            }&per_page=${perPage}${searchBy ? `&search_by=${searchBy}` : ""}`}
-          >
-            Prev
-          </a>
-        )}
-        Page {page}
-        {page * perPage < totalCount && (
-          <a
-            href={`/user_storage_consumption?page=${
-              page + 1
-            }&per_page=${perPage}${searchBy ? `&search_by=${searchBy}` : ""}`}
-          >
-            Next
-          </a>
-        )}
-      </div>
+      <Pagination
+        page={page}
+        perPage={perPage}
+        totalCount={totalCount}
+        baseUrl="/user_storage_consumption"
+      />
     </div>
   );
 };

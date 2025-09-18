@@ -7,6 +7,8 @@ class UserStorageConsumptionController < ApplicationController
   # GET /user_storage_consumption
   def index
     @search_by = params[:search_by].presence
+    @sort_by = params[:sort_by].presence
+    @sort_dir = params[:sort_dir].presence
 
     total_data = query_service.total_data
     @total_users = total_data[:total_users]
@@ -16,7 +18,7 @@ class UserStorageConsumptionController < ApplicationController
 
     @snapshot_data = format_snapshot_data(query_service.snapshots)
 
-    users = query_service.paginated_users(@search_by, params[:page])
+    users = query_service.paginated_users(query: @search_by, page: params[:page], sort_by: @sort_by, sort_dir: @sort_dir)
     @users_data = format_users_for_index(users)
 
     assign_pagination_data(users)

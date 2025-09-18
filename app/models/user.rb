@@ -86,9 +86,9 @@ class User < ApplicationRecord
     like = "%#{sanitize_sql_like(q)}%"
 
     if q.match?(/\A\d+\z/)
-      where("users.id = :id OR users.email ILIKE :like OR users.name ILIKE :like", id: q.to_i, like: like)
+      where("users.id = :id OR users.email LIKE :like OR users.name LIKE :like", id: q.to_i, like: like)
     else
-      where("users.email ILIKE :like OR users.name ILIKE :like", like: like)
+      where("users.email LIKE :like OR users.name LIKE :like", like: like)
     end
   }
 

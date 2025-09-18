@@ -1,0 +1,26 @@
+@import "~@czi-sds/components/dist/variables";
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 1rem;
+
+  a {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    color: #333;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .pageInfo {
+    font-weight: 600;
+  }
+}

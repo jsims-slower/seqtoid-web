@@ -1,0 +1,27 @@
+@import "~@czi-sds/components/dist/variables";
+
+.sortableHeader a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sortIconContainer {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.8;
+}
+
+.sortIcon {
+  color: $sds-color-gray-white;
+}
+
+.inactive {
+  opacity: 0.5;
+}
+
+.active {
+  opacity: 1;
+}
