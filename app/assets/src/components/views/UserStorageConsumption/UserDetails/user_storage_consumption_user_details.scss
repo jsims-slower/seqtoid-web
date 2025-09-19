@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin-bottom: 1rem;
 }
 
 .backLink {
@@ -46,7 +45,12 @@
 
 .tilesContainer {
   width: 100%;
-  display: flex;
-  gap: 2rem;
-  margin: 3rem 0 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+  margin: 3rem 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 }

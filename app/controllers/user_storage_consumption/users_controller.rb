@@ -18,10 +18,6 @@ class UserStorageConsumption::UsersController < UserStorageConsumption::BaseCont
     @user = User.find(params[:id])
   end
 
-  def query_service
-    @query_service ||= UserStorageConsumptionQueryService.new
-  end
-
   def format_user_for_show(user, stats)
     {
       id: user.id,

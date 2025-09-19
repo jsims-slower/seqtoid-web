@@ -1,12 +1,21 @@
 class UserStorageConsumptionQueryService
   SORTABLE_COLUMNS = Set["samples_count", "input_files_count", "total_input_files_size"].freeze
 
-  def total_data
+  def consumption_stats
+    total_users = User.count
+    total_samples = Sample.count
+    total_input_files = InputFile.count
+    total_input_files_size = InputFile.sum(:storage_size)
+    average_size = total_input_files.positive? ? (total_input_files_size.to_f / total_input_files) : 0
+    average_files_per_user = total_users.positive? ? (total_input_files.to_f / total_users) : 0
+
     {
-      total_users: User.count,
-      total_samples: Sample.count,
-      total_input_files: InputFile.count,
-      total_input_files_size: InputFile.sum(:storage_size),
+      total_users: total_users,
+      total_samples: total_samples,
+      total_input_files: total_input_files,
+      total_input_files_size: total_input_files_size,
+      average_size: average_size,
+      average_files_per_user: average_files_per_user,
     }
   end
 
@@ -60,5 +69,27 @@ class UserStorageConsumptionQueryService
 
   def snapshots
     UserStorageConsumptionSnapshot.order(snapshot_date: :asc).last(7)
+  end
+
+  def flagged_files(min_size_bytes, older_than_timestamp, limit: 100)
+    base_flagged_files_scope(min_size_bytes, older_than_timestamp)
+      .includes(sample: [:user, :project])
+      .order(Arel.sql("input_files.storage_size IS NULL, input_files.storage_size DESC, input_files.created_at ASC"))
+      .limit(limit)
+  end
+
+  def flagged_files_count(min_size_bytes, older_than_timestamp)
+    base_flagged_files_scope(min_size_bytes, older_than_timestamp).count
+  end
+
+  private
+
+  def base_flagged_files_scope(min_size_bytes, older_than_timestamp)
+    InputFile
+      .joins(sample: [:user, :project])
+      .where(storage_size: min_size_bytes..)
+      .or(
+        InputFile.where(created_at: ..older_than_timestamp)
+      )
   end
 end

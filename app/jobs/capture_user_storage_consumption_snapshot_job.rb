@@ -9,7 +9,7 @@ class CaptureUserStorageConsumptionSnapshotJob
     Rails.logger.info("Starting to capture user storage consumption snapshot on #{date.strftime('%Y-%m-%d')}")
 
     snapshot = UserStorageConsumptionSnapshot.find_or_initialize_by(snapshot_date: date)
-    snapshot_data = UserStorageConsumptionQueryService.new.total_data
+    snapshot_data = UserStorageConsumptionQueryService.new.consumption_stats
     snapshot.assign_attributes(
       total_users: snapshot_data[:total_users],
       total_samples: snapshot_data[:total_samples],

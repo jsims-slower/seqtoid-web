@@ -1,0 +1,22 @@
+@import "~@czi-sds/components/dist/variables";
+
+.cellWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.cellPrimary {
+  font-weight: 600;
+  color: $sds-color-gray-black;
+}
+
+.cellSecondary {
+  font-size: 0.875rem;
+  color: $sds-color-gray-500;
+}
+
+.cellEmpty {
+  color: $sds-color-gray-400;
+  font-style: italic;
+}

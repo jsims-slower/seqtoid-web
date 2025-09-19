@@ -109,6 +109,14 @@ export const UserStorageConsumptionDashboard: React.FC<
   return (
     <div className={cs.wrapper}>
       <h1>User Storage Consumption</h1>
+      <div className={cs.actions}>
+        <a
+          href="/user_storage_consumption/flagged_files"
+          className={cs.secondaryButton}
+        >
+          View flagged files
+        </a>
+      </div>
       <div className={cs.tilesContainer}>
         <div className={cs.tileItem}>
           <NumberTile title="Total Users" value={totalUsers} />

@@ -17,7 +17,7 @@ export interface UserStorageConsumptionUserDetailsProps {
     sampleName: string;
     projectName: string;
     sampleCreatedAt: string;
-    fileId: number | null;
+    fileId: number;
     fileName: string | null;
     fileType: string | null;
     fileSize: string | null;
@@ -96,17 +96,17 @@ export const UserStorageConsumptionUserDetails: React.FC<
               {rows.map((row, idx) => {
                 const {
                   sampleId,
-                  fileId = "",
-                  fileName = "",
-                  fileType = "",
-                  fileSize = "",
-                  sourceType = "",
+                  fileId,
+                  fileName,
+                  fileType,
+                  fileSize,
+                  sourceType,
                   sampleName,
                   projectName,
                   sampleCreatedAt,
                 } = row;
                 return (
-                  <tr key={sampleId + "-" + (fileId || "nofile") + "-" + idx}>
+                  <tr key={sampleId + "-" + fileId}>
                     {idx === 0 && (
                       <td rowSpan={rows.length} className={cs.tdSampleId}>
                         {sampleId}
@@ -127,10 +127,10 @@ export const UserStorageConsumptionUserDetails: React.FC<
                       </td>
                     )}
                     <td className={cs.tdFileId}>{fileId}</td>
-                    <td className={cs.tdFileName}>{fileName}</td>
-                    <td className={cs.tdFileType}>{fileType}</td>
-                    <td className={cs.tdFileSize}>{fileSize}</td>
-                    <td className={cs.tdSourceType}>{sourceType}</td>
+                    <td className={cs.tdFileName}>{fileName ?? "N/A"}</td>
+                    <td className={cs.tdFileType}>{fileType ?? "N/A"}</td>
+                    <td className={cs.tdFileSize}>{fileSize ?? "N/A"}</td>
+                    <td className={cs.tdSourceType}>{sourceType ?? "N/A"}</td>
                   </tr>
                 );
               })}

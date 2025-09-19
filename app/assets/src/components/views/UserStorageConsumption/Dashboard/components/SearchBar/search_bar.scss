@@ -5,16 +5,19 @@
   display: flex;
   width: 100%;
   max-width: 600px;
-  border: 1px solid $sds-color-gray-300;
-  border-radius: 100px;
-  overflow: hidden;
 }
 
 .searchInput {
   flex: 1;
   padding: 1rem 2rem;
   outline: none;
-  border: none;
+  border: 1px solid $sds-color-gray-300;
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+
+  &:focus {
+    border-color: $sds-color-primary-400;
+  }
 }
 
 .searchButton {
@@ -23,10 +26,11 @@
   color: $sds-color-gray-white;
   cursor: pointer;
   outline: none;
-  border: none;
+  border: 1px solid $sds-color-primary-400;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
 
   &:hover {
     background: $sds-color-primary-500;
-    border-color: $sds-color-primary-500;
   }
 }

@@ -3,11 +3,11 @@ class UserStorageConsumption::DashboardController < UserStorageConsumption::Base
 
   # GET /user_storage_consumption
   def index
-    total_data = query_service.total_data
-    @total_users = total_data[:total_users]
-    @total_samples = total_data[:total_samples]
-    @total_input_files = total_data[:total_input_files]
-    @total_input_files_size = number_to_human_size(total_data[:total_input_files_size])
+    consumption_stats = query_service.consumption_stats
+    @total_users = consumption_stats[:total_users]
+    @total_samples = consumption_stats[:total_samples]
+    @total_input_files = consumption_stats[:total_input_files]
+    @total_input_files_size = number_to_human_size(consumption_stats[:total_input_files_size])
 
     @snapshot_data = format_snapshot_data(query_service.snapshots)
 
@@ -23,10 +23,6 @@ class UserStorageConsumption::DashboardController < UserStorageConsumption::Base
     @search_by = params[:search_by].presence
     @sort_by = params[:sort_by].presence
     @sort_dir = params[:sort_dir].presence
-  end
-
-  def query_service
-    @query_service ||= UserStorageConsumptionQueryService.new
   end
 
   def format_users_for_index(users)

@@ -135,6 +135,7 @@ Rails.application.routes.draw do
   scope :user_storage_consumption, module: :user_storage_consumption, as: :user_storage_consumption do
     get '/', to: 'dashboard#index', as: :dashboard
     get '/users/:id', to: 'users#show', as: :user
+    get '/flagged_files', to: 'flagged_files#index', as: :flagged_files
   end
   # Back-compat redirect for old show path
   get 'user_storage_consumption/:id', to: redirect { |params, _req| "/user_storage_consumption/users/#{params[:id]}" }
