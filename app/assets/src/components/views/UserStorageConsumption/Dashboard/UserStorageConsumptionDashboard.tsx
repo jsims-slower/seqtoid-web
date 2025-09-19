@@ -4,9 +4,9 @@ import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
 import Pagination from "~/components/common/UserStorageConsumption/Pagination";
 import SearchBar from "./components/SearchBar";
 import SortableHeader from "./components/SortableHeader";
-import cs from "./user_storage_consumption_index.scss";
+import cs from "./user_storage_consumption_dashboard.scss";
 
-export interface UserStorageConsumptionIndexProps {
+export interface UserStorageConsumptionDashboardProps {
   users: Array<{
     id: number;
     email: string;
@@ -34,8 +34,8 @@ export interface UserStorageConsumptionIndexProps {
   }>;
 }
 
-export const UserStorageConsumptionIndex: React.FC<
-  UserStorageConsumptionIndexProps
+export const UserStorageConsumptionDashboard: React.FC<
+  UserStorageConsumptionDashboardProps
 > = ({
   users,
   page,
@@ -177,7 +177,7 @@ export const UserStorageConsumptionIndex: React.FC<
                 <td>{totalInputFilesSize}</td>
                 <td>
                   <a
-                    href={`/user_storage_consumption/${id}`}
+                    href={`/user_storage_consumption/users/${id}`}
                     className={cs.actionButton}
                   >
                     Details

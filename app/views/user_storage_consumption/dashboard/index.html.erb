@@ -1,5 +1,5 @@
 <%= javascript_tag do %>
-  react_component("UserStorageConsumptionIndex", {
+  react_component("UserStorageConsumptionDashboard", {
     users: JSON.parse('<%= raw escape_json(@users_data) %>'),
     page: JSON.parse('<%= raw escape_json(@page) %>'),
     perPage: JSON.parse('<%= raw escape_json(@per_page) %>'),
@@ -14,3 +14,4 @@
     snapshotData: JSON.parse('<%= raw escape_json(@snapshot_data) %>')
   }, 'page_content');
 <% end %>
+

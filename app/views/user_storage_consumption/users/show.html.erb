@@ -1,5 +1,5 @@
 <%= javascript_tag do %>
-  react_component("UserStorageConsumptionShow", {
+  react_component("UserStorageConsumptionUserDetails", {
     user: JSON.parse('<%= raw escape_json(@user_details) %>'),
     sampleFileRows: JSON.parse('<%= raw escape_json(@sample_file_rows) %>'),
     page: JSON.parse('<%= raw escape_json(@page) %>'),
@@ -7,3 +7,4 @@
     totalCount: JSON.parse('<%= raw escape_json(@total_count) %>')
   }, 'page_content');
 <% end %>
+

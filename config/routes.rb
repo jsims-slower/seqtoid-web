@@ -131,8 +131,13 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'user_storage_consumption', to: 'user_storage_consumption#index', as: :user_storage_consumption
-  get 'user_storage_consumption/:id', to: 'user_storage_consumption#show', as: :user_storage_consumption_user
+  # User Storage Consumption (namespaced)
+  scope :user_storage_consumption, module: :user_storage_consumption, as: :user_storage_consumption do
+    get '/', to: 'dashboard#index', as: :dashboard
+    get '/users/:id', to: 'users#show', as: :user
+  end
+  # Back-compat redirect for old show path
+  get 'user_storage_consumption/:id', to: redirect { |params, _req| "/user_storage_consumption/users/#{params[:id]}" }
 
   # SupportController:
   get 'faqs', to: 'support#faqs'
@@ -342,10 +347,10 @@ Rails.application.routes.named_routes.url_helpers_module.module_eval do
   end
 
   def new_user_session_path
-    url_for(controller: :auth0, action: :login, only_path: true)
+    url_for(controller: '/auth0', action: :login, only_path: true)
   end
 
   def destroy_user_session_path
-    url_for(controller: :auth0, action: :logout, only_path: true)
+    url_for(controller: '/auth0', action: :logout, only_path: true)
   end
 end

@@ -1,9 +1,9 @@
 import React from "react";
-import Pagination from "~/components/common/UserStorageConsumption/Pagination";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
-import cs from "./user_storage_consumption_show.scss";
+import Pagination from "~/components/common/UserStorageConsumption/Pagination";
+import cs from "./user_storage_consumption_user_details.scss";
 
-export interface UserStorageConsumptionShowProps {
+export interface UserStorageConsumptionUserDetailsProps {
   user: {
     id: number;
     email: string;
@@ -28,8 +28,8 @@ export interface UserStorageConsumptionShowProps {
   totalCount: number;
 }
 
-export const UserStorageConsumptionShow: React.FC<
-  UserStorageConsumptionShowProps
+export const UserStorageConsumptionUserDetails: React.FC<
+  UserStorageConsumptionUserDetailsProps
 > = ({ user, sampleFileRows, page, perPage, totalCount }) => {
   const {
     id,
