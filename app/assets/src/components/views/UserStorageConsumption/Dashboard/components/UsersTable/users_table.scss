@@ -1,0 +1,28 @@
+@import "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $sds-color-gray-white;
+  border: 1px solid $sds-color-gray-200;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  background: $sds-color-primary-400;
+  color: $sds-color-gray-white !important;
+  font-weight: 600;
+}
+
+.actionButton:hover {
+  background: $sds-color-primary-500;
+}

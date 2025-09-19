@@ -1,7 +1,7 @@
 import React from "react";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
+import { FlaggedFilesSummary } from "~/components/views/UserStorageConsumption/FlaggedFiles/types";
 import styles from "./summary_tiles.scss";
-import { FlaggedFilesSummary } from "../../types";
 
 interface SummaryTilesProps {
   summary: FlaggedFilesSummary;

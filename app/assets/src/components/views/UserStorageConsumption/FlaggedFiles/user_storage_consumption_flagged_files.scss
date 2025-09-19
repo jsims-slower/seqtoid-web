@@ -1,25 +1,5 @@
-@import "../user_storage_consumption.scss";
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.backLink {
-  padding: 0.5rem 0.625rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  background: $sds-color-gray-white;
-  color: $sds-color-gray-500;
-  border: 1px solid $sds-color-gray-300;
-  font-weight: 600;
-}
-.backLink:hover {
-  background: $sds-color-gray-100;
-}
+@import "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
 
 .filterSection {
   margin-bottom: 2rem;
 }
-

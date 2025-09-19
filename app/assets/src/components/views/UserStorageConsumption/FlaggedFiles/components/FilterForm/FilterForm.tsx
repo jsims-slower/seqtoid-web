@@ -1,5 +1,5 @@
 import React from "react";
-import { FlaggedFilesThresholds } from "../../types";
+import { FlaggedFilesThresholds } from "~/components/views/UserStorageConsumption/FlaggedFiles/types";
 import cs from "./filter_form.scss";
 
 interface FilterFormProps {

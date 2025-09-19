@@ -1,0 +1,72 @@
+import React from "react";
+import { DashboardUser } from "~/components/views/UserStorageConsumption/Dashboard/types";
+import SortableHeader from "./SortableHeader";
+import styles from "./users_table.scss";
+
+interface UsersTableProps {
+  users: DashboardUser[];
+  sortBy?: string;
+  sortDir?: string;
+}
+
+const UsersTable: React.FC<UsersTableProps> = ({ users, sortBy, sortDir }) => (
+  <table className={styles.table}>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Name</th>
+        <SortableHeader
+          columnKey="samples_count"
+          columnLabel="Total Samples"
+          sortBy={sortBy}
+          sortDir={sortDir}
+        />
+        <SortableHeader
+          columnKey="input_files_count"
+          columnLabel="Total Input Files"
+          sortBy={sortBy}
+          sortDir={sortDir}
+        />
+        <SortableHeader
+          columnKey="total_input_files_size"
+          columnLabel="Total Input Files Size"
+          sortBy={sortBy}
+          sortDir={sortDir}
+        />
+        <th>Action</th>
+      </tr>
+    </thead>
+    {users.map(
+      ({
+        id,
+        email,
+        name,
+        sampleCount,
+        inputFileCount,
+        totalInputFilesSize,
+      }) => (
+        <tbody key={id}>
+          <tr>
+            <td>{id}</td>
+            <td>{email}</td>
+            <td>{name}</td>
+            <td>{sampleCount}</td>
+            <td>{inputFileCount}</td>
+            <td>{totalInputFilesSize}</td>
+            <td>
+              <a
+                href={`/user_storage_consumption/users/${id}`}
+                className={styles.actionButton}
+              >
+                Details
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      ),
+    )}
+  </table>
+);
+
+export default UsersTable;

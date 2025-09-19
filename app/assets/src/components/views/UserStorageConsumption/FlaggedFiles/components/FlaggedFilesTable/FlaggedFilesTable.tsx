@@ -1,5 +1,5 @@
 import React from "react";
-import { FlaggedFile } from "../../types";
+import { FlaggedFile } from "~/components/views/UserStorageConsumption/FlaggedFiles/types";
 import cs from "../../user_storage_consumption_flagged_files.scss";
 import CompositeCell from "./components/CompositeCell";
 import tableStyles from "./flagged_files_table.scss";
