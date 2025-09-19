@@ -27,5 +27,8 @@ export interface UserStorageConsumptionDashboardProps {
   totalSamples: number;
   totalInputFiles: number;
   totalInputFilesSize: string;
+  averageFileSize: string;
+  averageFilesPerUser: string;
+  flaggedFilesCount: number;
   snapshotData: DashboardSnapshotDatum[];
 }

@@ -20,6 +20,9 @@ export const UserStorageConsumptionDashboard: React.FC<
   totalSamples,
   totalInputFiles,
   totalInputFilesSize,
+  averageFileSize,
+  averageFilesPerUser,
+  flaggedFilesCount,
   snapshotData,
 }) => {
   if (!users || users.length === 0) {
@@ -29,24 +32,20 @@ export const UserStorageConsumptionDashboard: React.FC<
   return (
     <div className={cs.wrapper}>
       <h1>User Storage Consumption</h1>
-      <div className={cs.actions}>
-        <a
-          href="/user_storage_consumption/flagged_files"
-          className={cs.secondaryButton}
-        >
-          View flagged files
-        </a>
-      </div>
 
       <SummaryTiles
         totalUsers={totalUsers}
         totalSamples={totalSamples}
         totalInputFiles={totalInputFiles}
         totalInputFilesSize={totalInputFilesSize}
+        averageFileSize={averageFileSize}
+        averageFilesPerUser={averageFilesPerUser}
+        flaggedFilesCount={flaggedFilesCount}
         snapshotData={snapshotData}
       />
 
       <SearchBar searchBy={searchBy} />
+
       <UsersTable users={users} sortBy={sortBy} sortDir={sortDir} />
 
       <Pagination

@@ -1,35 +1,37 @@
-class UserStorageConsumption::BaseController < ApplicationController
-  include ActionView::Helpers::NumberHelper
+module UserStorageConsumption
+  class BaseController < ApplicationController
+    include ActionView::Helpers::NumberHelper
 
-  before_action :admin_required
+    before_action :admin_required
 
-  private
+    private
 
-  def assign_pagination_data(scope)
-    @page = scope.current_page
-    @per_page = scope.limit_value
-    @total_count = scope.total_count
-  end
+    def assign_pagination_data(scope)
+      @page = scope.current_page
+      @per_page = scope.limit_value
+      @total_count = scope.total_count
+    end
 
-  def query_service
-    @query_service ||= UserStorageConsumptionQueryService.new
-  end
+    def query_service
+      @query_service ||= UserStorageConsumptionQueryService.new
+    end
 
-  def parse_float_param(value, default)
-    return default if value.blank?
+    def parse_float_param(value, default)
+      return default if value.blank?
 
-    parsed = Float(value)
-    parsed >= 0 ? parsed : default
-  rescue ArgumentError, TypeError
-    default
-  end
+      parsed = Float(value)
+      parsed >= 0 ? parsed : default
+    rescue ArgumentError, TypeError
+      default
+    end
 
-  def parse_integer_param(value, default)
-    return default if value.blank?
+    def parse_integer_param(value, default)
+      return default if value.blank?
 
-    parsed = Integer(value)
-    parsed >= 0 ? parsed : default
-  rescue ArgumentError, TypeError
-    default
+      parsed = Integer(value)
+      parsed >= 0 ? parsed : default
+    rescue ArgumentError, TypeError
+      default
+    end
   end
 end

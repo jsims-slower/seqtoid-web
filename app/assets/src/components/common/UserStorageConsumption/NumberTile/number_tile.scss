@@ -14,11 +14,31 @@
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
+
+  &.numberTileWarning {
+    background: $sds-color-warning-100;
+
+    .numberTileTitle {
+      color: $sds-color-warning-600;
+    }
+
+    .numberTileValue {
+      color: $sds-color-warning-400;
+    }
+
+    .numberTileLink {
+      color: $sds-color-warning-600;
+    }
+  }
 }
 .numberTileTitle {
   font-weight: bold;
   margin-bottom: 2rem;
   color: $sds-color-gray-500;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .numberTileValue {
@@ -26,4 +46,14 @@
   line-height: 1;
   font-weight: 700;
   color: $sds-color-primary-400;
+}
+
+.numberTileLink {
+  font-weight: 600;
+  color: $sds-color-primary-600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

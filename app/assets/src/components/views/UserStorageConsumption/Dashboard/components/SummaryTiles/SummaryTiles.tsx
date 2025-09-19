@@ -9,6 +9,9 @@ interface SummaryTilesProps {
   totalSamples: number;
   totalInputFiles: number;
   totalInputFilesSize: string;
+  averageFileSize: string;
+  averageFilesPerUser: string;
+  flaggedFilesCount: number;
   snapshotData: DashboardSnapshotDatum[];
 }
 
@@ -23,6 +26,9 @@ const SummaryTiles: React.FC<SummaryTilesProps> = ({
   totalSamples,
   totalInputFiles,
   totalInputFilesSize,
+  averageFileSize,
+  averageFilesPerUser,
+  flaggedFilesCount,
   snapshotData,
 }) => {
   const chartLabels = snapshotData.map(datum => datum.snapshotDate);
@@ -91,6 +97,26 @@ const SummaryTiles: React.FC<SummaryTilesProps> = ({
           value={totalInputFilesSize}
         />
         <ChartTile title="Last 7 Days (MB)" data={inputFilesSizeData} />
+      </div>
+      <div className={styles.tileItem}>
+        <NumberTile title="Average File Size" value={averageFileSize} />
+      </div>
+      <div className={styles.tileItem}>
+        <NumberTile
+          title="Average Files per User"
+          value={averageFilesPerUser}
+        />
+      </div>
+      <div className={styles.tileItem}>
+        <NumberTile
+          title="Large & Old Files"
+          value={flaggedFilesCount}
+          link={{
+            href: "/user_storage_consumption/flagged_files",
+            label: "View details 🢒",
+          }}
+          variant="warning"
+        />
       </div>
     </div>
   );
