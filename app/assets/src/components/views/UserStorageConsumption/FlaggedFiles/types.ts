@@ -24,8 +24,8 @@ export interface FlaggedFilesThresholds {
 
 export interface FlaggedFilesSummary {
   flaggedCount: number;
-  totalFiles: number;
-  totalFilesSize: string;
-  averageFileSize: string;
-  averageFilesPerUser: string;
+  flaggedTotalSize: string;
+  flaggedAverageFileSize: string;
+  impactedUsers: number;
+  impactedProjects: number;
 }

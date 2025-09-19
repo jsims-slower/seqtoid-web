@@ -10,19 +10,26 @@ interface SummaryTilesProps {
 export const SummaryTiles: React.FC<SummaryTilesProps> = ({ summary }) => {
   const {
     flaggedCount,
-    totalFiles,
-    totalFilesSize,
-    averageFileSize,
-    averageFilesPerUser,
+    flaggedTotalSize,
+    flaggedAverageFileSize,
+    impactedUsers,
+    impactedProjects,
   } = summary;
 
   return (
     <div className={styles.tilesContainer}>
-      <NumberTile title="Large & Old Files" value={flaggedCount} />
-      <NumberTile title="Total Files" value={totalFiles} />
-      <NumberTile title="Total Files Size" value={totalFilesSize} />
-      <NumberTile title="Average File Size" value={averageFileSize} />
-      <NumberTile title="Average Files per User" value={averageFilesPerUser} />
+      <NumberTile
+        title="Large & Old Files"
+        value={flaggedCount}
+        variant="warning"
+      />
+      <NumberTile title="Storage At Risk" value={flaggedTotalSize} />
+      <NumberTile
+        title="Average Flagged File Size"
+        value={flaggedAverageFileSize}
+      />
+      <NumberTile title="Impacted Users" value={impactedUsers} />
+      <NumberTile title="Impacted Projects" value={impactedProjects} />
     </div>
   );
 };

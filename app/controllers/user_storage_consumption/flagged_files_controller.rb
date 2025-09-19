@@ -10,10 +10,10 @@ module UserStorageConsumption
       older_than_timestamp = @older_than_months.positive? ? @older_than_months.months.ago : Time.zone.now
 
       flagged_files = query_service.flagged_files(min_size_bytes, older_than_timestamp, limit: @limit)
-      total_flagged_files = query_service.flagged_files_count(min_size_bytes, older_than_timestamp)
+      flagged_stats = query_service.flagged_files_stats(min_size_bytes, older_than_timestamp)
 
       @flagged_files = format_files(flagged_files)
-      @summary = build_summary(total_flagged_files)
+      @summary = build_summary(flagged_stats)
     end
 
     private
@@ -56,19 +56,17 @@ module UserStorageConsumption
       end
     end
 
-    def build_summary(total_flagged_files)
-      consumption_stats = query_service.consumption_stats
-      total_files = consumption_stats[:total_input_files]
-      total_size = consumption_stats[:total_input_files_size]
-      average_size = consumption_stats[:average_size]
-      average_files_per_user = consumption_stats[:average_files_per_user]
+    def build_summary(flagged_stats)
+      flagged_count = flagged_stats[:flagged_count]
+      total_size = flagged_stats[:total_size]
+      average_size = flagged_count.positive? ? (total_size.to_f / flagged_count) : 0
 
       {
-        flaggedCount: total_flagged_files,
-        totalFiles: total_files,
-        totalFilesSize: number_to_human_size(total_size),
-        averageFileSize: number_to_human_size(average_size),
-        averageFilesPerUser: format('%.2f', average_files_per_user),
+        flaggedCount: flagged_count,
+        flaggedTotalSize: number_to_human_size(total_size),
+        flaggedAverageFileSize: number_to_human_size(average_size),
+        impactedUsers: flagged_stats[:users_impacted],
+        impactedProjects: flagged_stats[:projects_impacted],
       }
     end
   end
