@@ -87,9 +87,6 @@ class UserStorageConsumptionQueryService
   def base_flagged_files_scope(min_size_bytes, older_than_timestamp)
     InputFile
       .joins(sample: [:user, :project])
-      .where(storage_size: min_size_bytes..)
-      .or(
-        InputFile.where(created_at: ..older_than_timestamp)
-      )
+      .where(storage_size: min_size_bytes.., created_at: ..older_than_timestamp)
   end
 end
