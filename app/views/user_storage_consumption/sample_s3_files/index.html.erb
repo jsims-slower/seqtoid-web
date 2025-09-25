@@ -1,0 +1,9 @@
+<%= javascript_tag do %>
+  react_component("UserStorageConsumptionSampleS3Details", {
+    user: JSON.parse('<%= raw escape_json(@user_details) %>'),
+    sampleS3FileRows: JSON.parse('<%= raw escape_json(@sample_s3_file_rows) %>'),
+    page: JSON.parse('<%= raw escape_json(@page) %>'),
+    perPage: JSON.parse('<%= raw escape_json(@per_page) %>'),
+    totalCount: JSON.parse('<%= raw escape_json(@total_count) %>')
+  }, 'page_content');
+<% end %>

@@ -1,0 +1,53 @@
+@import "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: $sds-color-gray-white;
+  border: 1px solid $sds-color-gray-200;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.headerRow {
+  background: $sds-color-primary-600;
+}
+
+.thSampleId,
+.thSampleName,
+.thCreatedAt,
+.thDisplayName,
+.thFileSize {
+  font-weight: 700;
+}
+
+.sampleName {
+  font-weight: 700;
+  color: $sds-color-primary-400;
+}
+
+.projectName {
+  font-size: 0.875rem;
+  color: $sds-color-gray-500;
+  font-style: italic;
+  display: block;
+  margin-top: 0.125rem;
+}
+
+.tdSampleName {
+  min-width: 12rem;
+}
+
+.tdSampleId,
+.tdCreatedAt,
+.tdDisplayName,
+.tdFileSize {
+  vertical-align: top;
+}
+
+.tdDisplayName {
+  font-family: "Andale Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+  word-break: break-all;
+}

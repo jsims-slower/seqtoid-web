@@ -44,6 +44,25 @@ class UserStorageConsumptionQueryService
     }
   end
 
+  def user_sample_s3_stats(user_id)
+    total_samples = Sample.where(user_id: user_id).count
+    stats = SampleS3File
+            .joins(:sample)
+            .where(samples: { user_id: user_id })
+            .pick(
+              Arel.sql("COUNT(*)"),
+              Arel.sql("COALESCE(SUM(sample_s3_files.size), 0)")
+            )
+
+    total_sample_s3_files, total_sample_s3_size = stats || [0, 0]
+
+    {
+      total_samples: total_samples,
+      total_sample_s3_files: total_sample_s3_files || 0,
+      total_sample_s3_size: total_sample_s3_size || 0,
+    }
+  end
+
   def paginated_users(query:, page:, sort_by: nil, sort_dir: nil)
     samples_join = <<~SQL
       LEFT JOIN (
@@ -107,6 +126,14 @@ class UserStorageConsumptionQueryService
     user
       .samples
       .includes(:project, :input_files)
+      .order(created_at: :desc)
+      .page(page)
+  end
+
+  def paginated_sample_s3_files(user, page)
+    user
+      .samples
+      .includes(:project, :sample_s3_files)
       .order(created_at: :desc)
       .page(page)
   end

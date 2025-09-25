@@ -1,0 +1,13 @@
+@import "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
+
+.tilesContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+  margin: 3rem 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
