@@ -56,7 +56,7 @@ module UserStorageConsumption
     def format_snapshot_data(snapshots)
       snapshots.map do |s|
         {
-          snapshotDate: s.snapshot_date.strftime("%y-%m-%d"),
+          snapshotDate: s.snapshot_date.strftime("%m-%d"),
           totalUsers: s.total_users,
           totalSamples: s.total_samples,
           totalInputFiles: s.total_input_files,
