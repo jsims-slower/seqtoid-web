@@ -1,5 +1,5 @@
 import React from "react";
-import { SampleFileRow } from "~/components/views/UserStorageConsumption/UserDetails/types";
+import { SampleFileRow } from "~/components/views/UserStorageConsumption/InputFiles/types";
 import styles from "./sample_files_table.scss";
 
 interface SampleFilesTableProps {

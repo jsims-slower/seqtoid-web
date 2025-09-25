@@ -3,11 +3,11 @@ import Pagination from "~/components/common/UserStorageConsumption/Pagination";
 import cs from "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
 import SampleFilesTable from "./components/SampleFilesTable";
 import SummaryTiles from "./components/SummaryTiles";
-import { UserStorageConsumptionUserDetailsProps } from "./types";
+import { UserStorageConsumptionInputFilesProps } from "./types";
 
-export const UserStorageConsumptionUserDetails: React.FC<
-  UserStorageConsumptionUserDetailsProps
-> = ({ user, sampleFileRows, page, perPage, totalCount }) => {
+export const UserStorageConsumptionInputFiles: React.FC<
+  UserStorageConsumptionInputFilesProps
+> = ({ summary, sampleFileRows, page, perPage, totalCount }) => {
   const {
     id,
     email,
@@ -15,13 +15,13 @@ export const UserStorageConsumptionUserDetails: React.FC<
     totalSamples,
     totalInputFiles,
     totalInputFilesSize,
-  } = user;
+  } = summary;
 
   if (!sampleFileRows || sampleFileRows.length === 0) {
     return (
       <div className={cs.emptyState}>
-        User has no samples.{" "}
-        <a href={`/user_storage_consumption/${id}`}>Retry</a>
+        User has no input files.{" "}
+        <a href={`/user_storage_consumption/users/${id}/input_files`}>Retry</a>
       </div>
     );
   }
@@ -49,7 +49,7 @@ export const UserStorageConsumptionUserDetails: React.FC<
         page={page}
         perPage={perPage}
         totalCount={totalCount}
-        baseUrl={`/user_storage_consumption/${id}`}
+        baseUrl={`/user_storage_consumption/users/${id}/input_files`}
       />
     </div>
   );

@@ -73,13 +73,13 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, sortBy, sortDir }) => (
             <td>
               <div className={styles.actionButtons}>
                 <a
-                  href={`/user_storage_consumption/users/${id}`}
+                  href={`/user_storage_consumption/users/${id}/input_files`}
                   className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
                 >
                   Input file details
                 </a>
                 <a
-                  href={`/user_storage_consumption/users/${id}/sample_s3`}
+                  href={`/user_storage_consumption/users/${id}/sample_s3_files`}
                   className={`${styles.actionButton} ${styles.actionButtonSecondary}`}
                 >
                   Sample S3 details

@@ -134,12 +134,10 @@ Rails.application.routes.draw do
   # User Storage Consumption (namespaced)
   scope :user_storage_consumption, module: :user_storage_consumption, as: :user_storage_consumption do
     get '/', to: 'dashboard#index', as: :dashboard
-    get '/users/:id', to: 'users#show', as: :user
-    get '/users/:user_id/sample_s3', to: 'sample_s3_files#index', as: :user_sample_s3
+    get '/users/:user_id/input_files', to: 'input_files#show', as: :user_input_files
+    get '/users/:user_id/sample_s3_files', to: 'sample_s3_files#index', as: :user_sample_s3_files
     get '/flagged_files', to: 'flagged_files#index', as: :flagged_files
   end
-  # Back-compat redirect for old show path
-  get 'user_storage_consumption/:id', to: redirect { |params, _req| "/user_storage_consumption/users/#{params[:id]}" }
 
   # SupportController:
   get 'faqs', to: 'support#faqs'

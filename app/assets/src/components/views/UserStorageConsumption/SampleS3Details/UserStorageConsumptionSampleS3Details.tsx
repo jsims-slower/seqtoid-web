@@ -20,7 +20,7 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
   if (!sampleS3FileRows || sampleS3FileRows.length === 0) {
     return (
       <div className={cs.emptyState}>
-        User has no sample S3 files. <a href={`/user_storage_consumption/users/${id}/sample_s3`}>Retry</a>
+        User has no sample S3 files. <a href={`/user_storage_consumption/users/${id}/sample_s3_files`}>Retry</a>
       </div>
     );
   }
@@ -48,7 +48,7 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
         page={page}
         perPage={perPage}
         totalCount={totalCount}
-        baseUrl={`/user_storage_consumption/users/${id}/sample_s3`}
+        baseUrl={`/user_storage_consumption/users/${id}/sample_s3_files`}
       />
     </div>
   );

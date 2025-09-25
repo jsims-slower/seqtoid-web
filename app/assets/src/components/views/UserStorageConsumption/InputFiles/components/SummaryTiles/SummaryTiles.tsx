@@ -1,11 +1,11 @@
 import React from "react";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
-import { UserDetailsUser } from "~/components/views/UserStorageConsumption/UserDetails/types";
+import { InputFilesSummary } from "~/components/views/UserStorageConsumption/InputFiles/types";
 import styles from "./summary_tiles.scss";
 
 interface SummaryTilesProps {
   totals: Pick<
-    UserDetailsUser,
+    InputFilesSummary,
     "totalSamples" | "totalInputFiles" | "totalInputFilesSize"
   >;
 }

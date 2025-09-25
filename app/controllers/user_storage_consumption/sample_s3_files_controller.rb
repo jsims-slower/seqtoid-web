@@ -2,7 +2,7 @@ module UserStorageConsumption
   class SampleS3FilesController < BaseController
     before_action :set_user
 
-    # GET /user_storage_consumption/users/:user_id/sample_s3
+    # GET /user_storage_consumption/users/:user_id/sample_s3_files
     def index
       stats = query_service.user_sample_s3_stats(@user.id)
       @user_details = format_user_for_sample_s3(@user, stats)

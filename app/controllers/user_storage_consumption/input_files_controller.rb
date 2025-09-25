@@ -1,11 +1,11 @@
 module UserStorageConsumption
-  class UsersController < BaseController
+  class InputFilesController < BaseController
     before_action :set_user
 
-    # GET /user_storage_consumption/users/:id
+    # GET /user_storage_consumption/users/:user_id/input_files
     def show
       stats = query_service.user_stats(@user.id)
-      @user_details = format_user_for_show(@user, stats)
+      @input_files_summary = format_summary(@user, stats)
 
       samples = query_service.paginated_samples(@user, params[:page])
       @sample_file_rows = format_sample_file_rows(samples)
@@ -16,10 +16,10 @@ module UserStorageConsumption
     private
 
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(params[:user_id])
     end
 
-    def format_user_for_show(user, stats)
+    def format_summary(user, stats)
       {
         id: user.id,
         email: user.email,

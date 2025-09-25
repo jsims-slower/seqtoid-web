@@ -1,4 +1,4 @@
-export interface UserDetailsUser {
+export interface InputFilesSummary {
   id: number;
   email: string;
   name: string;
@@ -19,8 +19,8 @@ export interface SampleFileRow {
   sourceType: string | null;
 }
 
-export interface UserStorageConsumptionUserDetailsProps {
-  user: UserDetailsUser;
+export interface UserStorageConsumptionInputFilesProps {
+  summary: InputFilesSummary;
   sampleFileRows: SampleFileRow[];
   page: number;
   perPage: number;
