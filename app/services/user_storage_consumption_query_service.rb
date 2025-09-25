@@ -1,21 +1,27 @@
 class UserStorageConsumptionQueryService
-  SORTABLE_COLUMNS = Set["samples_count", "input_files_count", "total_input_files_size"].freeze
+  SORTABLE_COLUMNS = Set[
+    "samples_count",
+    "input_files_count",
+    "total_input_files_size",
+    "sample_s3_files_count",
+    "total_sample_s3_size",
+  ].freeze
 
   def consumption_stats
     total_users = User.count
     total_samples = Sample.count
     total_input_files = InputFile.count
     total_input_files_size = InputFile.sum(:storage_size)
-    average_size = total_input_files.positive? ? (total_input_files_size.to_f / total_input_files) : 0
-    average_files_per_user = total_users.positive? ? (total_input_files.to_f / total_users) : 0
+    total_s3_files = SampleS3File.count
+    total_s3_files_size = SampleS3File.sum(:size)
 
     {
       total_users: total_users,
       total_samples: total_samples,
       total_input_files: total_input_files,
       total_input_files_size: total_input_files_size,
-      average_size: average_size,
-      average_files_per_user: average_files_per_user,
+      total_s3_files: total_s3_files,
+      total_s3_files_size: total_s3_files_size,
     }
   end
 
@@ -39,16 +45,53 @@ class UserStorageConsumptionQueryService
   end
 
   def paginated_users(query:, page:, sort_by: nil, sort_dir: nil)
+    samples_join = <<~SQL
+      LEFT JOIN (
+        SELECT
+          samples.user_id AS user_id,
+          COUNT(samples.id) AS samples_count
+        FROM samples
+        GROUP BY samples.user_id
+      ) sample_stats ON sample_stats.user_id = users.id
+    SQL
+
+    input_files_join = <<~SQL
+      LEFT JOIN (
+        SELECT
+          samples.user_id AS user_id,
+          COUNT(input_files.id) AS input_files_count,
+          COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size
+        FROM input_files
+        INNER JOIN samples ON samples.id = input_files.sample_id
+        GROUP BY samples.user_id
+      ) input_file_stats ON input_file_stats.user_id = users.id
+    SQL
+
+    sample_s3_join = <<~SQL
+      LEFT JOIN (
+        SELECT
+          samples.user_id AS user_id,
+          COUNT(sample_s3_files.id) AS sample_s3_files_count,
+          COALESCE(SUM(sample_s3_files.size), 0) AS total_sample_s3_size
+        FROM sample_s3_files
+        INNER JOIN samples ON samples.id = sample_s3_files.sample_id
+        GROUP BY samples.user_id
+      ) sample_s3_stats ON sample_s3_stats.user_id = users.id
+    SQL
+
     scope = User
             .search_by(query)
-            .left_joins(samples: :input_files)
+            .joins(samples_join)
+            .joins(input_files_join)
+            .joins(sample_s3_join)
             .select(
               "users.*",
-              "COUNT(DISTINCT samples.id) AS samples_count",
-              "COUNT(DISTINCT input_files.id) AS input_files_count",
-              "COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size"
+              "COALESCE(sample_stats.samples_count, 0) AS samples_count",
+              "COALESCE(input_file_stats.input_files_count, 0) AS input_files_count",
+              "COALESCE(input_file_stats.total_input_files_size, 0) AS total_input_files_size",
+              "COALESCE(sample_s3_stats.sample_s3_files_count, 0) AS sample_s3_files_count",
+              "COALESCE(sample_s3_stats.total_sample_s3_size, 0) AS total_sample_s3_size"
             )
-            .group("users.id")
 
     if SORTABLE_COLUMNS.include?(sort_by)
       direction = sort_dir == "asc" ? "ASC" : "DESC"

@@ -28,8 +28,8 @@ module UserStorageConsumption
       @total_samples = consumption_stats[:total_samples]
       @total_input_files = consumption_stats[:total_input_files]
       @total_input_files_size = number_to_human_size(consumption_stats[:total_input_files_size])
-      @average_file_size = number_to_human_size(consumption_stats[:average_size])
-      @average_files_per_user = format('%.2f', consumption_stats[:average_files_per_user])
+      @total_sample_s3_files = consumption_stats[:total_s3_files]
+      @total_sample_s3_storage_size = number_to_human_size(consumption_stats[:total_s3_files_size])
       @snapshot_data = format_snapshot_data(query_service.snapshots)
     end
 
@@ -49,6 +49,8 @@ module UserStorageConsumption
           sampleCount: u.attributes["samples_count"].to_i,
           inputFileCount: u.attributes["input_files_count"].to_i,
           totalInputFilesSize: number_to_human_size(u.attributes["total_input_files_size"].to_i),
+          sampleS3FileCount: u.attributes["sample_s3_files_count"].to_i,
+          totalSampleS3StorageSize: number_to_human_size(u.attributes["total_sample_s3_size"].to_i),
         }
       end
     end

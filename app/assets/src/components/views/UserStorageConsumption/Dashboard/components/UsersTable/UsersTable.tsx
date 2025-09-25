@@ -34,6 +34,18 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, sortBy, sortDir }) => (
           sortBy={sortBy}
           sortDir={sortDir}
         />
+        <SortableHeader
+          columnKey="sample_s3_files_count"
+          columnLabel="Sample S3 Files"
+          sortBy={sortBy}
+          sortDir={sortDir}
+        />
+        <SortableHeader
+          columnKey="total_sample_s3_size"
+          columnLabel="Sample S3 Storage"
+          sortBy={sortBy}
+          sortDir={sortDir}
+        />
         <th>Action</th>
       </tr>
     </thead>
@@ -45,6 +57,8 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, sortBy, sortDir }) => (
         sampleCount,
         inputFileCount,
         totalInputFilesSize,
+        sampleS3FileCount,
+        totalSampleS3StorageSize,
       }) => (
         <tbody key={id}>
           <tr>
@@ -54,6 +68,8 @@ const UsersTable: React.FC<UsersTableProps> = ({ users, sortBy, sortDir }) => (
             <td>{sampleCount}</td>
             <td>{inputFileCount}</td>
             <td>{totalInputFilesSize}</td>
+            <td>{sampleS3FileCount}</td>
+            <td>{totalSampleS3StorageSize}</td>
             <td>
               <a
                 href={`/user_storage_consumption/users/${id}`}

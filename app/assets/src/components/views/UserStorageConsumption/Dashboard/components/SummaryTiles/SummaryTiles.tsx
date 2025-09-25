@@ -9,8 +9,8 @@ interface SummaryTilesProps {
   totalSamples: number;
   totalInputFiles: number;
   totalInputFilesSize: string;
-  averageFileSize: string;
-  averageFilesPerUser: string;
+  totalSampleS3Files: number;
+  totalSampleS3StorageSize: string;
   flaggedFilesCount: number;
   snapshotData: DashboardSnapshotDatum[];
 }
@@ -26,8 +26,8 @@ const SummaryTiles: React.FC<SummaryTilesProps> = ({
   totalSamples,
   totalInputFiles,
   totalInputFilesSize,
-  averageFileSize,
-  averageFilesPerUser,
+  totalSampleS3Files,
+  totalSampleS3StorageSize,
   flaggedFilesCount,
   snapshotData,
 }) => {
@@ -99,12 +99,12 @@ const SummaryTiles: React.FC<SummaryTilesProps> = ({
         <ChartTile title="Last 7 Days (MB)" data={inputFilesSizeData} />
       </div>
       <div className={styles.tileItem}>
-        <NumberTile title="Average File Size" value={averageFileSize} />
+        <NumberTile title="Total Sample S3 Files" value={totalSampleS3Files} />
       </div>
       <div className={styles.tileItem}>
         <NumberTile
-          title="Average Files per User"
-          value={averageFilesPerUser}
+          title="Sample S3 Storage"
+          value={totalSampleS3StorageSize}
         />
       </div>
       <div className={styles.tileItem}>

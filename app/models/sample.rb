@@ -22,6 +22,7 @@ class Sample < ApplicationRecord
   has_many :pipeline_runs, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :backgrounds, through: :pipeline_runs
   has_many :input_files, dependent: :destroy
+  has_many :sample_s3_files, dependent: :destroy
   accepts_nested_attributes_for :input_files
   validates_associated :input_files
   has_many :metadata, dependent: :destroy

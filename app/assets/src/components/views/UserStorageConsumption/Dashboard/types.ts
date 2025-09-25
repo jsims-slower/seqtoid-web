@@ -5,6 +5,8 @@ export interface DashboardUser {
   sampleCount: number;
   inputFileCount: number;
   totalInputFilesSize: string;
+  sampleS3FileCount: number;
+  totalSampleS3StorageSize: string;
 }
 
 export interface DashboardSnapshotDatum {
@@ -27,8 +29,8 @@ export interface UserStorageConsumptionDashboardProps {
   totalSamples: number;
   totalInputFiles: number;
   totalInputFilesSize: string;
-  averageFileSize: string;
-  averageFilesPerUser: string;
+  totalSampleS3Files: number;
+  totalSampleS3StorageSize: string;
   flaggedFilesCount: number;
   snapshotData: DashboardSnapshotDatum[];
 }

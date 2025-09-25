@@ -20,8 +20,8 @@ export const UserStorageConsumptionDashboard: React.FC<
   totalSamples,
   totalInputFiles,
   totalInputFilesSize,
-  averageFileSize,
-  averageFilesPerUser,
+  totalSampleS3Files,
+  totalSampleS3StorageSize,
   flaggedFilesCount,
   snapshotData,
 }) => {
@@ -38,8 +38,8 @@ export const UserStorageConsumptionDashboard: React.FC<
         totalSamples={totalSamples}
         totalInputFiles={totalInputFiles}
         totalInputFilesSize={totalInputFilesSize}
-        averageFileSize={averageFileSize}
-        averageFilesPerUser={averageFilesPerUser}
+        totalSampleS3Files={totalSampleS3Files}
+        totalSampleS3StorageSize={totalSampleS3StorageSize}
         flaggedFilesCount={flaggedFilesCount}
         snapshotData={snapshotData}
       />

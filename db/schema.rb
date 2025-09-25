@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_18_023700) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_25_090019) do
   create_table "accession_coverage_stats", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.bigint "pipeline_run_id", null: false, comment: "The id of the pipeline run the coverage stats were generated from"
     t.string "accession_id", null: false, comment: "The NCBI GenBank id of the accession the coverage stats were created for"
@@ -577,6 +577,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_18_023700) do
     t.index ["user_id"], name: "index_projects_users_on_user_id"
   end
 
+  create_table "sample_s3_files", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
+    t.bigint "sample_id", null: false
+    t.string "key", null: false
+    t.string "display_name", null: false
+    t.bigint "size", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sample_id", "key"], name: "index_sample_s3_files_on_sample_id_and_key", unique: true
+    t.index ["sample_id"], name: "index_sample_s3_files_on_sample_id"
+  end
+
   create_table "sample_types", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", null: false, comment: "Canonical name of the sample type. This should be immutable after creation. It is used as a key to join with MetadataField sample_type values."
     t.string "group", null: false, comment: "Mutually exclusive grouping of names. Example: \"Organs\"."
@@ -908,6 +919,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_18_023700) do
   add_foreign_key "pipeline_runs", "samples", name: "pipeline_runs_sample_id_fk"
   add_foreign_key "projects_users", "projects", name: "projects_users_project_id_fk"
   add_foreign_key "projects_users", "users", name: "projects_users_user_id_fk"
+  add_foreign_key "sample_s3_files", "samples"
   add_foreign_key "samples", "host_genomes", name: "samples_host_genome_id_fk"
   add_foreign_key "samples", "projects", name: "samples_project_id_fk"
   add_foreign_key "samples", "users", name: "samples_user_id_fk"
