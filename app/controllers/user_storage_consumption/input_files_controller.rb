@@ -31,31 +31,31 @@ module UserStorageConsumption
     end
 
     def format_sample_file_rows(samples)
-      samples.flat_map { |sample| format_files_for_sample(sample) }
+      samples.map { |sample| format_sample_data(sample) }
     end
 
-    def format_files_for_sample(sample)
-      base_data = {
+    def format_sample_data(sample)
+      input_files = sample.input_files.map { |file| format_file_data(file) }
+      total_size_bytes = sample.input_files.sum { |file| file.storage_size.to_i }
+
+      {
         sampleId: sample.id,
         sampleName: sample.name.to_s,
         projectName: sample.project&.name.to_s,
         sampleCreatedAt: sample.created_at.strftime("%Y-%m-%d"),
+        totalInputFiles: sample.input_files.size,
+        totalInputFilesSize: number_to_human_size(total_size_bytes),
+        inputFiles: input_files,
       }
-
-      if sample.input_files.any?
-        sample.input_files.map { |file| base_data.merge(format_file_data(file)) }
-      else
-        [base_data.merge(format_file_data(nil))]
-      end
     end
 
     def format_file_data(file)
       {
-        fileId: file&.id,
-        fileName: file&.name,
-        fileType: file&.file_type,
-        fileSize: file&.storage_size ? number_to_human_size(file.storage_size) : nil,
-        sourceType: file&.source_type,
+        fileId: file.id,
+        fileName: file.name,
+        fileType: file.file_type,
+        fileSize: file.storage_size ? number_to_human_size(file.storage_size) : nil,
+        sourceType: file.source_type,
       }
     end
   end

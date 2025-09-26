@@ -7,18 +7,24 @@ export interface SampleS3DetailsUser {
   totalSampleS3Size: string;
 }
 
-export interface SampleS3FileRow {
-  sampleId: number;
-  sampleName: string;
-  projectName: string;
-  sampleCreatedAt: string;
+export interface SampleS3File {
   displayName: string | null;
   fileSize: string | null;
 }
 
+export interface SampleS3Row {
+  sampleId: number;
+  sampleName: string;
+  projectName: string;
+  sampleCreatedAt: string;
+  totalSampleS3Files: number;
+  totalSampleS3FilesSize: string;
+  sampleS3Files: SampleS3File[];
+}
+
 export interface UserStorageConsumptionSampleS3DetailsProps {
   user: SampleS3DetailsUser;
-  sampleS3FileRows: SampleS3FileRow[];
+  sampleS3FileRows: SampleS3Row[];
   page: number;
   perPage: number;
   totalCount: number;

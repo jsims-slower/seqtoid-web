@@ -31,28 +31,28 @@ module UserStorageConsumption
     end
 
     def format_sample_s3_file_rows(samples)
-      samples.flat_map { |sample| format_sample_s3_files_for_sample(sample) }
+      samples.map { |sample| format_sample_s3_data(sample) }
     end
 
-    def format_sample_s3_files_for_sample(sample)
-      base_data = {
+    def format_sample_s3_data(sample)
+      s3_files = sample.sample_s3_files.map { |file| format_sample_s3_file_data(file) }
+      total_size_bytes = sample.sample_s3_files.sum { |file| file.size.to_i }
+
+      {
         sampleId: sample.id,
         sampleName: sample.name.to_s,
         projectName: sample.project&.name.to_s,
         sampleCreatedAt: sample.created_at.strftime("%Y-%m-%d"),
+        totalSampleS3Files: sample.sample_s3_files.size,
+        totalSampleS3FilesSize: number_to_human_size(total_size_bytes),
+        sampleS3Files: s3_files,
       }
-
-      if sample.sample_s3_files.any?
-        sample.sample_s3_files.map { |file| base_data.merge(format_sample_s3_file_data(file)) }
-      else
-        [base_data.merge(format_sample_s3_file_data(nil))]
-      end
     end
 
     def format_sample_s3_file_data(file)
       {
-        displayName: file&.display_name,
-        fileSize: file&.size ? number_to_human_size(file.size) : nil,
+        displayName: file.display_name,
+        fileSize: file.size ? number_to_human_size(file.size) : nil,
       }
     end
   end

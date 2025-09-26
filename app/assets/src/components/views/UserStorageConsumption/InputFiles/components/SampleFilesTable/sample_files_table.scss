@@ -18,6 +18,8 @@
 .thSampleId,
 .thSampleName,
 .thCreatedAt,
+.thTotalFiles,
+.thTotalSize,
 .thFileId,
 .thFileName,
 .thFileType,
@@ -45,13 +47,40 @@
 
 .tdSampleName {
   min-width: 12rem;
+  max-width: 25rem;
+  width: 25rem;
+}
+
+.sampleName,
+.projectName {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tdSampleId,
 .tdCreatedAt,
+.tdTotalFiles,
+.tdTotalSize,
 .tdFileId,
 .tdFileType,
 .tdFileSize,
 .tdSourceType {
   vertical-align: top;
+}
+
+.tdFileName {
+  min-width: 12rem;
+  max-width: 25rem;
+  width: 25rem;
+  white-space: nowrap;
+}
+
+.fileName {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

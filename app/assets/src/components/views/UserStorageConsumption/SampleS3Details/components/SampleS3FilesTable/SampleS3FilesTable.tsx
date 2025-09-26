@@ -1,24 +1,15 @@
 import React from "react";
-import { SampleS3FileRow } from "~/components/views/UserStorageConsumption/SampleS3Details/types";
+import {
+  SampleS3File,
+  SampleS3Row,
+} from "~/components/views/UserStorageConsumption/SampleS3Details/types";
 import styles from "./sample_s3_files_table.scss";
 
 interface SampleS3FilesTableProps {
-  rows: SampleS3FileRow[];
+  rows: SampleS3Row[];
 }
 
 const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({ rows }) => {
-  const groupedBySample = rows.reduce<Record<number, SampleS3FileRow[]>>(
-    (accumulator, row) => {
-      const group = accumulator[row.sampleId] || [];
-      group.push(row);
-      accumulator[row.sampleId] = group;
-      return accumulator;
-    },
-    {},
-  );
-
-  const sampleIds = Object.keys(groupedBySample).map(Number);
-
   return (
     <table className={styles.table}>
       <thead>
@@ -26,46 +17,70 @@ const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({ rows }) => {
           <th className={styles.thSampleId}>Sample ID</th>
           <th className={styles.thSampleName}>Sample Name</th>
           <th className={styles.thCreatedAt}>Created At</th>
+          <th className={styles.thTotalFiles}>Total Files</th>
+          <th className={styles.thTotalSize}>Total Size</th>
           <th className={styles.thDisplayName}>Display Name</th>
           <th className={styles.thFileSize}>File Size</th>
         </tr>
       </thead>
-      {sampleIds.map(sampleId => {
-        const sampleRows = groupedBySample[sampleId];
+      {rows.map(sample => {
+        const hasFiles = sample.sampleS3Files.length > 0;
+        const s3Files: Array<SampleS3File | null> = hasFiles
+          ? sample.sampleS3Files
+          : [null];
+        const rowSpan = Math.max(sample.sampleS3Files.length, 1);
+        const sampleName = sample.sampleName || "N/A";
+        const projectName = sample.projectName || "N/A";
 
         return (
-          <tbody key={sampleId}>
-            {sampleRows.map((row, index) => (
-              <tr key={`${row.sampleId}-${index}`}>
-                {index === 0 && (
-                  <td rowSpan={sampleRows.length} className={styles.tdSampleId}>
-                    {row.sampleId}
-                  </td>
-                )}
-                {index === 0 && (
-                  <td
-                    rowSpan={sampleRows.length}
-                    className={styles.tdSampleName}
-                  >
-                    <span className={styles.sampleName}>{row.sampleName}</span>
-                    <br />
-                    <span className={styles.projectName}>
-                      Project: {row.projectName}
+          <tbody key={sample.sampleId}>
+            {s3Files.map((file, index) => {
+              const displayName = file?.displayName ?? "N/A";
+
+              return (
+                <tr key={`${sample.sampleId}-${index}`}>
+                  {index === 0 && (
+                    <td rowSpan={rowSpan} className={styles.tdSampleId}>
+                      {sample.sampleId}
+                    </td>
+                  )}
+                  {index === 0 && (
+                    <td rowSpan={rowSpan} className={styles.tdSampleName}>
+                      <span className={styles.sampleName} title={sampleName}>
+                        {sampleName}
+                      </span>
+                      <br />
+                      <span className={styles.projectName} title={projectName}>
+                        Project: {projectName}
+                      </span>
+                    </td>
+                  )}
+                  {index === 0 && (
+                    <td rowSpan={rowSpan} className={styles.tdCreatedAt}>
+                      {sample.sampleCreatedAt}
+                    </td>
+                  )}
+                  {index === 0 && (
+                    <td rowSpan={rowSpan} className={styles.tdTotalFiles}>
+                      {sample.totalSampleS3Files}
+                    </td>
+                  )}
+                  {index === 0 && (
+                    <td rowSpan={rowSpan} className={styles.tdTotalSize}>
+                      {sample.totalSampleS3FilesSize}
+                    </td>
+                  )}
+                  <td className={styles.tdDisplayName}>
+                    <span className={styles.displayName} title={displayName}>
+                      {displayName}
                     </span>
                   </td>
-                )}
-                {index === 0 && (
-                  <td
-                    rowSpan={sampleRows.length}
-                    className={styles.tdCreatedAt}
-                  >
-                    {row.sampleCreatedAt}
+                  <td className={styles.tdFileSize}>
+                    {file?.fileSize ?? "N/A"}
                   </td>
-                )}
-                <td className={styles.tdDisplayName}>{row.displayName ?? "N/A"}</td>
-                <td className={styles.tdFileSize}>{row.fileSize ?? "N/A"}</td>
-              </tr>
-            ))}
+                </tr>
+              );
+            })}
           </tbody>
         );
       })}

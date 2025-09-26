@@ -18,6 +18,8 @@
 .thSampleId,
 .thSampleName,
 .thCreatedAt,
+.thTotalFiles,
+.thTotalSize,
 .thDisplayName,
 .thFileSize {
   font-weight: 700;
@@ -32,22 +34,41 @@
   font-size: 0.875rem;
   color: $sds-color-gray-500;
   font-style: italic;
-  display: block;
+  display: inline-block;
   margin-top: 0.125rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tdSampleName {
   min-width: 12rem;
+  max-width: 25rem;
+  width: 25rem;
 }
 
 .tdSampleId,
 .tdCreatedAt,
+.tdTotalFiles,
+.tdTotalSize,
 .tdDisplayName,
 .tdFileSize {
   vertical-align: top;
 }
 
 .tdDisplayName {
-  font-family: "Andale Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
-  word-break: break-all;
+  min-width: 40rem;
+  max-width: 60rem;
+  width: 60rem;
+  white-space: nowrap;
+}
+
+.sampleName,
+.displayName {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
