@@ -3,7 +3,6 @@
     user: JSON.parse('<%= raw escape_json(@user_details) %>'),
     sampleS3FileRows: JSON.parse('<%= raw escape_json(@sample_s3_file_rows) %>'),
     page: JSON.parse('<%= raw escape_json(@page) %>'),
-    perPage: JSON.parse('<%= raw escape_json(@per_page) %>'),
-    totalCount: JSON.parse('<%= raw escape_json(@total_count) %>')
+    totalPages: JSON.parse('<%= raw escape_json(@total_pages) %>')
   }, 'page_content');
 <% end %>

@@ -11,8 +11,7 @@ export const UserStorageConsumptionDashboard: React.FC<
 > = ({
   users,
   page,
-  perPage,
-  totalCount,
+  totalPages,
   searchBy,
   sortBy,
   sortDir,
@@ -50,8 +49,7 @@ export const UserStorageConsumptionDashboard: React.FC<
 
       <Pagination
         page={page}
-        perPage={perPage}
-        totalCount={totalCount}
+        totalPages={totalPages}
         baseUrl="/user_storage_consumption"
       />
     </div>

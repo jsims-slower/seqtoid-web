@@ -27,6 +27,5 @@ export interface UserStorageConsumptionSampleS3DetailsProps {
   user: SampleS3DetailsUser;
   sampleS3FileRows: SampleS3Row[];
   page: number;
-  perPage: number;
-  totalCount: number;
+  totalPages: number;
 }

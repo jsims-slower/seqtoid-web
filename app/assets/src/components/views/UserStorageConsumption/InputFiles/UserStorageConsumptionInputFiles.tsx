@@ -7,7 +7,7 @@ import { UserStorageConsumptionInputFilesProps } from "./types";
 
 export const UserStorageConsumptionInputFiles: React.FC<
   UserStorageConsumptionInputFilesProps
-> = ({ summary, sampleFileRows, page, perPage, totalCount }) => {
+> = ({ summary, sampleFileRows, page, totalPages }) => {
   const {
     id,
     email,
@@ -47,8 +47,7 @@ export const UserStorageConsumptionInputFiles: React.FC<
       <SampleFilesTable rows={sampleFileRows} />
       <Pagination
         page={page}
-        perPage={perPage}
-        totalCount={totalCount}
+        totalPages={totalPages}
         baseUrl={`/user_storage_consumption/users/${id}/input_files`}
       />
     </div>

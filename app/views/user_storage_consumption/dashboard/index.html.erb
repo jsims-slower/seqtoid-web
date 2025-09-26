@@ -2,8 +2,7 @@
   react_component("UserStorageConsumptionDashboard", {
     users: JSON.parse('<%= raw escape_json(@users_data) %>'),
     page: JSON.parse('<%= raw escape_json(@page) %>'),
-    perPage: JSON.parse('<%= raw escape_json(@per_page) %>'),
-    totalCount: JSON.parse('<%= raw escape_json(@total_count) %>'),
+    totalPages: JSON.parse('<%= raw escape_json(@total_pages) %>'),
     searchBy: JSON.parse('<%= raw escape_json(@search_by) %>'),
     sortBy: JSON.parse('<%= raw escape_json(@sort_by) %>'),
     sortDir: JSON.parse('<%= raw escape_json(@sort_dir) %>'),

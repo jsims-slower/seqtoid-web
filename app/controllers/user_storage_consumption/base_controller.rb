@@ -8,8 +8,7 @@ module UserStorageConsumption
 
     def assign_pagination_data(scope)
       @page = scope.current_page
-      @per_page = scope.limit_value
-      @total_count = scope.total_count
+      @total_pages = scope.total_pages
     end
 
     def query_service

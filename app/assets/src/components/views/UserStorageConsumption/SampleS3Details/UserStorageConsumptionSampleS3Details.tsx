@@ -7,7 +7,7 @@ import { UserStorageConsumptionSampleS3DetailsProps } from "./types";
 
 export const UserStorageConsumptionSampleS3Details: React.FC<
   UserStorageConsumptionSampleS3DetailsProps
-> = ({ user, sampleS3FileRows, page, perPage, totalCount }) => {
+> = ({ user, sampleS3FileRows, page, totalPages }) => {
   const {
     id,
     email,
@@ -49,8 +49,7 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
       <SampleS3FilesTable userId={id} rows={sampleS3FileRows} />
       <Pagination
         page={page}
-        perPage={perPage}
-        totalCount={totalCount}
+        totalPages={totalPages}
         baseUrl={`/user_storage_consumption/users/${id}/sample_s3_files`}
       />
     </div>

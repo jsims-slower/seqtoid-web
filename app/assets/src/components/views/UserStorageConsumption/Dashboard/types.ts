@@ -20,8 +20,7 @@ export interface DashboardSnapshotDatum {
 export interface UserStorageConsumptionDashboardProps {
   users: DashboardUser[];
   page: number;
-  perPage: number;
-  totalCount: number;
+  totalPages: number;
   searchBy?: string;
   sortBy?: string;
   sortDir?: string;

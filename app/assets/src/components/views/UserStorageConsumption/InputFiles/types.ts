@@ -29,6 +29,5 @@ export interface UserStorageConsumptionInputFilesProps {
   summary: InputFilesSummary;
   sampleFileRows: SampleFileRow[];
   page: number;
-  perPage: number;
-  totalCount: number;
+  totalPages: number;
 }
