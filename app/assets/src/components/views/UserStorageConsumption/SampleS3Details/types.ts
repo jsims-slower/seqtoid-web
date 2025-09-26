@@ -20,6 +20,7 @@ export interface SampleS3Row {
   totalSampleS3Files: number;
   totalSampleS3FilesSize: string;
   sampleS3Files: SampleS3File[];
+  nextPage: number | null;
 }
 
 export interface UserStorageConsumptionSampleS3DetailsProps {

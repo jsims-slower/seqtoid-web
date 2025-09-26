@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
+import { fetchSampleS3FilesChunk } from "~/api/userStorageConsumption";
 import {
   SampleS3File,
   SampleS3Row,
@@ -7,9 +8,95 @@ import styles from "./sample_s3_files_table.scss";
 
 interface SampleS3FilesTableProps {
   rows: SampleS3Row[];
+  userId: number;
 }
 
-const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({ rows }) => {
+interface SampleRowState {
+  files: SampleS3File[];
+  nextPage: number | null;
+  loading: boolean;
+}
+
+const buildInitialState = (rows: SampleS3Row[]) =>
+  rows.reduce((accumulator, row) => {
+    accumulator[row.sampleId] = {
+      files: row.sampleS3Files ?? [],
+      nextPage: row.nextPage ?? null,
+      loading: false,
+    };
+    return accumulator;
+  }, {});
+
+const defaultState: SampleRowState = {
+  files: [],
+  nextPage: null,
+  loading: false,
+};
+
+const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({
+  rows,
+  userId,
+}) => {
+  const [sampleStates, setSampleStates] = React.useState(() =>
+    buildInitialState(rows),
+  );
+
+  useEffect(() => {
+    setSampleStates(buildInitialState(rows));
+  }, [rows]);
+
+  const handleShowMore = useCallback(
+    async (sampleId: number) => {
+      const currentState = sampleStates[sampleId] ?? defaultState;
+
+      if (currentState.loading || currentState.nextPage === null) {
+        return;
+      }
+
+      setSampleStates(previous => ({
+        ...previous,
+        [sampleId]: {
+          ...(previous[sampleId] ?? defaultState),
+          loading: true,
+        },
+      }));
+
+      try {
+        const response = await fetchSampleS3FilesChunk({
+          userId,
+          sampleId,
+          page: currentState.nextPage,
+        });
+
+        setSampleStates(previous => {
+          const prior = previous[sampleId] ?? defaultState;
+          return {
+            ...previous,
+            [sampleId]: {
+              files: [...prior.files, ...response.sampleS3Files],
+              nextPage: response.nextPage,
+              loading: false,
+            },
+          };
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to load more sample S3 files", error);
+        setSampleStates(previous => {
+          const prior = previous[sampleId] ?? defaultState;
+          return {
+            ...previous,
+            [sampleId]: {
+              ...prior,
+              loading: false,
+            },
+          };
+        });
+      }
+    },
+    [sampleStates, userId],
+  );
+
   return (
     <table className={styles.table}>
       <thead>
@@ -24,17 +111,19 @@ const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({ rows }) => {
         </tr>
       </thead>
       {rows.map(sample => {
-        const hasFiles = sample.sampleS3Files.length > 0;
-        const s3Files: Array<SampleS3File | null> = hasFiles
-          ? sample.sampleS3Files
+        const state = sampleStates[sample.sampleId] ?? defaultState;
+        const hasFiles = state.files.length > 0;
+        const displayFiles: Array<SampleS3File | null> = hasFiles
+          ? state.files
           : [null];
-        const rowSpan = Math.max(sample.sampleS3Files.length, 1);
+        const hasNextPage = state.nextPage !== null;
+        const rowSpan = displayFiles.length + (hasNextPage ? 1 : 0);
         const sampleName = sample.sampleName || "N/A";
         const projectName = sample.projectName || "N/A";
 
         return (
           <tbody key={sample.sampleId}>
-            {s3Files.map((file, index) => {
+            {displayFiles.map((file, index) => {
               const displayName = file?.displayName ?? "N/A";
 
               return (
@@ -81,6 +170,20 @@ const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({ rows }) => {
                 </tr>
               );
             })}
+            {hasNextPage && (
+              <tr key={`${sample.sampleId}-show-more`}>
+                <td colSpan={2} className={styles.tdShowMore}>
+                  <button
+                    type="button"
+                    className={styles.showMoreButton}
+                    onClick={() => handleShowMore(sample.sampleId)}
+                    disabled={state.loading}
+                  >
+                    {state.loading ? "Loading…" : "Show more"}
+                  </button>
+                </td>
+              </tr>
+            )}
           </tbody>
         );
       })}

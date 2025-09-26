@@ -20,7 +20,10 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
   if (!sampleS3FileRows || sampleS3FileRows.length === 0) {
     return (
       <div className={cs.emptyState}>
-        User has no sample S3 files. <a href={`/user_storage_consumption/users/${id}/sample_s3_files`}>Retry</a>
+        User has no sample S3 files.{" "}
+        <a href={`/user_storage_consumption/users/${id}/sample_s3_files`}>
+          Retry
+        </a>
       </div>
     );
   }
@@ -43,7 +46,7 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
         }}
       />
 
-      <SampleS3FilesTable rows={sampleS3FileRows} />
+      <SampleS3FilesTable userId={id} rows={sampleS3FileRows} />
       <Pagination
         page={page}
         perPage={perPage}
