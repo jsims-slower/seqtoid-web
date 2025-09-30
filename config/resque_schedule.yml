@@ -31,8 +31,8 @@ ClearFailedResqueJobs:
   queue: clear_resque_failure_queue
   description: "This job clears the Resque failure queue of failed jobs every week"
 
-CaptureUserStorageConsumptionSnapshotJob:
+UserStorageConsumptionCaptureSnapshot:
   cron: "50 11 * * *" # 11:50am PT daily
-  class: "CaptureUserStorageConsumptionSnapshotJob"
+  class: "UserStorageConsumption::CaptureSnapshotJob"
   queue: "capture_user_storage_consumption_snapshot"
   description: "Capture a snapshot of user storage consumption."

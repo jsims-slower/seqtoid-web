@@ -12,7 +12,7 @@ module UserStorageConsumption
     end
 
     def query_service
-      @query_service ||= UserStorageConsumptionQueryService.new
+      @query_service ||= UserStorageConsumption::QueryService.new
     end
 
     def parse_float_param(value, default)
