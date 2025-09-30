@@ -12,7 +12,7 @@ class UpdateInputFileStorageSizeJob
   @retry_delay = 5.minutes
   @retry_exceptions = [InputFileNotReadyError]
 
-  def self.perform(input_file_id)
+  def self.perform(input_file_id, batch_id = nil)
     input_file = InputFile.find(input_file_id)
 
     unless input_file.s3_presence_check
@@ -22,7 +22,16 @@ class UpdateInputFileStorageSizeJob
     bucket, key = S3Util.parse_s3_path(input_file.s3_path)
     file_size = S3Util.get_file_size(bucket, key)
     input_file.update(storage_size: file_size)
+    track_batch_progress(batch_id, input_file_id, success: true)
+  rescue InputFileNotReadyError => e
+    LogUtil.log_error(
+      "UpdateInputFileStorageSizeJob: Failed to update storage_size for InputFile #{input_file_id}: #{e.message}",
+      exception: e,
+      input_file_id: input_file_id
+    )
+    raise
   rescue StandardError => e
+    track_batch_progress(batch_id, input_file_id, success: false)
     LogUtil.log_error(
       "UpdateInputFileStorageSizeJob: Failed to update storage_size for InputFile #{input_file_id}: #{e.message}",
       exception: e,
@@ -30,4 +39,20 @@ class UpdateInputFileStorageSizeJob
     )
     raise
   end
+
+  def self.track_batch_progress(batch_id, input_file_id, success:)
+    return unless batch_id
+
+    UserStorageConsumption::RefreshBatchProgressUpdater.call(batch_id, success: success)
+  rescue StandardError => e
+    LogUtil.log_error(
+      "UpdateInputFileStorageSizeJob: Failed to update batch progress",
+      exception: e,
+      input_file_id: input_file_id,
+      batch_id: batch_id,
+      success: success
+    )
+  end
+
+  private_class_method :track_batch_progress
 end

@@ -1,6 +1,7 @@
 import React from "react";
 import ChartTile from "~/components/common/UserStorageConsumption/ChartTile";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
+import RefreshBatchTile from "../RefreshBatchTile";
 import { DashboardSnapshotDatum } from "~/components/views/UserStorageConsumption/Dashboard/types";
 import styles from "./summary_tiles.scss";
 
@@ -117,6 +118,23 @@ const SummaryTiles: React.FC<SummaryTilesProps> = ({
           }}
           variant="warning"
         />
+      </div>
+      <div className={styles.tileItem}>
+        <div className={styles.placeholderTile}>
+          <div className={styles.placeholderTitle}>Placeholder</div>
+          <div className={styles.placeholderDescription}>Future metrics will appear here.</div>
+        </div>
+      </div>
+      <div className={`${styles.tileItem} ${styles.tileItemWide}`}>
+        <RefreshBatchTile />
+      </div>
+      <div className={`${styles.tileItem} ${styles.tileItemWide}`}>
+        <div className={styles.placeholderTile}>
+          <div className={styles.placeholderTitle}>Placeholder</div>
+          <div className={styles.placeholderDescription}>
+            Additional storage insights coming soon.
+          </div>
+        </div>
       </div>
     </div>
   );

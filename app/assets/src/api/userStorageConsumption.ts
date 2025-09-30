@@ -1,4 +1,4 @@
-import { get } from "./core";
+import { get, postWithCSRF } from "./core";
 
 export interface SampleS3FilesChunkRequest {
   userId: number;
@@ -25,4 +25,30 @@ export const fetchSampleS3FilesChunk = async ({
       params: { page },
     },
   );
+};
+
+export type RefreshBatchStatus = "pending" | "in_progress" | "completed" | "failed";
+
+export interface RefreshBatch {
+  id: number;
+  status: RefreshBatchStatus;
+  totalJobs: number;
+  processedJobs: number;
+  errorCount: number;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RefreshBatchResponse {
+  batch: RefreshBatch | null;
+}
+
+export const fetchRefreshBatch = async (): Promise<RefreshBatchResponse> => {
+  return get("/user_storage_consumption/refresh_batch");
+};
+
+export const enqueueRefreshBatch = async (): Promise<RefreshBatchResponse> => {
+  return postWithCSRF("/user_storage_consumption/refresh_batch");
 };

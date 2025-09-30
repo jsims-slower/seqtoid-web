@@ -3,7 +3,7 @@ class SyncSampleS3FilesJob
 
   @queue = :sync_sample_s3_files
 
-  def self.perform(sample_id)
+  def self.perform(sample_id, batch_id = nil)
     sample = Sample.find(sample_id)
     prefix = sample.sample_path
     prefix = prefix.end_with?("/") ? prefix : "#{prefix}/"
@@ -25,10 +25,9 @@ class SyncSampleS3FilesJob
     end
 
     upsert_sample_files(sample, s3_objects)
-  rescue ActiveRecord::RecordNotFound => e
-    LogUtil.log_error("SyncSampleS3FilesJob: Sample not found", exception: e, sample_id: sample_id)
-    raise
+    track_batch_progress(batch_id, sample_id, success: true)
   rescue StandardError => e
+    track_batch_progress(batch_id, sample_id, success: false)
     LogUtil.log_error("SyncSampleS3FilesJob: Error syncing sample files", exception: e, sample_id: sample_id)
     raise
   end
@@ -53,4 +52,20 @@ class SyncSampleS3FilesJob
       SampleS3File.import(new_records, validate: true, all_or_none: true)
     end
   end
+
+  def self.track_batch_progress(batch_id, sample_id, success:)
+    return unless batch_id
+
+    UserStorageConsumption::RefreshBatchProgressUpdater.call(batch_id, success: success)
+  rescue StandardError => e
+    LogUtil.log_error(
+      "SyncSampleS3FilesJob: Failed to update batch progress",
+      exception: e,
+      sample_id: sample_id,
+      batch_id: batch_id,
+      success: success
+    )
+  end
+
+  private_class_method :upsert_sample_files, :track_batch_progress
 end

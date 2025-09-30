@@ -1,0 +1,156 @@
+@import "~@czi-sds/components/dist/variables";
+
+.refreshTile {
+  background: $sds-color-primary-100;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  min-width: 14rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title {
+  font-weight: 700;
+  color: $sds-color-gray-600;
+}
+
+.infoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $sds-color-gray-500;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.statusPending {
+  background: $sds-color-warning-200;
+  color: $sds-color-warning-600;
+}
+
+.statusInProgress {
+  background: $sds-color-primary-200;
+  color: $sds-color-primary-600;
+}
+
+.statusCompleted {
+  background: $sds-color-success-200;
+  color: $sds-color-success-600;
+}
+
+.statusFailed {
+  background: $sds-color-error-200;
+  color: $sds-color-error-600;
+}
+
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.progressBarContainer {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.progressBar {
+  width: 100%;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background: rgba($sds-color-primary-400, 0.2);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: $sds-color-primary-500;
+  transition: width 0.3s ease;
+}
+
+.progressValue {
+  font-weight: 600;
+  color: $sds-color-gray-600;
+  margin-bottom: 0.125rem;
+}
+
+.metrics {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.75rem;
+  color: $sds-color-gray-500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.metricValue {
+  font-weight: 600;
+  color: $sds-color-gray-600;
+}
+
+.error {
+  font-size: 0.875rem;
+  color: $sds-color-error-600;
+}
+
+.loading {
+  font-size: 0.875rem;
+  color: $sds-color-gray-500;
+}
+
+.actionButton {
+  width: fit-content;
+}
+
+.reloadButton {
+  width: fit-content;
+}
+
+.reloadNotice {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: $sds-color-gray-500;
+}

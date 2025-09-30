@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_09_25_090019) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_29_083705) do
   create_table "accession_coverage_stats", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.bigint "pipeline_run_id", null: false, comment: "The id of the pipeline run the coverage stats were generated from"
     t.string "accession_id", null: false, comment: "The NCBI GenBank id of the accession the coverage stats were created for"
@@ -808,6 +808,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_25_090019) do
     t.string "serialized_value", comment: "The serialized value of the user setting. The schema of this value (e.g. boolean, number) is determined by the hard-coded data type associated with the key."
     t.index ["user_id", "key"], name: "index_user_settings_on_user_id_and_key", unique: true
     t.index ["user_id"], name: "index_user_settings_on_user_id"
+  end
+
+  create_table "user_storage_consumption_refresh_batches", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
+    t.integer "total_jobs", default: 0, null: false
+    t.integer "processed_jobs", default: 0, null: false
+    t.integer "error_count", default: 0, null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_storage_consumption_snapshots", charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
