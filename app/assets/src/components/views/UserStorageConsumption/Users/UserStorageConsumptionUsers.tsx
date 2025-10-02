@@ -8,7 +8,7 @@ import { UserStorageConsumptionUsersProps } from "./types";
 
 export const UserStorageConsumptionUsers: React.FC<
   UserStorageConsumptionUsersProps
-> = ({ users, page, totalPages, searchBy, sortBy, sortDir, summary }) => (
+> = ({ users, page, totalPages, sortBy, sortDir, summary, filters }) => (
   <div className={cs.wrapper}>
     <div className={cs.header}>
       <a href="/user_storage_consumption" className={cs.backLink}>
@@ -19,7 +19,7 @@ export const UserStorageConsumptionUsers: React.FC<
 
     <SummaryTiles summary={summary} />
 
-    <SearchBar searchBy={searchBy} />
+    <SearchBar filters={filters} />
 
     {users && users.length > 0 ? (
       <>

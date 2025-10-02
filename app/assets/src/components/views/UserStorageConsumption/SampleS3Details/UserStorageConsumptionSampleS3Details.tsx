@@ -31,8 +31,8 @@ export const UserStorageConsumptionSampleS3Details: React.FC<
   return (
     <div className={cs.wrapper}>
       <div className={cs.header}>
-        <a href="/user_storage_consumption" className={cs.backLink}>
-          &#129168; Back to dashboard
+        <a href="/user_storage_consumption/users" className={cs.backLink}>
+          &#129168; Back to users
         </a>
         <h1>
           {name} ({email})

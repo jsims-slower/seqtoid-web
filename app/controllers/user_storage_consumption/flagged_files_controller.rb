@@ -6,7 +6,7 @@ module UserStorageConsumption
 
     # GET /user_storage_consumption/flagged_files
     def index
-      min_size_bytes = (@min_size_mb.to_f * 1.megabyte).to_i
+      min_size_bytes = megabytes_to_bytes(@min_size_mb) || 0
       older_than_timestamp = @older_than_months.positive? ? @older_than_months.months.ago : Time.zone.now
 
       flagged_files = query_service.flagged_files(min_size_bytes, older_than_timestamp, limit: @limit)

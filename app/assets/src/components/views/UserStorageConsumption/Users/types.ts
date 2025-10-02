@@ -16,12 +16,21 @@ export interface UsersSummary {
   averageSampleS3SizePerUserBytes: number;
 }
 
+export interface UsersFilters {
+  keyword?: string;
+  minSamples?: number;
+  minInputFiles?: number;
+  minTotalInputFileSizeMb?: number;
+  minSampleS3Files?: number;
+  minTotalSampleS3StorageMb?: number;
+}
+
 export interface UserStorageConsumptionUsersProps {
   users: UsersPageUser[];
   page: number;
   totalPages: number;
-  searchBy?: string;
   sortBy?: string;
   sortDir?: string;
   summary: UsersSummary;
+  filters?: UsersFilters;
 }

@@ -32,5 +32,11 @@ module UserStorageConsumption
     rescue ArgumentError, TypeError
       default
     end
+
+    def megabytes_to_bytes(value)
+      return if value.blank?
+
+      (value.to_f * 1.megabyte).to_i
+    end
   end
 end

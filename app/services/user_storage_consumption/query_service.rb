@@ -64,8 +64,8 @@ module UserStorageConsumption
       }
     end
 
-    def paginated_users(query:, page:, sort_by: nil, sort_dir: nil)
-      scope = users_stats_scope(query)
+    def paginated_users(page:, sort_by: nil, sort_dir: nil, filters: {})
+      scope = users_stats_scope(filters)
               .select(
                 "users.*",
                 "COALESCE(sample_stats.samples_count, 0) AS samples_count",
@@ -85,8 +85,8 @@ module UserStorageConsumption
       scope.page(page)
     end
 
-    def users_summary(query: nil)
-      scope = users_stats_scope(query)
+    def users_summary(filters: {})
+      scope = users_stats_scope(filters)
 
       total_users = scope.distinct.count(:id)
       average_samples_per_user =
@@ -155,7 +155,7 @@ module UserStorageConsumption
 
     private
 
-    def users_stats_scope(query)
+    def users_stats_scope(filters = {})
       samples_join = <<~SQL
         LEFT JOIN (
           SELECT
@@ -190,11 +190,50 @@ module UserStorageConsumption
         ) sample_s3_stats ON sample_s3_stats.user_id = users.id
       SQL
 
-      User
-        .search_by(query)
-        .joins(samples_join)
-        .joins(input_files_join)
-        .joins(sample_s3_join)
+      keyword = filters[:keyword]
+
+      scope = User
+              .search_by(keyword)
+              .joins(samples_join)
+              .joins(input_files_join)
+              .joins(sample_s3_join)
+
+      if filters[:min_samples].present?
+        scope = scope.where(
+          "COALESCE(sample_stats.samples_count, 0) > ?",
+          filters[:min_samples]
+        )
+      end
+
+      if filters[:min_input_files].present?
+        scope = scope.where(
+          "COALESCE(input_file_stats.input_files_count, 0) > ?",
+          filters[:min_input_files]
+        )
+      end
+
+      if filters[:min_total_input_files_size_bytes].present?
+        scope = scope.where(
+          "COALESCE(input_file_stats.total_input_files_size, 0) > ?",
+          filters[:min_total_input_files_size_bytes]
+        )
+      end
+
+      if filters[:min_sample_s3_files].present?
+        scope = scope.where(
+          "COALESCE(sample_s3_stats.sample_s3_files_count, 0) > ?",
+          filters[:min_sample_s3_files]
+        )
+      end
+
+      if filters[:min_total_sample_s3_size_bytes].present?
+        scope = scope.where(
+          "COALESCE(sample_s3_stats.total_sample_s3_size, 0) > ?",
+          filters[:min_total_sample_s3_size_bytes]
+        )
+      end
+
+      scope
     end
 
     def base_flagged_files_scope(min_size_bytes, older_than_timestamp)
