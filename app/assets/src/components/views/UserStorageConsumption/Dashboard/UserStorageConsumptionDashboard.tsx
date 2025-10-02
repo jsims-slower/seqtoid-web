@@ -1,6 +1,7 @@
 import React from "react";
 import ChartTile from "~/components/common/UserStorageConsumption/ChartTile";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
+import { parseValueWithUnit } from "~/components/common/UserStorageConsumption/NumberTile/utils";
 import cs from "~/components/views/UserStorageConsumption/user_storage_consumption.scss";
 import RefreshBatchTile from "./components/RefreshBatchTile";
 import { UserStorageConsumptionDashboardProps } from "./types";
@@ -24,6 +25,11 @@ export const UserStorageConsumptionDashboard: React.FC<
   flaggedFilesCount,
   snapshotData,
 }) => {
+  const totalInputFilesSizeParsed = parseValueWithUnit(totalInputFilesSize);
+  const totalSampleS3StorageParsed = parseValueWithUnit(
+    totalSampleS3StorageSize,
+  );
+
   const chartLabels = snapshotData.map(datum => datum.snapshotDate);
 
   const usersData = {
@@ -98,7 +104,8 @@ export const UserStorageConsumptionDashboard: React.FC<
         <div className={summaryStyles.tileItem}>
           <NumberTile
             title="Total Input Files Size"
-            value={totalInputFilesSize}
+            value={totalInputFilesSizeParsed.value}
+            unit={totalInputFilesSizeParsed.unit}
           />
           <ChartTile title="Last 7 Days (MB)" data={inputFilesSizeData} />
         </div>
@@ -111,7 +118,8 @@ export const UserStorageConsumptionDashboard: React.FC<
         <div className={summaryStyles.tileItem}>
           <NumberTile
             title="Sample S3 Storage"
-            value={totalSampleS3StorageSize}
+            value={totalSampleS3StorageParsed.value}
+            unit={totalSampleS3StorageParsed.unit}
           />
         </div>
         <div className={summaryStyles.tileItem}>

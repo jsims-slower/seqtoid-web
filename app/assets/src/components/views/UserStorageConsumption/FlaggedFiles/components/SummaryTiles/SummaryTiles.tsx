@@ -1,5 +1,6 @@
 import React from "react";
 import NumberTile from "~/components/common/UserStorageConsumption/NumberTile";
+import { parseValueWithUnit } from "~/components/common/UserStorageConsumption/NumberTile/utils";
 import { FlaggedFilesSummary } from "~/components/views/UserStorageConsumption/FlaggedFiles/types";
 import styles from "./summary_tiles.scss";
 
@@ -16,6 +17,11 @@ export const SummaryTiles: React.FC<SummaryTilesProps> = ({ summary }) => {
     impactedProjects,
   } = summary;
 
+  const flaggedTotalSizeParsed = parseValueWithUnit(flaggedTotalSize);
+  const flaggedAverageFileSizeParsed = parseValueWithUnit(
+    flaggedAverageFileSize,
+  );
+
   return (
     <div className={styles.tilesContainer}>
       <NumberTile
@@ -23,10 +29,15 @@ export const SummaryTiles: React.FC<SummaryTilesProps> = ({ summary }) => {
         value={flaggedCount}
         variant="warning"
       />
-      <NumberTile title="Storage At Risk" value={flaggedTotalSize} />
+      <NumberTile
+        title="Storage At Risk"
+        value={flaggedTotalSizeParsed.value}
+        unit={flaggedTotalSizeParsed.unit}
+      />
       <NumberTile
         title="Average Flagged File Size"
-        value={flaggedAverageFileSize}
+        value={flaggedAverageFileSizeParsed.value}
+        unit={flaggedAverageFileSizeParsed.unit}
       />
       <NumberTile title="Impacted Users" value={impactedUsers} />
       <NumberTile title="Impacted Projects" value={impactedProjects} />
