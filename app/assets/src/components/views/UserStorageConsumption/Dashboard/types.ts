@@ -1,14 +1,3 @@
-export interface DashboardUser {
-  id: number;
-  email: string;
-  name: string;
-  sampleCount: number;
-  inputFileCount: number;
-  totalInputFilesSize: string;
-  sampleS3FileCount: number;
-  totalSampleS3StorageSize: string;
-}
-
 export interface DashboardSnapshotDatum {
   snapshotDate: string;
   totalUsers: number;
@@ -18,12 +7,6 @@ export interface DashboardSnapshotDatum {
 }
 
 export interface UserStorageConsumptionDashboardProps {
-  users: DashboardUser[];
-  page: number;
-  totalPages: number;
-  searchBy?: string;
-  sortBy?: string;
-  sortDir?: string;
   totalUsers: number;
   totalSamples: number;
   totalInputFiles: number;

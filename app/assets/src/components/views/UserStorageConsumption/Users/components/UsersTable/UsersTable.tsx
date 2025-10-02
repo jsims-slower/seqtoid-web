@@ -1,10 +1,10 @@
 import React from "react";
-import { DashboardUser } from "~/components/views/UserStorageConsumption/Dashboard/types";
+import { UsersPageUser } from "~/components/views/UserStorageConsumption/Users/types";
 import SortableHeader from "./SortableHeader";
 import styles from "./users_table.scss";
 
 interface UsersTableProps {
-  users: DashboardUser[];
+  users: UsersPageUser[];
   sortBy?: string;
   sortDir?: string;
 }

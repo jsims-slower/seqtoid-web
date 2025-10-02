@@ -21,7 +21,7 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
   const currentParams = new URLSearchParams(window.location.search);
   currentParams.set("sort_by", columnKey);
   currentParams.set("sort_dir", nextSortDir);
-  const url = `/user_storage_consumption?${currentParams.toString()}`;
+  const url = `/user_storage_consumption/users?${currentParams.toString()}`;
 
   return (
     <th className={`${cs.sortableHeader} ${isCurrentSort ? cs.active : ""}`}>

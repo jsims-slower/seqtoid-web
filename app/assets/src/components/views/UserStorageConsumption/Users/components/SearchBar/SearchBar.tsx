@@ -7,7 +7,7 @@ interface SearchBarProps {
 
 export const SearchBar: React.FC<SearchBarProps> = ({ searchBy }) => {
   return (
-    <form action="/user_storage_consumption" method="get" className={cs.searchContainer}>
+    <form action="/user_storage_consumption/users" method="get" className={cs.searchContainer}>
       <input
         type="text"
         name="search_by"
