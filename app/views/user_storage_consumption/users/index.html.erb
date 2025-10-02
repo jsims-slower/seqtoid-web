@@ -5,6 +5,7 @@
     totalPages: JSON.parse('<%= raw escape_json(@total_pages) %>'),
     searchBy: JSON.parse('<%= raw escape_json(@search_by) %>'),
     sortBy: JSON.parse('<%= raw escape_json(@sort_by) %>'),
-    sortDir: JSON.parse('<%= raw escape_json(@sort_dir) %>')
+    sortDir: JSON.parse('<%= raw escape_json(@sort_dir) %>'),
+    summary: JSON.parse('<%= raw escape_json(@summary_data) %>')
   }, 'page_content');
 <% end %>

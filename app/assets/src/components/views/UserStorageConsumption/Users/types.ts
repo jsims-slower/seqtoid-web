@@ -9,6 +9,13 @@ export interface UsersPageUser {
   totalSampleS3StorageSize: string;
 }
 
+export interface UsersSummary {
+  totalUsers: number;
+  averageSamplesPerUser: number;
+  averageInputFileSizePerUserBytes: number;
+  averageSampleS3SizePerUserBytes: number;
+}
+
 export interface UserStorageConsumptionUsersProps {
   users: UsersPageUser[];
   page: number;
@@ -16,4 +23,5 @@ export interface UserStorageConsumptionUsersProps {
   searchBy?: string;
   sortBy?: string;
   sortDir?: string;
+  summary: UsersSummary;
 }

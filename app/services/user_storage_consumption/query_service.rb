@@ -65,45 +65,7 @@ module UserStorageConsumption
     end
 
     def paginated_users(query:, page:, sort_by: nil, sort_dir: nil)
-      samples_join = <<~SQL
-        LEFT JOIN (
-          SELECT
-            samples.user_id AS user_id,
-            COUNT(samples.id) AS samples_count
-          FROM samples
-          GROUP BY samples.user_id
-        ) sample_stats ON sample_stats.user_id = users.id
-      SQL
-
-      input_files_join = <<~SQL
-        LEFT JOIN (
-          SELECT
-            samples.user_id AS user_id,
-            COUNT(input_files.id) AS input_files_count,
-            COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size
-          FROM input_files
-          INNER JOIN samples ON samples.id = input_files.sample_id
-          GROUP BY samples.user_id
-        ) input_file_stats ON input_file_stats.user_id = users.id
-      SQL
-
-      sample_s3_join = <<~SQL
-        LEFT JOIN (
-          SELECT
-            samples.user_id AS user_id,
-            COUNT(sample_s3_files.id) AS sample_s3_files_count,
-            COALESCE(SUM(sample_s3_files.size), 0) AS total_sample_s3_size
-          FROM sample_s3_files
-          INNER JOIN samples ON samples.id = sample_s3_files.sample_id
-          GROUP BY samples.user_id
-        ) sample_s3_stats ON sample_s3_stats.user_id = users.id
-      SQL
-
-      scope = User
-              .search_by(query)
-              .joins(samples_join)
-              .joins(input_files_join)
-              .joins(sample_s3_join)
+      scope = users_stats_scope(query)
               .select(
                 "users.*",
                 "COALESCE(sample_stats.samples_count, 0) AS samples_count",
@@ -121,6 +83,25 @@ module UserStorageConsumption
       end
 
       scope.page(page)
+    end
+
+    def users_summary(query: nil)
+      scope = users_stats_scope(query)
+
+      total_users = scope.distinct.count(:id)
+      average_samples_per_user =
+        scope.average(Arel.sql("COALESCE(sample_stats.samples_count, 0)")) || 0
+      average_input_file_size_per_user =
+        scope.average(Arel.sql("COALESCE(input_file_stats.total_input_files_size, 0)")) || 0
+      average_sample_s3_size_per_user =
+        scope.average(Arel.sql("COALESCE(sample_s3_stats.total_sample_s3_size, 0)")) || 0
+
+      {
+        total_users: total_users,
+        average_samples_per_user: average_samples_per_user.to_f,
+        average_input_file_size_per_user: average_input_file_size_per_user.to_f,
+        average_sample_s3_size_per_user: average_sample_s3_size_per_user.to_f,
+      }
     end
 
     def paginated_samples(user, page)
@@ -173,6 +154,48 @@ module UserStorageConsumption
     end
 
     private
+
+    def users_stats_scope(query)
+      samples_join = <<~SQL
+        LEFT JOIN (
+          SELECT
+            samples.user_id AS user_id,
+            COUNT(samples.id) AS samples_count
+          FROM samples
+          GROUP BY samples.user_id
+        ) sample_stats ON sample_stats.user_id = users.id
+      SQL
+
+      input_files_join = <<~SQL
+        LEFT JOIN (
+          SELECT
+            samples.user_id AS user_id,
+            COUNT(input_files.id) AS input_files_count,
+            COALESCE(SUM(input_files.storage_size), 0) AS total_input_files_size
+          FROM input_files
+          INNER JOIN samples ON samples.id = input_files.sample_id
+          GROUP BY samples.user_id
+        ) input_file_stats ON input_file_stats.user_id = users.id
+      SQL
+
+      sample_s3_join = <<~SQL
+        LEFT JOIN (
+          SELECT
+            samples.user_id AS user_id,
+            COUNT(sample_s3_files.id) AS sample_s3_files_count,
+            COALESCE(SUM(sample_s3_files.size), 0) AS total_sample_s3_size
+          FROM sample_s3_files
+          INNER JOIN samples ON samples.id = sample_s3_files.sample_id
+          GROUP BY samples.user_id
+        ) sample_s3_stats ON sample_s3_stats.user_id = users.id
+      SQL
+
+      User
+        .search_by(query)
+        .joins(samples_join)
+        .joins(input_files_join)
+        .joins(sample_s3_join)
+    end
 
     def base_flagged_files_scope(min_size_bytes, older_than_timestamp)
       InputFile

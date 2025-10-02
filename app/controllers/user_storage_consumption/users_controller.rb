@@ -5,11 +5,23 @@ module UserStorageConsumption
       @search_by = params[:search_by].presence
       @sort_by = params[:sort_by].presence
       @sort_dir = params[:sort_dir].presence
+      assign_summary_data
       @users_data = format_users_for_index(users)
       assign_pagination_data(users)
     end
 
     private
+
+    def assign_summary_data
+      summary = query_service.users_summary(query: @search_by)
+
+      @summary_data = {
+        totalUsers: summary[:total_users],
+        averageSamplesPerUser: summary[:average_samples_per_user],
+        averageInputFileSizePerUserBytes: summary[:average_input_file_size_per_user],
+        averageSampleS3SizePerUserBytes: summary[:average_sample_s3_size_per_user],
+      }
+    end
 
     def users
       @users ||= query_service.paginated_users(
