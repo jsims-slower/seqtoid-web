@@ -23,11 +23,15 @@ export const UserStorageConsumptionDashboard: React.FC<
   totalSampleS3Files,
   totalSampleS3StorageSize,
   flaggedFilesCount,
+  averageWorkflowRuntime,
   snapshotData,
 }) => {
   const totalInputFilesSizeParsed = parseValueWithUnit(totalInputFilesSize);
   const totalSampleS3StorageParsed = parseValueWithUnit(
     totalSampleS3StorageSize,
+  );
+  const averageWorkflowRuntimeParsed = parseValueWithUnit(
+    averageWorkflowRuntime,
   );
 
   const chartLabels = snapshotData.map(datum => datum.snapshotDate);
@@ -124,6 +128,13 @@ export const UserStorageConsumptionDashboard: React.FC<
         </div>
         <div className={summaryStyles.tileItem}>
           <NumberTile
+            title="Average Workflow Runtime"
+            value={averageWorkflowRuntimeParsed.value}
+            unit={averageWorkflowRuntimeParsed.unit}
+          />
+        </div>
+        <div className={summaryStyles.tileItem}>
+          <NumberTile
             title="Large & Old Files"
             value={flaggedFilesCount}
             link={{
@@ -132,14 +143,6 @@ export const UserStorageConsumptionDashboard: React.FC<
             }}
             variant="warning"
           />
-        </div>
-        <div className={summaryStyles.tileItem}>
-          <div className={summaryStyles.placeholderTile}>
-            <div className={summaryStyles.placeholderTitle}>Placeholder</div>
-            <div className={summaryStyles.placeholderDescription}>
-              Future metrics will appear here.
-            </div>
-          </div>
         </div>
         <div
           className={`${summaryStyles.tileItem} ${summaryStyles.tileItemWide}`}

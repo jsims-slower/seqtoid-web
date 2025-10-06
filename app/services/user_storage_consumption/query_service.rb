@@ -15,6 +15,7 @@ module UserStorageConsumption
       total_input_files_size = InputFile.sum(:storage_size)
       total_s3_files = SampleS3File.count
       total_s3_files_size = SampleS3File.sum(:size)
+      average_workflow_runtime_seconds = average_workflow_runtime
 
       {
         total_users: total_users,
@@ -23,6 +24,7 @@ module UserStorageConsumption
         total_input_files_size: total_input_files_size,
         total_s3_files: total_s3_files,
         total_s3_files_size: total_s3_files_size,
+        average_workflow_runtime_seconds: average_workflow_runtime_seconds,
       }
     end
 
@@ -154,6 +156,25 @@ module UserStorageConsumption
     end
 
     private
+
+    def average_workflow_runtime
+      pipeline_result = PipelineRun
+                        .where(deprecated: false)
+                        .where.not(time_to_results_finalized: nil)
+                        .select("SUM(time_to_results_finalized) AS total, COUNT(*) AS count")
+                        .take
+
+      workflow_result = WorkflowRun
+                        .where(deprecated: false)
+                        .where.not(time_to_finalized: nil)
+                        .select("SUM(time_to_finalized) AS total, COUNT(*) AS count")
+                        .take
+
+      total_sum = pipeline_result.total.to_f + workflow_result.total.to_f
+      total_count = pipeline_result.count.to_i + workflow_result.count.to_i
+
+      total_count.zero? ? 0 : total_sum / total_count
+    end
 
     def users_stats_scope(filters = {})
       samples_join = <<~SQL

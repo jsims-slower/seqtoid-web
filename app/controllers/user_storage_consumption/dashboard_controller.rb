@@ -18,6 +18,7 @@ module UserStorageConsumption
       @total_input_files_size = number_to_human_size(consumption_stats[:total_input_files_size])
       @total_sample_s3_files = consumption_stats[:total_s3_files]
       @total_sample_s3_storage_size = number_to_human_size(consumption_stats[:total_s3_files_size])
+      @average_workflow_runtime = runtime_hours(consumption_stats[:average_workflow_runtime_seconds])
       @snapshot_data = format_snapshot_data(query_service.snapshots)
     end
 
@@ -38,6 +39,11 @@ module UserStorageConsumption
           totalInputFilesSize: s.total_input_files_size,
         }
       end
+    end
+
+    def runtime_hours(seconds)
+      hours = seconds.to_f / 3600
+      "#{hours.round(2)} hours"
     end
   end
 end
