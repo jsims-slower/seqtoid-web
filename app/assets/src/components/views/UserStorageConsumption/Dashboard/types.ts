@@ -14,6 +14,7 @@ export interface UserStorageConsumptionDashboardProps {
   totalSampleS3Files: number;
   totalSampleS3StorageSize: string;
   flaggedFilesCount: number;
+  flaggedFilesDescription: string;
   averagePipelineRuntime: string;
   averageWorkflowRuntime: string;
   snapshotData: DashboardSnapshotDatum[];

@@ -24,10 +24,14 @@ module UserStorageConsumption
     end
 
     def assign_flagged_files_data
-      min_size_bytes = (DEFAULT_MIN_SIZE_MB.to_f * 1.megabyte).to_i
-      older_than_timestamp = DEFAULT_OLDER_THAN_MONTHS.months.ago
+      min_size_mb = DEFAULT_MIN_SIZE_MB
+      older_than_months = DEFAULT_OLDER_THAN_MONTHS
+
+      min_size_bytes = (min_size_mb.to_f * 1.megabyte).to_i
+      older_than_timestamp = older_than_months.months.ago
 
       @flagged_files_count = query_service.flagged_files_count(min_size_bytes, older_than_timestamp)
+      @flagged_files_description = flagged_files_description(min_size_mb, older_than_months)
     end
 
     def format_snapshot_data(snapshots)
@@ -45,6 +49,11 @@ module UserStorageConsumption
     def runtime_hours(seconds)
       hours = seconds.to_f / 3600
       "#{hours.round(2)} hours"
+    end
+
+    def flagged_files_description(min_size_mb, older_than_months)
+      month_label = older_than_months == 1 ? "1 month" : "#{older_than_months} months"
+      "files larger than #{min_size_mb} MB and older than #{month_label}"
     end
   end
 end

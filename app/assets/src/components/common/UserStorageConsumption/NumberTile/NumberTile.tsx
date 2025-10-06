@@ -13,6 +13,7 @@ interface NumberTileProps {
     label: string;
   };
   variant?: "default" | "warning";
+  description?: string;
 }
 
 export const NumberTile: React.FC<NumberTileProps> = ({
@@ -21,6 +22,7 @@ export const NumberTile: React.FC<NumberTileProps> = ({
   unit,
   link,
   variant = "default",
+  description,
 }) => {
   const decimalPlaces = Number.isFinite(value) ? getDecimalPlaces(value) : 0;
 
@@ -104,6 +106,7 @@ export const NumberTile: React.FC<NumberTileProps> = ({
         )}
       </div>
       <div className={cs.numberTileValue}>{displayValue}</div>
+      {description && <div className={cs.numberTileDescription}>{description}</div>}
     </div>
   );
 };

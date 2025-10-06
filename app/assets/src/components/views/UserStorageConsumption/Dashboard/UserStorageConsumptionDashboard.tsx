@@ -23,6 +23,7 @@ export const UserStorageConsumptionDashboard: React.FC<
   totalSampleS3Files,
   totalSampleS3StorageSize,
   flaggedFilesCount,
+  flaggedFilesDescription,
   averagePipelineRuntime,
   averageWorkflowRuntime,
   snapshotData,
@@ -157,6 +158,7 @@ export const UserStorageConsumptionDashboard: React.FC<
               href: "/user_storage_consumption/flagged_files",
               label: "View details 🢒",
             }}
+            description={flaggedFilesDescription}
             variant="warning"
           />
         </div>

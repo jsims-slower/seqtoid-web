@@ -30,6 +30,10 @@
     .numberTileLink {
       color: $sds-color-warning-600;
     }
+
+    .numberTileDescription {
+      color: $sds-color-warning-600;
+    }
   }
 }
 
@@ -52,6 +56,13 @@
   @media (max-width: 1440px) {
     font-size: 3em;
   }
+}
+
+.numberTileDescription {
+  margin-top: 1rem;
+  color: $sds-color-gray-500;
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
 
 .numberTileLink {
