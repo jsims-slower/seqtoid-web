@@ -15,6 +15,7 @@ module UserStorageConsumption
       total_input_files_size = InputFile.sum(:storage_size)
       total_s3_files = SampleS3File.count
       total_s3_files_size = SampleS3File.sum(:size)
+      average_pipeline_runtime_seconds = average_pipeline_runtime
       average_workflow_runtime_seconds = average_workflow_runtime
 
       {
@@ -24,6 +25,7 @@ module UserStorageConsumption
         total_input_files_size: total_input_files_size,
         total_s3_files: total_s3_files,
         total_s3_files_size: total_s3_files_size,
+        average_pipeline_runtime_seconds: average_pipeline_runtime_seconds,
         average_workflow_runtime_seconds: average_workflow_runtime_seconds,
       }
     end
@@ -157,23 +159,32 @@ module UserStorageConsumption
 
     private
 
+    def average_pipeline_runtime
+      result = PipelineRun
+               .where(deprecated: false)
+               .where.not(time_to_results_finalized: nil)
+               .pick(
+                 Arel.sql("COALESCE(SUM(time_to_results_finalized), 0)"),
+                 Arel.sql("COUNT(*)")
+               )
+
+      total, count = result || [0, 0]
+
+      count.to_i.zero? ? 0 : total.to_f / count.to_i
+    end
+
     def average_workflow_runtime
-      pipeline_result = PipelineRun
-                        .where(deprecated: false)
-                        .where.not(time_to_results_finalized: nil)
-                        .select("SUM(time_to_results_finalized) AS total, COUNT(*) AS count")
-                        .take
+      result = WorkflowRun
+               .where(deprecated: false)
+               .where.not(time_to_finalized: nil)
+               .pick(
+                 Arel.sql("COALESCE(SUM(time_to_finalized), 0)"),
+                 Arel.sql("COUNT(*)")
+               )
 
-      workflow_result = WorkflowRun
-                        .where(deprecated: false)
-                        .where.not(time_to_finalized: nil)
-                        .select("SUM(time_to_finalized) AS total, COUNT(*) AS count")
-                        .take
+      total, count = result || [0, 0]
 
-      total_sum = pipeline_result.total.to_f + workflow_result.total.to_f
-      total_count = pipeline_result.count.to_i + workflow_result.count.to_i
-
-      total_count.zero? ? 0 : total_sum / total_count
+      count.to_i.zero? ? 0 : total.to_f / count.to_i
     end
 
     def users_stats_scope(filters = {})

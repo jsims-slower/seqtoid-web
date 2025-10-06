@@ -23,12 +23,16 @@ export const UserStorageConsumptionDashboard: React.FC<
   totalSampleS3Files,
   totalSampleS3StorageSize,
   flaggedFilesCount,
+  averagePipelineRuntime,
   averageWorkflowRuntime,
   snapshotData,
 }) => {
   const totalInputFilesSizeParsed = parseValueWithUnit(totalInputFilesSize);
   const totalSampleS3StorageParsed = parseValueWithUnit(
     totalSampleS3StorageSize,
+  );
+  const averagePipelineRuntimeParsed = parseValueWithUnit(
+    averagePipelineRuntime,
   );
   const averageWorkflowRuntimeParsed = parseValueWithUnit(
     averageWorkflowRuntime,
@@ -128,10 +132,22 @@ export const UserStorageConsumptionDashboard: React.FC<
         </div>
         <div className={summaryStyles.tileItem}>
           <NumberTile
+            title="Average Pipeline Runtime"
+            value={averagePipelineRuntimeParsed.value}
+            unit={averagePipelineRuntimeParsed.unit}
+          />
+        </div>
+        <div className={summaryStyles.tileItem}>
+          <NumberTile
             title="Average Workflow Runtime"
             value={averageWorkflowRuntimeParsed.value}
             unit={averageWorkflowRuntimeParsed.unit}
           />
+        </div>
+        <div
+          className={`${summaryStyles.tileItem} ${summaryStyles.tileItemWide}`}
+        >
+          <RefreshBatchTile />
         </div>
         <div className={summaryStyles.tileItem}>
           <NumberTile
@@ -144,14 +160,7 @@ export const UserStorageConsumptionDashboard: React.FC<
             variant="warning"
           />
         </div>
-        <div
-          className={`${summaryStyles.tileItem} ${summaryStyles.tileItemWide}`}
-        >
-          <RefreshBatchTile />
-        </div>
-        <div
-          className={`${summaryStyles.tileItem} ${summaryStyles.tileItemWide}`}
-        >
+        <div className={summaryStyles.tileItem}>
           <div className={summaryStyles.placeholderTile}>
             <div className={summaryStyles.placeholderTitle}>Placeholder</div>
             <div className={summaryStyles.placeholderDescription}>

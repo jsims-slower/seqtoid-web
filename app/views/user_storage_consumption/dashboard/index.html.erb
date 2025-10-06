@@ -7,6 +7,7 @@
     totalSampleS3Files: JSON.parse('<%= raw escape_json(@total_sample_s3_files) %>'),
     totalSampleS3StorageSize: JSON.parse('<%= raw escape_json(@total_sample_s3_storage_size) %>'),
     flaggedFilesCount: JSON.parse('<%= raw escape_json(@flagged_files_count) %>'),
+    averagePipelineRuntime: JSON.parse('<%= raw escape_json(@average_pipeline_runtime) %>'),
     averageWorkflowRuntime: JSON.parse('<%= raw escape_json(@average_workflow_runtime) %>'),
     snapshotData: JSON.parse('<%= raw escape_json(@snapshot_data) %>')
   }, 'page_content');
