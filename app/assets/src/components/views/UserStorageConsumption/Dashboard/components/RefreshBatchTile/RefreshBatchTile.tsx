@@ -10,7 +10,7 @@ import {
 import PrimaryButton from "~/components/ui/controls/buttons/PrimaryButton";
 import styles from "./refresh_batch_tile.scss";
 
-const REFRESH_BATCH_POLL_INTERVAL_MS = 10000;
+const REFRESH_BATCH_POLL_INTERVAL_MS = 5000;
 const DATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY HH:mm:ss";
 const INFO_TOOLTIP_MESSAGE =
   "Disabled while a batch is pending or in progress.";

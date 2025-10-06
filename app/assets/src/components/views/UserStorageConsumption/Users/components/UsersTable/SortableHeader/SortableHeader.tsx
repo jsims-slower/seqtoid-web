@@ -16,7 +16,11 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
   sortDir,
 }) => {
   const isCurrentSort = sortBy === columnKey;
-  const nextSortDir = isCurrentSort && sortDir === "asc" ? "desc" : "asc";
+  let nextSortDir = "desc";
+
+  if (isCurrentSort) {
+    nextSortDir = sortDir === "asc" ? "desc" : "asc";
+  }
 
   const currentParams = new URLSearchParams(window.location.search);
   currentParams.set("sort_by", columnKey);
