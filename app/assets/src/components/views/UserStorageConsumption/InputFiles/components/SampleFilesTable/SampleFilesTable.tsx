@@ -1,4 +1,5 @@
 import React from "react";
+import CompositeCell from "~/components/common/UserStorageConsumption/CompositeCell";
 import {
   SampleFileRow,
   SampleInputFile,
@@ -55,13 +56,12 @@ const SampleFilesTable: React.FC<SampleFilesTableProps> = ({ rows }) => {
                   )}
                   {index === 0 && (
                     <td rowSpan={rowSpan} className={styles.tdSampleName}>
-                      <span className={styles.sampleName} title={sampleName}>
-                        {sampleName}
-                      </span>
-                      <br />
-                      <span className={styles.projectName} title={projectName}>
-                        Project: {projectName}
-                      </span>
+                      <CompositeCell
+                        primary={sampleName}
+                        secondaryParts={[`Project: ${projectName}`]}
+                        minWidth="12rem"
+                        maxWidth="25rem"
+                      />
                     </td>
                   )}
                   {index === 0 && (

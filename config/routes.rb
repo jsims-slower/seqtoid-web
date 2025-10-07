@@ -139,6 +139,7 @@ Rails.application.routes.draw do
     get '/users/:user_id/samples/:sample_id/sample_s3_files/load_more', to: 'sample_s3_files#load_more'
     resources :users, only: [:index]
     resources :flagged_files, only: [:index]
+    resources :pipeline_runs, only: [:index]
     resource :refresh_batch, only: [:show, :create], controller: :refresh_batches
   end
 

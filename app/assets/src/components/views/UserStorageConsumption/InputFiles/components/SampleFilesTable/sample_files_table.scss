@@ -37,27 +37,18 @@
   font-size: 0.875rem;
   color: $sds-color-gray-500;
   font-style: italic;
-  display: block;
+  display: inline-block;
   margin-top: 0.125rem;
-}
-
-.tdFileName {
-  font-family: "Andale Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tdSampleName {
   min-width: 12rem;
   max-width: 25rem;
   width: 25rem;
-}
-
-.sampleName,
-.projectName {
-  display: inline-block;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .tdSampleId,
@@ -72,6 +63,7 @@
 }
 
 .tdFileName {
+  font-family: "Andale Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
   min-width: 12rem;
   max-width: 25rem;
   width: 25rem;

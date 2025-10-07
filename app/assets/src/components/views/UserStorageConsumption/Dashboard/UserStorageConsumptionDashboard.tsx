@@ -136,6 +136,10 @@ export const UserStorageConsumptionDashboard: React.FC<
             title="Average Pipeline Runtime"
             value={averagePipelineRuntimeParsed.value}
             unit={averagePipelineRuntimeParsed.unit}
+            link={{
+              href: "/user_storage_consumption/pipeline_runs",
+              label: "View details 🢒",
+            }}
           />
         </div>
         <div className={summaryStyles.tileItem}>

@@ -28,7 +28,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ filters }) => {
       filters.minTotalInputFileSizeMb,
       filters.minSampleS3Files,
       filters.minTotalSampleS3StorageMb,
-    ].some((value) => value !== null && value !== undefined && value !== "");
+    ].some(value => value !== null && value !== undefined);
   }, [filters]);
 
   const [showAdvancedFilters, setShowAdvancedFilters] = React.useState(

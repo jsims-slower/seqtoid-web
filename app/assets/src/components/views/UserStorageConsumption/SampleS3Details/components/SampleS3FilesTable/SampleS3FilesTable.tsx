@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from "react";
+import CompositeCell from "~/components/common/UserStorageConsumption/CompositeCell";
 import { fetchSampleS3FilesChunk } from "~/api/userStorageConsumption";
 import {
   SampleS3File,
@@ -135,13 +136,12 @@ const SampleS3FilesTable: React.FC<SampleS3FilesTableProps> = ({
                   )}
                   {index === 0 && (
                     <td rowSpan={rowSpan} className={styles.tdSampleName}>
-                      <span className={styles.sampleName} title={sampleName}>
-                        {sampleName}
-                      </span>
-                      <br />
-                      <span className={styles.projectName} title={projectName}>
-                        Project: {projectName}
-                      </span>
+                      <CompositeCell
+                        primary={sampleName}
+                        secondaryParts={[`Project: ${projectName}`]}
+                        minWidth="12rem"
+                        maxWidth="25rem"
+                      />
                     </td>
                   )}
                   {index === 0 && (

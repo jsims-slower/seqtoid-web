@@ -1,7 +1,7 @@
 import React from "react";
 import { FlaggedFile } from "~/components/views/UserStorageConsumption/FlaggedFiles/types";
+import CompositeCell from "~/components/common/UserStorageConsumption/CompositeCell";
 import cs from "../../user_storage_consumption_flagged_files.scss";
-import CompositeCell from "./components/CompositeCell";
 import tableStyles from "./flagged_files_table.scss";
 
 interface FlaggedFilesTableProps {
@@ -83,20 +83,24 @@ export const FlaggedFilesTable: React.FC<FlaggedFilesTableProps> = ({
                   <CompositeCell
                     primary={userPrimary}
                     secondaryParts={userSecondary}
+                    minWidth="12rem"
+                    maxWidth="18rem"
                   />
                 </td>
                 <td>
                   <CompositeCell
                     primary={samplePrimary}
                     secondaryParts={sampleSecondary}
-                    primaryClassName={`${tableStyles.samplePrimary} ${tableStyles.truncate}`}
-                    secondaryClassName={tableStyles.sampleSecondary}
+                    minWidth="12rem"
+                    maxWidth="18rem"
                   />
                 </td>
                 <td>
                   <CompositeCell
                     primary={projectPrimary}
                     secondaryParts={projectSecondary}
+                    minWidth="12rem"
+                    maxWidth="18rem"
                   />
                 </td>
               </tr>

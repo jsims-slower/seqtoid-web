@@ -7,6 +7,7 @@ interface SortableHeaderProps {
   sortBy?: string;
   sortDir?: string;
   searchBy?: string;
+  baseUrl?: string;
 }
 
 export const SortableHeader: React.FC<SortableHeaderProps> = ({
@@ -14,6 +15,7 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
   columnLabel,
   sortBy,
   sortDir,
+  baseUrl = "/user_storage_consumption/users",
 }) => {
   const isCurrentSort = sortBy === columnKey;
   let nextSortDir = "desc";
@@ -25,7 +27,7 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
   const currentParams = new URLSearchParams(window.location.search);
   currentParams.set("sort_by", columnKey);
   currentParams.set("sort_dir", nextSortDir);
-  const url = `/user_storage_consumption/users?${currentParams.toString()}`;
+  const url = `${baseUrl}?${currentParams.toString()}`;
 
   return (
     <th className={`${cs.sortableHeader} ${isCurrentSort ? cs.active : ""}`}>
@@ -51,3 +53,5 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
     </th>
   );
 };
+
+export default SortableHeader;

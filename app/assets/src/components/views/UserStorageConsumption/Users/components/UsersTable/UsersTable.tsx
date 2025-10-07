@@ -1,6 +1,6 @@
 import React from "react";
 import { UsersPageUser } from "~/components/views/UserStorageConsumption/Users/types";
-import SortableHeader from "./SortableHeader";
+import SortableHeader from "~/components/common/UserStorageConsumption/SortableHeader";
 import styles from "./users_table.scss";
 
 interface UsersTableProps {

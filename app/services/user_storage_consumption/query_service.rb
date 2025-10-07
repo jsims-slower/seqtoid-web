@@ -1,11 +1,20 @@
 module UserStorageConsumption
   class QueryService
-    SORTABLE_COLUMNS = Set[
+    USER_SORTABLE_COLUMNS = Set[
       "samples_count",
       "input_files_count",
       "total_input_files_size",
       "sample_s3_files_count",
       "total_sample_s3_size",
+    ].freeze
+
+    PIPELINE_RUN_SORTABLE_COLUMNS = Set[
+      "runtime",
+      "executed_at",
+      "job_status",
+      "technology",
+      "wdl_version",
+      "deprecated",
     ].freeze
 
     def consumption_stats
@@ -79,7 +88,7 @@ module UserStorageConsumption
                 "COALESCE(sample_s3_stats.total_sample_s3_size, 0) AS total_sample_s3_size"
               )
 
-      if SORTABLE_COLUMNS.include?(sort_by)
+      if USER_SORTABLE_COLUMNS.include?(sort_by)
         direction = sort_dir == "asc" ? "ASC" : "DESC"
         scope = scope.order("#{sort_by} #{direction}")
       else
@@ -128,6 +137,44 @@ module UserStorageConsumption
       UserStorageConsumptionSnapshot.order(snapshot_date: :asc).last(7)
     end
 
+    def paginated_pipeline_runs(page:, sort_by: nil, sort_dir: nil)
+      scope = PipelineRun
+              .left_joins(sample: [:project, :user])
+              .select(
+                "pipeline_runs.*",
+                "samples.name AS sample_name",
+                "projects.id AS project_id",
+                "projects.name AS project_name",
+                "users.id AS user_id",
+                "users.name AS user_name",
+                "users.email AS user_email"
+              )
+
+      if USER_SORTABLE_COLUMNS.include?(sort_by)
+        direction = sort_dir == "asc" ? "ASC" : "DESC"
+        scope = scope.order("#{sort_by} #{direction}")
+      else
+        scope = scope.order(id: :desc) # Default sort
+      end
+
+      scope.page(page)
+    end
+
+    def pipeline_runs_summary
+      total_runs = PipelineRun.count
+      average_runtime_seconds = PipelineRun.average(:time_to_finalized)&.to_f || 0.0
+      slowest_runtime_seconds = PipelineRun.maximum(:time_to_finalized)&.to_f || 0.0
+
+      total_deprecated = PipelineRun.where(deprecated: true).count
+
+      {
+        total_runs: total_runs,
+        average_runtime_seconds: average_runtime_seconds,
+        slowest_runtime_seconds: slowest_runtime_seconds,
+        total_deprecated: total_deprecated,
+      }
+    end
+
     def flagged_files(min_size_bytes, older_than_timestamp, limit: 100)
       base_flagged_files_scope(min_size_bytes, older_than_timestamp)
         .includes(sample: [:user, :project])
@@ -161,10 +208,8 @@ module UserStorageConsumption
 
     def average_pipeline_runtime
       result = PipelineRun
-               .where(deprecated: false)
-               .where.not(time_to_results_finalized: nil)
                .pick(
-                 Arel.sql("COALESCE(SUM(time_to_results_finalized), 0)"),
+                 Arel.sql("COALESCE(SUM(time_to_finalized), 0)"),
                  Arel.sql("COUNT(*)")
                )
 
@@ -175,8 +220,6 @@ module UserStorageConsumption
 
     def average_workflow_runtime
       result = WorkflowRun
-               .where(deprecated: false)
-               .where.not(time_to_finalized: nil)
                .pick(
                  Arel.sql("COALESCE(SUM(time_to_finalized), 0)"),
                  Arel.sql("COUNT(*)")
