@@ -42,7 +42,7 @@ module UserStorageConsumption
         sampleId: sample.id,
         sampleName: sample.name.to_s,
         projectName: sample.project&.name.to_s,
-        sampleCreatedAt: sample.created_at.strftime("%Y-%m-%d"),
+        sampleCreatedAt: format_date(sample.created_at),
         totalInputFiles: sample.input_files.size,
         totalInputFilesSize: number_to_human_size(total_size_bytes),
         inputFiles: input_files,

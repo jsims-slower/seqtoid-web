@@ -37,18 +37,13 @@ module UserStorageConsumption
     def format_snapshot_data(snapshots)
       snapshots.map do |s|
         {
-          snapshotDate: s.snapshot_date.strftime("%m-%d"),
+          snapshotDate: format_date(s.snapshot_date, format: "%m-%d"),
           totalUsers: s.total_users,
           totalSamples: s.total_samples,
           totalInputFiles: s.total_input_files,
           totalInputFilesSize: s.total_input_files_size,
         }
       end
-    end
-
-    def runtime_hours(seconds)
-      hours = seconds.to_f / 3600
-      "#{hours.round(2)} hours"
     end
 
     def flagged_files_description(min_size_mb, older_than_months)

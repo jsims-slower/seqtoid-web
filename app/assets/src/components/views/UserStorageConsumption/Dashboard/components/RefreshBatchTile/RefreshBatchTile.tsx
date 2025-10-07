@@ -1,5 +1,4 @@
 import { Icon, Tooltip } from "@czi-sds/components";
-import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   enqueueRefreshBatch,
@@ -11,7 +10,6 @@ import PrimaryButton from "~/components/ui/controls/buttons/PrimaryButton";
 import styles from "./refresh_batch_tile.scss";
 
 const REFRESH_BATCH_POLL_INTERVAL_MS = 5000;
-const DATE_TIME_DISPLAY_FORMAT = "MM/DD/YYYY HH:mm:ss";
 const INFO_TOOLTIP_MESSAGE =
   "Disabled while a batch is pending or in progress.";
 
@@ -123,12 +121,8 @@ const RefreshBatchTile: React.FC = () => {
 
   const processedLabel = `${processedJobs.toLocaleString()} / ${totalJobs.toLocaleString()}`;
   const errorLabel = errorCount.toLocaleString();
-  const startedLabel = batch?.startedAt
-    ? moment(batch.startedAt).format(DATE_TIME_DISPLAY_FORMAT)
-    : "--";
-  const finishedLabel = batch?.completedAt
-    ? moment(batch.completedAt).format(DATE_TIME_DISPLAY_FORMAT)
-    : "--";
+  const startedLabel = batch?.startedAt || "--";
+  const finishedLabel = batch?.completedAt || "--";
 
   return (
     <div className={styles.refreshTile}>

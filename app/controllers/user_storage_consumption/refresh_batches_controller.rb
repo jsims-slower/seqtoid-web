@@ -29,10 +29,10 @@ module UserStorageConsumption
         totalJobs: batch.total_jobs,
         processedJobs: batch.processed_jobs,
         errorCount: batch.error_count,
-        startedAt: batch.started_at,
-        completedAt: batch.completed_at,
-        createdAt: batch.created_at,
-        updatedAt: batch.updated_at,
+        startedAt: format_datetime(batch.started_at),
+        completedAt: format_datetime(batch.completed_at),
+        createdAt: format_datetime(batch.created_at),
+        updatedAt: format_datetime(batch.updated_at),
       }
     end
   end

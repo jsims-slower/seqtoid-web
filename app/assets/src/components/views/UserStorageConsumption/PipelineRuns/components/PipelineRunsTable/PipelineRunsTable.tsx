@@ -1,6 +1,6 @@
 import React from "react";
-import SortableHeader from "~/components/common/UserStorageConsumption/SortableHeader";
 import CompositeCell from "~/components/common/UserStorageConsumption/CompositeCell";
+import SortableHeader from "~/components/common/UserStorageConsumption/SortableHeader";
 import { PipelineRunRow } from "~/components/views/UserStorageConsumption/PipelineRuns/types";
 import styles from "./pipeline_runs_table.scss";
 
@@ -11,25 +11,6 @@ interface PipelineRunsTableProps {
 }
 
 const baseUrl = "/user_storage_consumption/pipeline_runs";
-
-const formatRuntime = (runtimeSeconds: number) => {
-  if (!Number.isFinite(runtimeSeconds) || runtimeSeconds <= 0) {
-    return "—";
-  }
-
-  const hours = Math.floor(runtimeSeconds / 3600);
-  const minutes = Math.floor((runtimeSeconds % 3600) / 60);
-
-  const parts: string[] = [];
-  if (hours > 0) {
-    parts.push(`${hours}h`);
-  }
-  if (minutes > 0 || parts.length === 0) {
-    parts.push(`${minutes}m`);
-  }
-
-  return parts.join(" ");
-};
 
 export const PipelineRunsTable: React.FC<PipelineRunsTableProps> = ({
   runs,
@@ -44,7 +25,7 @@ export const PipelineRunsTable: React.FC<PipelineRunsTableProps> = ({
         <th>User</th>
         <th>Project</th>
         <SortableHeader
-          columnKey="runtime"
+          columnKey="time_to_finalized"
           columnLabel="Runtime"
           sortBy={sortBy}
           sortDir={sortDir}
@@ -97,7 +78,7 @@ export const PipelineRunsTable: React.FC<PipelineRunsTableProps> = ({
         userEmail,
         projectId,
         projectName,
-        runtimeSeconds,
+        runtimeHours,
         executedAt,
         jobStatus,
         technology,
@@ -111,6 +92,7 @@ export const PipelineRunsTable: React.FC<PipelineRunsTableProps> = ({
               <CompositeCell
                 primary={sampleName}
                 secondaryParts={[`ID: ${sampleId ?? "N/A"}`]}
+                maxWidth="20rem"
               />
             </td>
             <td>
@@ -120,15 +102,17 @@ export const PipelineRunsTable: React.FC<PipelineRunsTableProps> = ({
                   `Email: ${userEmail ?? "N/A"}`,
                   `ID: ${userId ?? "N/A"}`,
                 ]}
+                maxWidth="20rem"
               />
             </td>
             <td>
               <CompositeCell
                 primary={projectName}
                 secondaryParts={[`ID: ${projectId ?? "N/A"}`]}
+                maxWidth="20rem"
               />
             </td>
-            <td>{formatRuntime(runtimeSeconds)}</td>
+            <td>{runtimeHours || "—"}</td>
             <td>{executedAt || "—"}</td>
             <td>{jobStatus || "—"}</td>
             <td>{technology || "—"}</td>

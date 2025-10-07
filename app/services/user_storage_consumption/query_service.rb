@@ -9,7 +9,7 @@ module UserStorageConsumption
     ].freeze
 
     PIPELINE_RUN_SORTABLE_COLUMNS = Set[
-      "runtime",
+      "time_to_finalized",
       "executed_at",
       "job_status",
       "technology",
@@ -150,7 +150,7 @@ module UserStorageConsumption
                 "users.email AS user_email"
               )
 
-      if USER_SORTABLE_COLUMNS.include?(sort_by)
+      if PIPELINE_RUN_SORTABLE_COLUMNS.include?(sort_by)
         direction = sort_dir == "asc" ? "ASC" : "DESC"
         scope = scope.order("#{sort_by} #{direction}")
       else

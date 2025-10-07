@@ -66,7 +66,7 @@ module UserStorageConsumption
         sampleId: sample.id,
         sampleName: sample.name,
         projectName: sample.project&.name,
-        sampleCreatedAt: sample.created_at.strftime("%Y-%m-%d"),
+        sampleCreatedAt: format_date(sample.created_at),
         totalSampleS3Files: initial_files.total_count,
         totalSampleS3FilesSize: number_to_human_size(files_scope.sum(:size)),
         sampleS3Files: formatted_files,

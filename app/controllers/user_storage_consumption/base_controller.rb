@@ -2,6 +2,9 @@ module UserStorageConsumption
   class BaseController < ApplicationController
     include ActionView::Helpers::NumberHelper
 
+    DEFAULT_DATE_FORMAT = "%Y-%m-%d".freeze
+    DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S".freeze
+
     before_action :admin_required
 
     private
@@ -37,6 +40,29 @@ module UserStorageConsumption
       return if value.blank?
 
       (value.to_f * 1.megabyte).to_i
+    end
+
+    def format_datetime(value, format: DEFAULT_DATETIME_FORMAT)
+      format_time(value, format)
+    end
+
+    def format_date(value, format: DEFAULT_DATE_FORMAT)
+      format_time(value, format)
+    end
+
+    def format_time(value, format)
+      return if value.blank?
+
+      time = value.respond_to?(:in_time_zone) ? value.in_time_zone : Time.zone.parse(value.to_s)
+
+      time&.strftime(format)
+    rescue ArgumentError
+      nil
+    end
+
+    def runtime_hours(seconds)
+      hours = seconds.to_f / 3600
+      "#{hours.round(2)} hours"
     end
   end
 end

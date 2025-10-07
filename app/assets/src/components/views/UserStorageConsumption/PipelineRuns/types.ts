@@ -13,6 +13,7 @@ export interface PipelineRunRow {
   deprecated: boolean | null;
   executedAt: string | null;
   runtimeSeconds: number;
+  runtimeHours: string | null;
 }
 
 export interface PipelineRunsSummary {

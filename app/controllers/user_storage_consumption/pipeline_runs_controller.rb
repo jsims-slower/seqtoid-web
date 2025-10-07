@@ -21,6 +21,8 @@ module UserStorageConsumption
 
     def format_pipeline_runs(runs)
       runs.map do |run|
+        runtime_seconds = run.time_to_finalized
+
         {
           id: run.id,
           sampleId: run.sample_id,
@@ -35,7 +37,8 @@ module UserStorageConsumption
           wdlVersion: run.wdl_version,
           deprecated: run.deprecated,
           executedAt: executed_timestamp(run),
-          runtimeSeconds: run.time_to_results_finalized.to_i,
+          runtimeSeconds: runtime_seconds ? runtime_seconds.to_i : 0,
+          runtimeHours: runtime_hours(runtime_seconds),
         }
       end
     end
@@ -51,7 +54,7 @@ module UserStorageConsumption
 
     def executed_timestamp(run)
       timestamp = run.executed_at || run.created_at
-      timestamp&.strftime("%Y-%m-%d %H:%M")
+      format_datetime(timestamp, format: "%Y-%m-%d %H:%M")
     end
   end
 end
