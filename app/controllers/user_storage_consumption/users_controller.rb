@@ -13,7 +13,7 @@ module UserStorageConsumption
     private
 
     def assign_summary_data
-      summary = query_service.users_summary
+      summary = users_query_service.users_summary
 
       @summary_data = {
         totalUsers: summary[:total_users],
@@ -24,7 +24,7 @@ module UserStorageConsumption
     end
 
     def users
-      @users ||= query_service.paginated_users(
+      @users ||= users_query_service.paginated_users(
         page: params[:page],
         sort_by: @sort_by,
         sort_dir: @sort_dir,
@@ -87,6 +87,10 @@ module UserStorageConsumption
           totalSampleS3StorageSize: number_to_human_size(user.attributes["total_sample_s3_size"].to_i),
         }
       end
+    end
+
+    def users_query_service
+      @users_query_service ||= UserStorageConsumption::UsersQueryService.new
     end
   end
 end

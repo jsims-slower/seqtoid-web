@@ -9,8 +9,8 @@ module UserStorageConsumption
       min_size_bytes = megabytes_to_bytes(@min_size_mb) || 0
       older_than_timestamp = @older_than_months.positive? ? @older_than_months.months.ago : Time.zone.now
 
-      flagged_files = query_service.flagged_files(min_size_bytes, older_than_timestamp, limit: @limit)
-      flagged_stats = query_service.flagged_files_stats(min_size_bytes, older_than_timestamp)
+      flagged_files = flagged_files_query_service.flagged_files(min_size_bytes, older_than_timestamp, limit: @limit)
+      flagged_stats = flagged_files_query_service.flagged_files_stats(min_size_bytes, older_than_timestamp)
 
       @flagged_files = format_files(flagged_files)
       @summary = build_summary(flagged_stats)
@@ -68,6 +68,10 @@ module UserStorageConsumption
         impactedUsers: flagged_stats[:users_impacted],
         impactedProjects: flagged_stats[:projects_impacted],
       }
+    end
+
+    def flagged_files_query_service
+      @flagged_files_query_service ||= UserStorageConsumption::FlaggedFilesQueryService.new
     end
   end
 end

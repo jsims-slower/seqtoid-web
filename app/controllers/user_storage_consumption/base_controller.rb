@@ -14,10 +14,6 @@ module UserStorageConsumption
       @total_pages = scope.total_pages
     end
 
-    def query_service
-      @query_service ||= UserStorageConsumption::QueryService.new
-    end
-
     def parse_float_param(value, default)
       return default if value.blank?
 

@@ -10,13 +10,9 @@ module UserStorageConsumption
       Rails.logger.info("Starting to capture user storage consumption snapshot on #{date.strftime('%Y-%m-%d')}")
 
       snapshot = UserStorageConsumptionSnapshot.find_or_initialize_by(snapshot_date: date)
-      snapshot_data = UserStorageConsumption::QueryService.new.consumption_stats
-      snapshot.assign_attributes(
-        total_users: snapshot_data[:total_users],
-        total_samples: snapshot_data[:total_samples],
-        total_input_files: snapshot_data[:total_input_files],
-        total_input_files_size: snapshot_data[:total_input_files_size]
-      )
+      stats_query_service = UserStorageConsumption::StatsQueryService.new
+
+      snapshot.assign_attributes(stats_query_service.snapshot_summary)
       snapshot.save!
 
       Rails.logger.info("Finished capturing user storage consumption snapshot.")

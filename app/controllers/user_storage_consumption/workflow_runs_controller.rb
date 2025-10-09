@@ -5,7 +5,7 @@ module UserStorageConsumption
       @sort_by = params[:sort_by].presence
       @sort_dir = params[:sort_dir].presence
 
-      runs_scope = query_service.paginated_workflow_runs(
+      runs_scope = workflow_runs_query_service.paginated_workflow_runs(
         page: params[:page],
         sort_by: @sort_by,
         sort_dir: @sort_dir
@@ -14,7 +14,7 @@ module UserStorageConsumption
       assign_pagination_data(runs_scope)
 
       @workflow_runs = format_workflow_runs(runs_scope)
-      @summary = format_summary(query_service.workflow_runs_summary)
+      @summary = format_summary(workflow_runs_query_service.workflow_runs_summary)
     end
 
     private
@@ -58,6 +58,10 @@ module UserStorageConsumption
     def executed_timestamp(run)
       timestamp = run.executed_at || run.created_at
       format_datetime(timestamp, format: "%Y-%m-%d %H:%M")
+    end
+
+    def workflow_runs_query_service
+      @workflow_runs_query_service ||= UserStorageConsumption::WorkflowRunsQueryService.new
     end
   end
 end

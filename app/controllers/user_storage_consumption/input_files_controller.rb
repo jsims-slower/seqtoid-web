@@ -4,10 +4,10 @@ module UserStorageConsumption
 
     # GET /user_storage_consumption/users/:user_id/input_files
     def show
-      stats = query_service.user_stats(@user.id)
+      stats = users_query_service.user_stats(@user.id)
       @input_files_summary = format_summary(@user, stats)
 
-      samples = query_service.paginated_samples(@user, params[:page])
+      samples = users_query_service.paginated_samples(@user, params[:page])
       @sample_file_rows = format_sample_file_rows(samples)
 
       assign_pagination_data(samples)
@@ -57,6 +57,10 @@ module UserStorageConsumption
         fileSize: file.storage_size ? number_to_human_size(file.storage_size) : nil,
         sourceType: file.source_type,
       }
+    end
+
+    def users_query_service
+      @users_query_service ||= UserStorageConsumption::UsersQueryService.new
     end
   end
 end

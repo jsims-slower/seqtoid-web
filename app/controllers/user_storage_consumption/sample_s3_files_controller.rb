@@ -7,10 +7,10 @@ module UserStorageConsumption
 
     # GET /user_storage_consumption/users/:user_id/sample_s3_files
     def index
-      stats = query_service.user_sample_s3_stats(@user.id)
+      stats = users_query_service.user_sample_s3_stats(@user.id)
       @user_details = format_user_for_sample_s3(@user, stats)
 
-      samples = query_service.paginated_sample_s3_files(@user, params[:page])
+      samples = users_query_service.paginated_sample_s3_files(@user, params[:page])
       @sample_s3_file_rows = format_sample_s3_file_rows(samples)
 
       assign_pagination_data(samples)
@@ -83,6 +83,10 @@ module UserStorageConsumption
 
     def ordered_sample_s3_files(sample)
       sample.sample_s3_files.order(created_at: :desc)
+    end
+
+    def users_query_service
+      @users_query_service ||= UserStorageConsumption::UsersQueryService.new
     end
   end
 end
