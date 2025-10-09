@@ -17,6 +17,15 @@ module UserStorageConsumption
       "deprecated",
     ].freeze
 
+    WORKFLOW_RUN_SORTABLE_COLUMNS = Set[
+      "time_to_finalized",
+      "executed_at",
+      "status",
+      "workflow",
+      "wdl_version",
+      "deprecated",
+    ].freeze
+
     def consumption_stats
       total_users = User.count
       total_samples = Sample.count
@@ -166,6 +175,34 @@ module UserStorageConsumption
       slowest_runtime_seconds = PipelineRun.maximum(:time_to_finalized)&.to_f || 0.0
 
       total_deprecated = PipelineRun.where(deprecated: true).count
+
+      {
+        total_runs: total_runs,
+        average_runtime_seconds: average_runtime_seconds,
+        slowest_runtime_seconds: slowest_runtime_seconds,
+        total_deprecated: total_deprecated,
+      }
+    end
+
+    def paginated_workflow_runs(page:, sort_by: nil, sort_dir: nil)
+      scope = WorkflowRun
+              .includes(:user, sample: :project)
+
+      if WORKFLOW_RUN_SORTABLE_COLUMNS.include?(sort_by)
+        direction = sort_dir == "asc" ? "ASC" : "DESC"
+        scope = scope.order("#{sort_by} #{direction}")
+      else
+        scope = scope.order(id: :desc)
+      end
+
+      scope.page(page)
+    end
+
+    def workflow_runs_summary
+      total_runs = WorkflowRun.count
+      average_runtime_seconds = WorkflowRun.average(:time_to_finalized)&.to_f || 0.0
+      slowest_runtime_seconds = WorkflowRun.maximum(:time_to_finalized)&.to_f || 0.0
+      total_deprecated = WorkflowRun.where(deprecated: true).count
 
       {
         total_runs: total_runs,

@@ -140,6 +140,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index]
     resources :flagged_files, only: [:index]
     resources :pipeline_runs, only: [:index]
+    resources :workflow_runs, only: [:index]
     resource :refresh_batch, only: [:show, :create], controller: :refresh_batches
   end
 

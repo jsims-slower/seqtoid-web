@@ -147,6 +147,10 @@ export const UserStorageConsumptionDashboard: React.FC<
             title="Average Workflow Runtime"
             value={averageWorkflowRuntimeParsed.value}
             unit={averageWorkflowRuntimeParsed.unit}
+            link={{
+              href: "/user_storage_consumption/workflow_runs",
+              label: "View details 🢒",
+            }}
           />
         </div>
         <div

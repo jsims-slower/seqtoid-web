@@ -1,0 +1,14 @@
+<%= javascript_tag do %>
+  react_component(
+    "UserStorageConsumptionWorkflowRuns",
+    {
+      workflowRuns: JSON.parse('<%= raw escape_json(@workflow_runs) %>'),
+      summary: JSON.parse('<%= raw escape_json(@summary) %>'),
+      page: JSON.parse('<%= raw escape_json(@page) %>'),
+      totalPages: JSON.parse('<%= raw escape_json(@total_pages) %>'),
+      sortBy: JSON.parse('<%= raw escape_json(@sort_by) %>'),
+      sortDir: JSON.parse('<%= raw escape_json(@sort_dir) %>')
+    },
+    'page_content'
+  );
+<% end %>
