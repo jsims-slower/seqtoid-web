@@ -16,11 +16,20 @@ module UserStorageConsumption
     end
 
     def workflow_runs_summary
+      row = WorkflowRun.pick(
+        Arel.sql("COUNT(*) AS total_runs"),
+        Arel.sql("COALESCE(SUM(time_to_finalized), 0) / NULLIF(COUNT(*), 0) AS average_runtime_seconds"),
+        Arel.sql("COALESCE(MAX(time_to_finalized), 0) AS slowest_runtime_seconds"),
+        Arel.sql("SUM(CASE WHEN deprecated THEN 1 ELSE 0 END) AS total_deprecated")
+      )
+
+      total_runs, average_runtime_seconds, slowest_runtime_seconds, total_deprecated = row || [0, 0.0, 0.0, 0]
+
       {
-        total_runs: WorkflowRun.count,
-        average_runtime_seconds: average_workflow_runtime_seconds,
-        slowest_runtime_seconds: WorkflowRun.maximum(:time_to_finalized)&.to_f || 0.0,
-        total_deprecated: WorkflowRun.where(deprecated: true).count,
+        total_runs: total_runs.to_i,
+        average_runtime_seconds: average_runtime_seconds.to_f,
+        slowest_runtime_seconds: slowest_runtime_seconds.to_f,
+        total_deprecated: total_deprecated.to_i,
       }
     end
 

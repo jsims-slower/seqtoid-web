@@ -27,11 +27,18 @@ module UserStorageConsumption
     end
 
     def pipeline_runs_summary
+      row = PipelineRun.pick(
+        Arel.sql("COUNT(*) AS total_runs"),
+        Arel.sql("COALESCE(SUM(time_to_finalized), 0) / NULLIF(COUNT(*), 0) AS average_runtime_seconds"),
+        Arel.sql("COALESCE(MAX(time_to_finalized), 0) AS slowest_runtime_seconds"),
+        Arel.sql("SUM(CASE WHEN deprecated THEN 1 ELSE 0 END) AS total_deprecated")
+      )
+
       {
-        total_runs: PipelineRun.count,
-        average_runtime_seconds: average_pipeline_runtime_seconds,
-        slowest_runtime_seconds: PipelineRun.maximum(:time_to_finalized)&.to_f || 0.0,
-        total_deprecated: PipelineRun.where(deprecated: true).count,
+        total_runs: row[0].to_i,
+        average_runtime_seconds: row[1].to_f,
+        slowest_runtime_seconds: row[2].to_f,
+        total_deprecated: row[3].to_i,
       }
     end
 

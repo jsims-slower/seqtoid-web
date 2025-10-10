@@ -67,19 +67,19 @@ module UserStorageConsumption
       scope.page(page)
     end
 
-    def users_summary(filters: {})
-      scope = users_stats_scope(filters)
+    def users_summary
+      row = users_stats_scope.pick(
+        Arel.sql("COUNT(DISTINCT users.id) AS total_users"),
+        Arel.sql("AVG(COALESCE(sample_stats.samples_count, 0)) AS average_samples_per_user"),
+        Arel.sql("AVG(COALESCE(input_file_stats.total_input_files_size, 0)) AS average_input_file_size_per_user"),
+        Arel.sql("AVG(COALESCE(sample_s3_stats.total_sample_s3_size, 0)) AS average_sample_s3_size_per_user")
+      )
 
-      total_users = scope.distinct.count(:id)
-      average_samples_per_user =
-        scope.average(Arel.sql("COALESCE(sample_stats.samples_count, 0)")) || 0
-      average_input_file_size_per_user =
-        scope.average(Arel.sql("COALESCE(input_file_stats.total_input_files_size, 0)")) || 0
-      average_sample_s3_size_per_user =
-        scope.average(Arel.sql("COALESCE(sample_s3_stats.total_sample_s3_size, 0)")) || 0
+      total_users, average_samples_per_user, average_input_file_size_per_user, average_sample_s3_size_per_user =
+        row || [0, 0.0, 0.0, 0.0]
 
       {
-        total_users: total_users,
+        total_users: total_users.to_i,
         average_samples_per_user: average_samples_per_user.to_f,
         average_input_file_size_per_user: average_input_file_size_per_user.to_f,
         average_sample_s3_size_per_user: average_sample_s3_size_per_user.to_f,
