@@ -15,12 +15,13 @@ module SeedResource
     private
 
     def sfn_configs
-      find_or_create(:app_config, key: AppConfig::SFN_SINGLE_WDL_ARN, value: "arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-default-wdl")
+      find_or_create(:app_config, key: AppConfig::SFN_SINGLE_WDL_ARN, value: "arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-default-wdl")
       find_or_create(:app_config, key: AppConfig::ENABLE_SFN_NOTIFICATIONS, value: "1")
+      #find_or_create(:app_config, key: AppConfig::AUTO_ACCOUNT_CREATION_V1, value: "1")
 
-      find_or_create(:app_config, key: AppConfig::SFN_ARN, value: "arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-short-read-mngs-wdl")
-      find_or_create(:app_config, key: AppConfig::SFN_MNGS_ARN, value: "arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-short-read-mngs-wdl")
-      find_or_create(:app_config, key: AppConfig::SFN_CG_ARN, value: "arn:aws:states:us-west-2:941377154785:stateMachine:idseq-swipe-dev-default-wdl")
+      find_or_create(:app_config, key: AppConfig::SFN_ARN, value: "arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-short-read-mngs-wdl")
+      find_or_create(:app_config, key: AppConfig::SFN_MNGS_ARN, value: "arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-short-read-mngs-wdl")
+      find_or_create(:app_config, key: AppConfig::SFN_CG_ARN, value: "arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-default-wdl")
     end
 
     def workflow_versions

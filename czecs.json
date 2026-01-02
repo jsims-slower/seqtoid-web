@@ -1,11 +1,12 @@
 {
-  "family": "{{ .Values.project }}-{{ .Values.env }}-{{ .Values.name }}",
+  "family": "{{ .Values.project }}-dev-{{ .Values.name }}",
   "containerDefinitions": [
     {
       "name": "rails",
       "image": "{{ .Values.account_id }}.dkr.ecr.{{ .Values.region }}.amazonaws.com/idseq-web:{{ .Values.tag }}",
-      "cpu": 4096,
-      "memoryReservation": 14336,
+      "cpu": 1024,
+      "memoryReservation": 2000,
+      "memory": 4096,
       "essential": true,
       "portMappings": [
         {
@@ -16,11 +17,11 @@
       "environment": [
         {
           "name": "RAILS_ENV",
-          "value": "{{ .Values.env }}"
+          "value": "development"
         },
         {
           "name": "ENVIRONMENT",
-          "value": "{{ .Values.env }}"
+          "value": "dev"
         },
         {
           "name": "RAILS_LOG_TO_STDOUT",
@@ -38,12 +39,12 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "ecs-logs-{{ .Values.env }}",
+          "awslogs-group": "ecs-logs-dev",
           "awslogs-region": "{{ .Values.region }}",
           "awslogs-stream-prefix": "rails"
         }
       }
     }
   ],
-  "taskRoleArn": "{{ .Values.project }}-web-{{ .Values.env }}"
+  "taskRoleArn": "{{ .Values.project }}-web-dev"
 }
