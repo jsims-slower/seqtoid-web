@@ -42,7 +42,7 @@
         },
         {
           "name": "SAMPLES_BUCKET_NAME",
-          "value": "idseq-samples-dev-491013321714"
+          "value": "idseq-samples-{{ .Values.env }}-{{ .Values.account_id }}"
         }
       ],
       "logConfiguration": {

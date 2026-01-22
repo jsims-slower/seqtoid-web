@@ -16,7 +16,7 @@ class Auth0Controller < ApplicationController
   MIN_TOKEN_REFRESH_IN_SECONDS = 60.seconds.to_i
   MAX_TOKEN_REFRESH_IN_SECONDS = (60.minutes / 1.second).to_i
 
-  AUTH0_CONNECTION_NAME = "Username-Password-Authentication"
+  AUTH0_CONNECTION_NAME = ENV["AUTH0_CONNECTION"] || "Username-Password-Authentication"
   AUTH0_UNAUTHORIZED = "unauthorized"
   AUTH0_LOGIN_REQUIRED = "login_required"
   # Whitelist descriptions to prevent phishing attempts.

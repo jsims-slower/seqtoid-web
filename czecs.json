@@ -1,5 +1,5 @@
 {
-  "family": "{{ .Values.project }}-dev-{{ .Values.name }}",
+  "family": "{{ .Values.project }}-{{ .Values.env }}-{{ .Values.name }}",
   "containerDefinitions": [
     {
       "name": "rails",
@@ -17,11 +17,11 @@
       "environment": [
         {
           "name": "RAILS_ENV",
-          "value": "development"
+          "value": "{{ .Values.env_full }}"
         },
         {
           "name": "ENVIRONMENT",
-          "value": "dev"
+          "value": "{{ .Values.env }}"
         },
         {
           "name": "RAILS_LOG_TO_STDOUT",
@@ -39,12 +39,12 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "ecs-logs-dev",
+          "awslogs-group": "ecs-logs-{{ .Values.env }}",
           "awslogs-region": "{{ .Values.region }}",
           "awslogs-stream-prefix": "rails"
         }
       }
     }
   ],
-  "taskRoleArn": "{{ .Values.project }}-web-dev"
+  "taskRoleArn": "{{ .Values.project }}-web-{{ .Values.env }}"
 }

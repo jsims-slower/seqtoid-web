@@ -20,12 +20,13 @@ def safe_habtm_append(model_associations, associated_model_instance_arr)
 end
 
 ActiveRecord::Base.transaction do
+  account_id=ENV["AWS_ACCOUNT_ID"]
 
   AppConfig.create({"key"=>"auto_account_creation_v1", "value"=>"1"})
 
   AppConfig.create({"key"=>"launched_features", "value"=>"[\"bulk_downloads\",\"sample_type_free_text\",\"host_genome_free_text\",\"heatmap_filter_fe\",\"mass_normalized\",\"plqc\",\"consensus_genome\",\"cg_bulk_downloads\",\"nextclade\",\"appcues\",\"gen_viral_cg\",\"nanopore\",\"nanopore_v1\",\"cg_flat_list\",\"cg_appcues_help_button\",\"phylo_tree_ng\",\"improved_bg_model_selection\",\"landing_v2\",\"phylo_tree_appcue\",\"taxon_heatmap_presets\",\"blast\",\"annotation\",\"heatmap_pin_samples\",\"sorting_v0\",\"taxon_threshold_filter\",\"microbiome\",\"annotation_filter\",\"blast_v1\",\"pre_upload_check\",\"heatmap_elasticsearch\",\"samples_table_metadata_columns\",\"ont_v1\",\"bulk_deletion\",\"left_heatmap_filters\",\"amr_v3\",\"amr_v2\",\"amr_v1\",\"wgs_cg_upload\"]"})
 
-  AppConfig.create({"key"=>"consensus-genome-version", "value"=>"3.5.1"})
+  AppConfig.create({"key"=>"consensus-genome-version", "value"=>"3.5.5"})
 
   AppConfig.create({"key"=>"short-read-mngs-version", "value"=>"8.3.11"})
 
@@ -35,15 +36,15 @@ ActiveRecord::Base.transaction do
 
   AppConfig.create({"key"=>"long-read-mngs-version", "value"=>"0.7.11"})
 
-  AppConfig.create({"key"=>"sfn_single_wdl_arn", "value"=>"arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-default-wdl"})
+  AppConfig.create({"key"=>"sfn_single_wdl_arn", "value"=>"arn:aws:states:us-west-2:#{account_id}:stateMachine:idseq-swipe-dev-default-wdl"})
 
   AppConfig.create({"key"=>"enable_sfn_notifications", "value"=>"1"})
 
-  AppConfig.create({"key"=>"sfn_arn", "value"=>"arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
+  AppConfig.create({"key"=>"sfn_arn", "value"=>"arn:aws:states:us-west-2:#{account_id}:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
 
-  AppConfig.create({"key"=>"sfn_mngs_arn", "value"=>"arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
+  AppConfig.create({"key"=>"sfn_mngs_arn", "value"=>"arn:aws:states:us-west-2:#{account_id}:stateMachine:idseq-swipe-dev-short-read-mngs-wdl"})
 
-  AppConfig.create({"key"=>"sfn_cg_arn", "value"=>"arn:aws:states:us-west-2:491013321714:stateMachine:idseq-swipe-dev-default-wdl"})
+  AppConfig.create({"key"=>"sfn_cg_arn", "value"=>"arn:aws:states:us-west-2:#{account_id}:stateMachine:idseq-swipe-dev-default-wdl"})
 
   AppConfig.create({"key"=>"default_alignment_config_name", "value"=>"2024-02-06"})
 

@@ -10,6 +10,11 @@ default: &default
   pool: <%= ENV['DB_CONNECTION_POOL'] || 5 %>
   ssl_mode: 'REQUIRED'
 
+test:
+  <<: *default
+  host: <%= ENV['DB_HOST'] || "db" %>
+  database: idseq_test
+
 deployed: &deployed
   <<: *default
   host: <%= ENV['RDS_ADDRESS'] %>

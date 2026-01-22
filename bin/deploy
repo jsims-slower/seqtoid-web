@@ -173,29 +173,28 @@ begin
   task_definition_arn = `/tmp/czecs register -f balances.json --set tag=#{image} --set env=#{env} --set account_id=#{aws_account_id} czecs.json`.strip
   $?.exitstatus == 0 || abort("\n== Could not register task ==\n")
 
-  # TODO: Should we use deploy-web.sh for manual deployments, instead of this file?
   puts 'running migrations'
   puts "/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=#{task_definition_arn} --set cluster=#{cluster} czecs-task-migrate.json"
-  puts "/tmp/czecs upgrade --timeout 900 --task-definition-arn #{task_definition_arn} #{cluster} czid-dev-web"
+  puts "/tmp/czecs upgrade --timeout 900 --task-definition-arn #{task_definition_arn} #{cluster} czid-#{env}-web"
   system!("/tmp/czecs task -f balances.json --timeout 0 --set taskDefinitionArn=#{task_definition_arn} --set cluster=#{cluster} czecs-task-migrate.json")
-  system!("/tmp/czecs upgrade --timeout 900 --task-definition-arn #{task_definition_arn} #{cluster} czid-dev-web")
+  system!("/tmp/czecs upgrade --timeout 900 --task-definition-arn #{task_definition_arn} #{cluster} czid-#{env}-web")
 
   puts "image: #{image}, env: #{env}, aws_account_id: #{aws_account_id}, cluster: #{cluster}"
   # Resque workers
-  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque --set rake_command=resque:workers --set account_id=#{aws_account_id} #{cluster} idseq-dev-resque czecs-resque.json")
+  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque --set rake_command=resque:workers --set account_id=#{aws_account_id} #{cluster} idseq-#{env}-resque czecs-resque.json")
   # Resque scheduler
-  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-scheduler --set rake_command=resque:scheduler --set account_id=#{aws_account_id} #{cluster} idseq-dev-resque-scheduler czecs-resque.json")
+  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-scheduler --set rake_command=resque:scheduler --set account_id=#{aws_account_id} #{cluster} idseq-#{env}-resque-scheduler czecs-resque.json")
 
   # Pipeline monitor
-  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-pipeline-monitor --set rake_command=pipeline_monitor --set account_id=#{aws_account_id} #{cluster} idseq-dev-resque-pipeline-monitor czecs-resque.json")
+  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-pipeline-monitor --set rake_command=pipeline_monitor --set account_id=#{aws_account_id} #{cluster} idseq-#{env}-resque-pipeline-monitor czecs-resque.json")
   # Result monitor
-  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-result-monitor --set rake_command=result_monitor --set account_id=#{aws_account_id} #{cluster} idseq-dev-resque-result-monitor czecs-resque.json")
+  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=resque-result-monitor --set rake_command=result_monitor --set account_id=#{aws_account_id} #{cluster} idseq-#{env}-resque-result-monitor czecs-resque.json")
 
   # Shoryuken
-  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id=#{aws_account_id} #{cluster} idseq-dev-shoryuken czecs-shoryuken.json")
+  system!("/tmp/czecs upgrade -f balances.json --set tag=#{image} --set env=#{env} --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id=#{aws_account_id} #{cluster} idseq-#{env}-shoryuken czecs-shoryuken.json")
 
   puts "load release tag into param store"
-  `aws ssm put-parameter --name /idseq-dev-web/GIT_RELEASE_SHA --value #{image.match(/^sha-([0-9a-f]{7,})$/)[1]} --type String --overwrite`
+  `aws ssm put-parameter --name /idseq-#{env}-web/GIT_RELEASE_SHA --value #{image.match(/^sha-([0-9a-f]{7,})$/)[1]} --type String --overwrite`
   # notify_slack(env, image, "end")
 rescue Exception  # Even on abort/SystemExit
   # notify_slack(env, image, "failure")

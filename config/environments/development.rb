@@ -1,5 +1,4 @@
-# Use the staging config.
-require File.expand_path('staging.rb', __dir__)
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -31,7 +30,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Don't add an asset compressor here because we already minimize with webpack.
   # Check out webpack.config.prod.js.
@@ -80,30 +79,22 @@ Rails.application.configure do
   config.asset_host = ENV["CZID_CLOUDFRONT_ENDPOINT"] || "dev.seqtoid.org"
   # Custom config for idseq to enable CORS headers by environment. See rack_cors.rb.
   config.allowed_cors_origins = [
-    "https://#{Rails.env}.idseq.net",
-    "https://www.#{Rails.env}.idseq.net",
-    "https://assets.#{Rails.env}.idseq.net",
-    "https://#{Rails.env}.czid.org",
-    "https://www.#{Rails.env}.czid.org",
-    "https://assets.#{Rails.env}.czid.org",
     "https://dev.seqtoid.org",
     "https://www.dev.seqtoid.org",
     "https://assets.dev.seqtoid.org",
   ]
 
-  config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.idseq.net" => "#{Rails.env}.idseq.net"
-  config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.czid.org" => "#{Rails.env}.czid.org"
   config.middleware.use Rack::HostRedirect, "www.dev.seqtoid.org" => "dev.seqtoid.org"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
-  # Don't log any deprecations.
-  config.active_support.report_deprecations = false
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
 
   # Deployed logging configuration
-  config.log_level = :info
+  config.log_level = :debug
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Json.new
   config.lograge.logger = ActiveSupport::Logger.new(STDOUT)

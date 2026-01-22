@@ -17,7 +17,7 @@ task update_tables_for_index_gen: :environment do |_, _args|
   end
 
   host = '$RDS_ADDRESS'
-  database = "idseq_dev"
+  database = Rails.env.development? ? "idseq_dev" : "idseq_#{Rails.env}"
 
   index_name = prompt("Enter the index name used to run index generation (the folder inside ncbi-indexes-prod containing reference files): (ex: 2020-06-01): ")
   s3_dir = prompt("Enter the s3 path that stores the index files (ex: s3://<bucket>/<prefix>/index-generation-2): ")
