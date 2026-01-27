@@ -16,7 +16,7 @@
       "environment": [
         {
           "name": "RAILS_ENV",
-          "value": "{{ .Values.env_full }}"
+          "value": "{{ .Values.rails_env }}"
         },
         {
           "name": "ENVIRONMENT",
