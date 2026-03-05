@@ -44,8 +44,8 @@ balances_file="balances-${env}.json"
 echo "Using balances file: $balances_file"
 
 # Register the task. Exit if registration fails.
-echo task_definition_arn=/tmp/czecs register -f $balances_file --set tag=${image} --set env=${env} --set rails_env=${rails_env} --set account_id=${aws_account_id} czecs.json
-task_definition_arn=$(/tmp/czecs register -f $balances_file --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set account_id="${aws_account_id}" czecs.json)
+echo "task_definition_arn=/tmp/czecs register -f ${balances_file} --set tag=${image} --set env=${env} --set rails_env=${rails_env} --set account_id=${aws_account_id} czecs.json"
+task_definition_arn=$(/tmp/czecs register -f "${balances_file}" --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set account_id="${aws_account_id}" czecs.json)
 #task_definition_arn="arn:aws:ecs:us-west-2:${aws_account_id}:task-definition/idseq-${env}-web:8"
 if [[ $? -ne 0 ]]; then
   echo "== Could not register task =="
@@ -58,22 +58,23 @@ echo "running migrations"
 #/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-drop.json
 
 echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-create.json"
-/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-create.json
+/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-create.json
 
 #echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-create-admin.json"
 #/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-create-admin.json
 
 echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-migrate.json"
-/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-migrate.json
+/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-migrate.json
 
 echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-seed.json"
-/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-seed.json
+/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-seed.json
 
 echo "running updates"
 
-# TODO: is "idseq-${env}-web" in DEV currently, but the infra needs to be updated!
 echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_arn} ${cluster} idseq-${env}-web"
 /tmp/czecs upgrade --timeout 900 --task-definition-arn "${task_definition_arn}" "${cluster}" "idseq-${env}-web"
+
+echo "running resque"
 
 # Upgrade Resque workers.
 /tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=resque --set rake_command=resque:workers --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque" czecs-resque.json
@@ -89,6 +90,18 @@ echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_a
 
 # Upgrade Shoryuken.
 /tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-shoryuken" czecs-shoryuken.json
+
+echo "running rake tasks"
+
+# Run specialized Rake tasks.
+#rake_command="--tasks"
+#rake_command="load_taxon_descriptions[s3://czid-public-references/taxonomy/2018-04-01-utc-1522569777-unixtime__2018-04-04-utc-1522862260-unixtime/2.9/taxid2description.json]"
+# TODO: taxon_lineage_slice:import_data_from_s3 is important to load!
+#rake_command="taxon_lineage_slice:import_data_from_s3"
+#rake_command="features:list"
+#
+#echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set name=rake-task --set rake_command='${rake_command}' czecs-task-rake.json"
+#/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set name=rake-task --set rake_command="${rake_command}" czecs-task-rake.json
 
 echo "load release tag into param store"
 # Extract the release SHA from the image string (expected format: sha-<7+ hex digits>).

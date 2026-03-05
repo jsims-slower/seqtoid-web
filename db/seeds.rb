@@ -23,7 +23,8 @@ ActiveRecord::Base.transaction do
   account_id=ENV["AWS_ACCOUNT_ID"]
   environment_name=ENV["ENVIRONMENT"]
 
-  AppConfig.create({"key"=>"auto_account_creation_v1", "value"=>"1"})
+  # TODO: Remove this when in production!
+  # AppConfig.create({"key"=>"auto_account_creation_v1", "value"=>"1"})
 
   AppConfig.create({"key"=>"launched_features", "value"=>"[\"bulk_downloads\",\"sample_type_free_text\",\"host_genome_free_text\",\"heatmap_filter_fe\",\"mass_normalized\",\"plqc\",\"consensus_genome\",\"cg_bulk_downloads\",\"nextclade\",\"appcues\",\"gen_viral_cg\",\"nanopore\",\"nanopore_v1\",\"cg_flat_list\",\"cg_appcues_help_button\",\"phylo_tree_ng\",\"improved_bg_model_selection\",\"landing_v2\",\"phylo_tree_appcue\",\"taxon_heatmap_presets\",\"blast\",\"annotation\",\"heatmap_pin_samples\",\"sorting_v0\",\"taxon_threshold_filter\",\"microbiome\",\"annotation_filter\",\"blast_v1\",\"pre_upload_check\",\"heatmap_elasticsearch\",\"samples_table_metadata_columns\",\"ont_v1\",\"bulk_deletion\",\"left_heatmap_filters\",\"amr_v3\",\"amr_v2\",\"amr_v1\",\"wgs_cg_upload\"]"})
 

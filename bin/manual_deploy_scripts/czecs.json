@@ -7,6 +7,9 @@
       "cpu": {{ .Values.cpu_web }},
       "memoryReservation": {{ .Values.mem_web }},
       "essential": true,
+      "linuxParameters": {
+        "initProcessEnabled": true
+      },
       "portMappings": [
         {
           "containerPort": 3000,
