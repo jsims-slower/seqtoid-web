@@ -1,7 +1,6 @@
 namespace :taxon_lineage_slice do
   CURRENT_VERSION = "2024-02-06".freeze
   SLICE_NAME = "taxon_lineages_2024_slice.csv".freeze
-  S3_BUCKET_NAME = ENV['S3_DATABASE_BUCKET']
   INDEXES_PREFIX = "ncbi-indexes-prod/#{CURRENT_VERSION}/index-generation-2".freeze
   TAXON_LINEAGE_FILE_KEY = "#{INDEXES_PREFIX}/#{SLICE_NAME}".freeze
 
@@ -14,14 +13,14 @@ namespace :taxon_lineage_slice do
     end
 
     s3 = Aws::S3::Client.new(unsigned_operations: [:get_object])
-    response = s3.get_object(bucket: S3_BUCKET_NAME, key: TAXON_LINEAGE_FILE_KEY)
+    response = s3.get_object(bucket: S3_DATABASE_BUCKET, key: TAXON_LINEAGE_FILE_KEY)
     print "Importing Taxon Lineage data from S3"
 
     chunk_size = 10_000
     rows = []
     counter = 0
 
-    csv_data = response.body.read  # Read the data once
+    csv_data = response.body.read # Read the data once
     total_rows = CSV.parse(csv_data, headers: true).count # Count rows for progress tracking
 
     # Process the CSV in chunks to avoid memory issues
