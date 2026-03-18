@@ -52,6 +52,10 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
+#
+# DB Creation/deletion/migration
+#
+
 echo "running migrations"
 
 #echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-drop.json"
@@ -69,10 +73,18 @@ echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${
 echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-seed.json"
 /tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-seed.json
 
+#
+# Deploy Web Application
+#
+
 echo "running updates"
 
 echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_arn} ${cluster} idseq-${env}-web"
 /tmp/czecs upgrade --timeout 900 --task-definition-arn "${task_definition_arn}" "${cluster}" "idseq-${env}-web"
+
+#
+# Deploy Resque and Shoryuken
+#
 
 echo "running resque"
 
@@ -91,17 +103,83 @@ echo "running resque"
 # Upgrade Shoryuken.
 /tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-shoryuken" czecs-shoryuken.json
 
+#
+# Run Rake Tasks
+#
+
 echo "running rake tasks"
 
-# Run specialized Rake tasks.
-#rake_command="--tasks"
-#rake_command="load_taxon_descriptions[s3://czid-public-references/taxonomy/2018-04-01-utc-1522569777-unixtime__2018-04-04-utc-1522862260-unixtime/2.9/taxid2description.json]"
-# TODO: taxon_lineage_slice:import_data_from_s3 is important to load!
-#rake_command="taxon_lineage_slice:import_data_from_s3"
-#rake_command="features:list"
+declare -a rake_commands=(
+    #"--tasks"
+    #"features:list"
+    #"taxon_lineage_slice:remove_slice"
+    "taxon_lineage_slice:import_data_from_s3"
+    #"taxon_lineage_slice:remove_taxon_lineage_slice_es_index"
+    "taxon_lineage_slice:create_taxon_lineage_slice_es_index"
+    # TODO: Not sure if loading Taxon Descriptions is required or not
+    "load_taxon_descriptions[s3://seqtoid-public-references/phase1/taxonomy/2018-04-01-utc-1522569777-unixtime__2018-04-04-utc-1522862260-unixtime/2.9/taxid2description.json]"
+)
+
+## loop through above array (quotes are important if your elements may contain spaces)
+for rake_command in "${rake_commands[@]}"
+do
+    echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set name=rake-task --set rake_command='${rake_command}' czecs-task-rake.json"
+    /tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set name=rake-task --set rake_command="${rake_command}" czecs-task-rake.json
+done
+
 #
-#echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set name=rake-task --set rake_command='${rake_command}' czecs-task-rake.json"
-#/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set name=rake-task --set rake_command="${rake_command}" czecs-task-rake.json
+# Create OpenSearch Indexes and associated Aliases
+#
+
+echo "running opensearch tasks"
+
+# Create pipeline_runs Index
+
+es_endpoint=$(aws es describe-elasticsearch-domain --domain-name "czid-${env}-heatmap-es" --query "DomainStatus.Endpoints" --output text)
+
+curl_http_method=POST
+curl_content_type=application/x-ndjson
+curl_url=${es_endpoint}/_index_template/pipeline_runs
+curl_data=@./docker/open_distro/pipeline_runs_template.json
+
+echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_content_type=${curl_content_type} --set curl_url=${curl_url} --set curl_data=${curl_data} czecs-task-curl-data.json"
+/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}"  --set curl_content_type="${curl_content_type}" --set curl_url="${curl_url}" --set curl_data="${curl_data}" czecs-task-curl-data.json
+
+curl_http_method=PUT # DELETE to delete the index
+curl_url=${es_endpoint}/pipeline_runs-v1
+
+echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_url=${curl_url} czecs-task-curl.json"
+/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}" --set curl_url="${curl_url}" czecs-task-curl.json
+
+# Create scored_taxon_counts Index
+
+curl_http_method=POST
+curl_content_type=application/x-ndjson
+curl_url=${es_endpoint}/_index_template/scored_taxon_counts
+curl_data=@./docker/open_distro/scored_taxon_counts_template.json
+
+echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_content_type=${curl_content_type} --set curl_url=${curl_url} --set curl_data=${curl_data} czecs-task-curl-data.json"
+/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}"  --set curl_content_type="${curl_content_type}" --set curl_url="${curl_url}" --set curl_data="${curl_data}" czecs-task-curl-data.json
+
+curl_http_method=PUT # DELETE to delete the index
+curl_url=${es_endpoint}/scored_taxon_counts-v1
+
+echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_url=${curl_url} czecs-task-curl.json"
+/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}" --set curl_url="${curl_url}" czecs-task-curl.json
+
+# Create Indexes Aliases
+
+curl_http_method=POST
+curl_content_type=application/x-ndjson
+curl_url=${es_endpoint}/_aliases
+curl_data=@./docker/open_distro/alias_update.json
+
+echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_content_type=${curl_content_type} --set curl_url=${curl_url} --set curl_data=${curl_data} czecs-task-curl-data.json"
+/tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}"  --set curl_content_type="${curl_content_type}" --set curl_url="${curl_url}" --set curl_data="${curl_data}" czecs-task-curl-data.json
+
+#
+# Release Tagging
+#
 
 echo "load release tag into param store"
 # Extract the release SHA from the image string (expected format: sha-<7+ hex digits>).

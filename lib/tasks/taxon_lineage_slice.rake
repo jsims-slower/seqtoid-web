@@ -12,7 +12,8 @@ namespace :taxon_lineage_slice do
       abort("Taxon Lineage data for #{CURRENT_VERSION} already exists")
     end
 
-    s3 = Aws::S3::Client.new(unsigned_operations: [:get_object])
+    print "Connecting to Taxon Lineage S3 bucket [#{S3_DATABASE_BUCKET}] key [#{TAXON_LINEAGE_FILE_KEY}]"
+    s3 = Aws::S3::Client.new
     response = s3.get_object(bucket: S3_DATABASE_BUCKET, key: TAXON_LINEAGE_FILE_KEY)
     print "Importing Taxon Lineage data from S3"
 
@@ -53,9 +54,16 @@ namespace :taxon_lineage_slice do
   end
 
   task create_taxon_lineage_slice_es_index: :environment do
-    puts "Creating Elasticsearch index for #{CURRENT_VERSION} slice of taxon lineage data"
+    puts "Creating Elasticsearch index for #{CURRENT_VERSION} slice of TaxonLineage data"
     TaxonLineage.__elasticsearch__.create_index!(force: true)
     TaxonLineage.__elasticsearch__.import
     puts "Finished indexing TaxonLineage."
   end
+
+  task remove_taxon_lineage_slice_es_index: :environment do
+    puts "Removing Elasticsearch index for #{CURRENT_VERSION} slice of TaxonLineage data"
+    TaxonLineage.__elasticsearch__.delete_index!
+    puts "Finished removing TaxonLineage index"
+  end
+
 end
