@@ -6,7 +6,7 @@
         "name": "rails",
         "command": [
           "rails",
-          "db:drop"
+          "{{ .Values.rails_command }}"
         ]
       }
     ]

@@ -58,20 +58,21 @@ fi
 
 echo "running migrations"
 
-#echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-drop.json"
-#/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-drop.json
+declare -a rails_commands=(
+    #"--tasks"
+    #"db:drop"
+    "db:create"
+    #"local_user_creation:admin[test.user@test.com,test]"
+    "db:migrate:with_data"
+    "db:seed"
+    "seed:migrate"
+)
 
-echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-create.json"
-/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-create.json
-
-#echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-create-admin.json"
-#/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-create-admin.json
-
-echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-migrate.json"
-/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-migrate.json
-
-echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} czecs-task-db-seed.json"
-/tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" czecs-task-db-seed.json
+for rails_command in "${rails_commands[@]}"
+do
+    echo "/tmp/czecs task -f ${balances_file} --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set rails_command='${rails_command}' czecs-task-rails.json"
+    /tmp/czecs task -f "${balances_file}" --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set rails_command="${rails_command}" czecs-task-rails.json
+done
 
 #
 # Deploy Web Application
@@ -167,7 +168,7 @@ curl_url=${es_endpoint}/scored_taxon_counts-v1
 echo "/tmp/czecs task -f ${balances_file} --debug --timeout 0 --set taskDefinitionArn=${task_definition_arn} --set cluster=${cluster} --set curl_http_method=${curl_http_method} --set curl_url=${curl_url} czecs-task-curl.json"
 /tmp/czecs task -f "${balances_file}" --debug --timeout 0 --set taskDefinitionArn="${task_definition_arn}" --set cluster="${cluster}" --set curl_http_method="${curl_http_method}" --set curl_url="${curl_url}" czecs-task-curl.json
 
-# Create Indexes Aliases
+# Create Aliases for Indexes
 
 curl_http_method=POST
 curl_content_type=application/x-ndjson
