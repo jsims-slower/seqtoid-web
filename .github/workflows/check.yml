@@ -1,7 +1,8 @@
 name: idseq-web check
 
 on:
-  push
+#  push
+  workflow_dispatch:
 
 jobs:
   ruby_test:

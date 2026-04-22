@@ -160,8 +160,19 @@ class HomeController < ApplicationController
                else
                  "run.wdl"
                end
-    response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
-    return response[:content_length] > 0
+    Rails.logger.info "S3 BUCKET: #{S3_WORKFLOWS_BUCKET}"
+    Rails.logger.info "S3 KEY: #{workflow}-v#{version}/#{filename}"
+    begin
+      response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
+      Rails.logger.info response.to_h
+      return response[:content_length] > 0
+    rescue Aws::S3::Errors::NoSuchKey => e
+      Rails.logger.error "S3 object not found: #{e.message}"
+      return false
+    rescue StandardError => e
+      Rails.logger.error "Error fetching S3 object: #{e.message}"
+      return false
+    end
   end
 
   def user_profile_form
