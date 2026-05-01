@@ -49,12 +49,13 @@ jobs:
       sha-image: ${{ steps.image-names.outputs.branch-image }}
       branch-image: ${{ steps.image-names.outputs.sha-image }}
     steps:
-      - id: short-sha
+      - name: Calculate short SHA
+        id: short-sha
         uses: hudsonm62/short-sha@v1
         with:
           commit-sha: '${{ inputs.commit-sha }}'
           length: 8
-      - name: Tag Names
+      - name: Calculate Image Names
         id: image-names
         run: |
           echo 'vars.AWS_ACCOUNT_ID=${{ vars.AWS_ACCOUNT_ID }}'
@@ -111,9 +112,9 @@ jobs:
           registry: ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
       - name: Build Docker Image and push to ECR
         id: docker-build-push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v7
         with:
-          context: .
+          #context: .
           push: '${{ inputs.push-image }}'
           build-args: GIT_COMMIT=${{ inputs.commit-sha }}
           tags: |
