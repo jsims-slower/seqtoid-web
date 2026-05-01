@@ -1,6 +1,7 @@
 {
   "project": "idseq",
   "env": "sandbox",
+  "rails_env": "sandbox",
   "name": "web",
   "region": "us-west-2",
   "cpu_web": 1024,

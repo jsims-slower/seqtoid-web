@@ -23,12 +23,6 @@ else
   os="linux"
 fi
 
-if [[ "${env}" == "dev" ]]; then
-  rails_env="development"
-else
-  rails_env="${env}"
-fi
-
 # Download and extract czecs.
 curl -sS -L "https://github.com/chanzuckerberg/czecs/releases/download/v0.1.2/czecs_0.1.2_${os}_amd64.tar.gz" | tar xz -C /tmp czecs
 
@@ -37,15 +31,15 @@ aws_account_id=$(aws sts get-caller-identity --query="Account" | tr -d '"')
 
 cluster="idseq-${env}-ecs"
 
-echo "image: ${image}, env: ${env}, rails_env: ${rails_env} aws_account_id: ${aws_account_id}, cluster: ${cluster}"
+echo "image: ${image}, env: ${env}, aws_account_id: ${aws_account_id}, cluster: ${cluster}"
 
 # Pick balances file by env
 balances_file="balances-${env}.json"
 echo "Using balances file: $balances_file"
 
 # Register the task. Exit if registration fails.
-echo "task_definition_arn=/tmp/czecs register -f ${balances_file} --set tag=${image} --set env=${env} --set rails_env=${rails_env} --set account_id=${aws_account_id} czecs.json"
-task_definition_arn=$(/tmp/czecs register -f "${balances_file}" --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set account_id="${aws_account_id}" czecs.json)
+echo "task_definition_arn=/tmp/czecs register -f ${balances_file} --set tag=${image} --set account_id=${aws_account_id} --strict --debug czecs.json"
+task_definition_arn=$(/tmp/czecs register -f "${balances_file}" --set tag="${image}" --set account_id="${aws_account_id}" --strict --debug czecs.json)
 #task_definition_arn="arn:aws:ecs:us-west-2:${aws_account_id}:task-definition/idseq-${env}-web:8"
 if [[ $? -ne 0 ]]; then
   echo "== Could not register task =="
@@ -90,19 +84,19 @@ echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_a
 echo "running resque"
 
 # Upgrade Resque workers.
-/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=resque --set rake_command=resque:workers --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque" czecs-resque.json
+/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set name=resque --set rake_command=resque:workers --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque" czecs-resque.json
 
 # Upgrade Resque scheduler.
-/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=resque-scheduler --set rake_command=resque:scheduler --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-scheduler" czecs-resque.json
+/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set name=resque-scheduler --set rake_command=resque:scheduler --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-scheduler" czecs-resque.json
 
 # Upgrade Pipeline monitor.
-/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=resque-pipeline-monitor --set rake_command=pipeline_monitor --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-pipeline-monitor" czecs-resque.json
+/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set name=resque-pipeline-monitor --set rake_command=pipeline_monitor --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-pipeline-monitor" czecs-resque.json
 
 # Upgrade Result monitor.
-/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=resque-result-monitor --set rake_command=result_monitor --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-result-monitor" czecs-resque.json
+/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set name=resque-result-monitor --set rake_command=result_monitor --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-resque-result-monitor" czecs-resque.json
 
 # Upgrade Shoryuken.
-/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set env="${env}" --set rails_env="${rails_env}" --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-shoryuken" czecs-shoryuken.json
+/tmp/czecs upgrade -f ${balances_file} --set tag="${image}" --set name=shoryuken --set entry_command='-R -C config/shoryuken.yml' --set account_id="${aws_account_id}" "${cluster}" "idseq-${env}-shoryuken" czecs-shoryuken.json
 
 #
 # Run Rake Tasks
