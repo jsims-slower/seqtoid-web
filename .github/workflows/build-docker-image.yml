@@ -41,8 +41,30 @@ permissions: # these permissions must be set for AWS auth to work!
   contents: read
 
 jobs:
+  check-vars:
+    name: Check Vars
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Vars
+        run: |
+          echo 'inputs.push-image=${{ inputs.push-image }}'
+          echo "github.head_ref=${{ github.head_ref }}"
+          echo "github.base_ref=${{ github.base_ref }}"
+          echo "github.ref_name=${{ github.ref_name }}"
+          echo "github.event.pull_request.head.sha=${{ github.event.pull_request.head.sha }}"
+          echo "github.sha=${{ github.sha }}" 
+          echo "vars.AWS_ACCOUNT_ID=${{ vars.AWS_ACCOUNT_ID }}"
+          echo "env.AWS_REGION=${{ env.AWS_REGION }}"
+      - name: Check Required Vars
+        if: ${{ !vars.AWS_ACCOUNT_ID }}
+        run: |
+          echo "ERROR: Missing vars.AWS_ACCOUNT_ID"
+          exit 1
+
   build-image:
     name: Build Docker Image
+    needs:
+      - check-vars
     uses: ./.github/workflows/reusable-build-docker-image.yml
     with:
       environment: ${{ inputs.environment }}
