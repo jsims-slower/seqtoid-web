@@ -8,11 +8,15 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both threaded web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
   # Eager load against default recs. Worth re-evaluating, was set a long time ago.
-  config.eager_load = true
+  config.eager_load = false
 
   # Show full error reports.
-  config.consider_all_requests_local = true
+  config.consider_all_requests_local = true # TODO: false?
 
   # Enable server timing
   config.server_timing = true
@@ -44,6 +48,17 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  config.force_ssl = true
+  config.ssl_options = { redirect: { exclude: ->(request) { request.path =~ /health_check/ } } }
+
+  # Include generic and useful information about system operation, but avoid logging too much
+  # information to avoid inadvertent exposure of personally identifiable information (PII).
+  config.log_level = :debug
+
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:request_id]
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -52,6 +67,7 @@ Rails.application.configure do
   # CZID specific
   # Required for tests to pass
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # config.action_mailer.default_url_options = { host: "dev.seqtoid.org" }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -71,7 +87,7 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  # Raises error for missing translations.
+  # Raises error for missing translations. See config.i18n.fallbacks below
   # config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
@@ -91,12 +107,15 @@ Rails.application.configure do
   # Here down is CZID-added code, not Rails-generated
   # Uncomment this line to test cloudfront CDN. Must be running staging branch,
   # so that filename hashes match.
-  # config.action_controller.asset_host = 'assets.staging.idseq.net'
+  # config.action_controller.asset_host = 'assets.staging.seqtoid.org'
 
   # Custom config for idseq to enable CORS headers by environment. See rack_cors.rb.
   config.allowed_cors_origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://dev.seqtoid.org",
+    "https://www.dev.seqtoid.org",
+    "https://assets.dev.seqtoid.org",
   ]
 
   # web is the container name for the rails server in our docker config
@@ -104,11 +123,41 @@ Rails.application.configure do
   config.hosts << "web"
   config.hosts << "web.czidnet"
 
+  config.middleware.use Rack::HostRedirect, "www.dev.seqtoid.org" => "dev.seqtoid.org"
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  #config.i18n.fallbacks = true
+
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
+
   # SERVER_DOMAIN is used for callback URLs for ECS bulk downloads
   # In local development, an ngrok http endpoint must be configured for ECS bulk downloads to work
   # See https://github.com/chanzuckerberg/czid-web-private/wiki/1.6-Dev-%E2%80%90-ECS-Bulk-Downloads-on-Localdev
   # This setting prevents Rails from blocking requests to the ngrok endpoint
   config.hosts << ENV["SERVER_DOMAIN"].sub("https://", "") if ENV["SERVER_DOMAIN"]
+
+  # Deployed logging configuration
+  config.log_level = :debug
+  config.lograge.enabled = true
+  config.lograge.formatter = Lograge::Formatters::Json.new
+  config.lograge.logger = ActiveSupport::Logger.new(STDOUT)
+  param_filtered = %w[controller action]
+  config.lograge.custom_options = lambda do |event|
+    { time: event.time,
+      ddsource: ["ruby"],
+      remote_ip: event.payload[:remote_ip],
+      user_id: event.payload[:user_id],
+      params: event.payload[:params].reject { |k| param_filtered.include? k }, }
+  end
+  config.colorize_logging = false
+  config.lograge.ignore_actions = ["HealthCheck::HealthCheckController#index"]
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  ActiveRecord::Base.logger.level = :debug if ActiveRecord::Base.logger
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = true
 
   # Development logging configuration
   logger           = ActiveSupport::Logger.new(STDOUT)

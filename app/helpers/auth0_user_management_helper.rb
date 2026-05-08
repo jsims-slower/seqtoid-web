@@ -1,5 +1,5 @@
 module Auth0UserManagementHelper
-  AUTH0_CONNECTION_NAME = ENV["AUTH0_CONNECTION"] || "Username-Password-Authentication"
+  AUTH0_CONNECTION_NAME = ENV["AUTH0_CONNECTION"]
 
   # Auth0 limits the total number of users you can retrieve to 1000
   # - See: https://auth0.com/docs/manage-users/user-search/view-search-results-by-page#limitation

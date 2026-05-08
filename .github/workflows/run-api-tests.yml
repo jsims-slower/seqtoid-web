@@ -9,9 +9,10 @@ on:
         required: true
         default: 'staging'
         options:
-        - staging
-        - sandbox
-        - prod
+          - development
+          - staging
+          - sandbox
+          - prod
 
 run-name: "Run API tests on ${{ inputs.environment }}"
 

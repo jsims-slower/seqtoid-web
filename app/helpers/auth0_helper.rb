@@ -8,7 +8,7 @@ module Auth0Helper
   AUTH_VALID = 'AUTH_VALID'
 
   # This is just a unique namespace for custom claims and it is not linked to any specific environment
-  CUSTOM_CLAIMS_NAMESPACE = "https://idseq.net"
+  CUSTOM_CLAIMS_NAMESPACE = "https://seqtoid.org"
   ROLES_CUSTOM_CLAIM = "#{CUSTOM_CLAIMS_NAMESPACE}/roles"
 
   def auth0_check_user_auth(current_user)
