@@ -52,10 +52,13 @@ fi
 
 echo "running migrations"
 
+# NOTE: SKIP_TEST_DATABASE needs to be set, or else Rails.env.development will use the "test" DB
+# See: active_record/tasks/database_tasks.rb:551
+# https://stackoverflow.com/questions/9930361/rake-dbmigrate-and-rake-dbcreate-both-work-on-test-database-not-development-d
 declare -a rails_commands=(
     #"--tasks"
     "db:drop"
-    "db:create" # NOTE: This often returns an error, but still creates the DB. In which case, comment this line out, and rerun this script.
+    "db:create"
     #"local_user_creation:admin[test.user@test.com,test]"
     "db:migrate:with_data"
     "db:seed"

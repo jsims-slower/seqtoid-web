@@ -11,6 +11,36 @@
           "-X",
           "{{ .Values.curl_http_method }}",
           "{{ .Values.curl_url }}"
+        ],
+        "environment": [
+          {
+            "name": "SKIP_TEST_DATABASE",
+            "value": "true"
+          },
+          {
+            "name": "RAILS_LOG_TO_STDOUT",
+            "value": "yes"
+          },
+          {
+            "name": "RAILS_ENV",
+            "value": "{{ .Values.rails_env }}"
+          },
+          {
+            "name": "ENVIRONMENT",
+            "value": "{{ .Values.env }}"
+          },
+          {
+            "name": "AWS_REGION",
+            "value": "{{ .Values.region }}"
+          },
+          {
+            "name": "AWS_DEFAULT_REGION",
+            "value": "{{ .Values.region }}"
+          },
+          {
+            "name": "AWS_ACCOUNT_ID",
+            "value": "{{ .Values.account_id }}"
+          }
         ]
       }
     ]
