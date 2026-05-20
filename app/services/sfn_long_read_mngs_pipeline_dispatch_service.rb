@@ -106,7 +106,7 @@ class SfnLongReadMngsPipelineDispatchService
       RUN_WDL_URI: "s3://#{S3_WORKFLOWS_BUCKET}/#{@pipeline_run.workflow_version_tag}/run.wdl",
       Input: {
         Run: {
-          input_fastq: File.join(@sample.sample_input_s3_path, @sample.input_files.fastq[0].name),
+          input_fastq: @sample.input_files.fastq[0].s3_path,
           library_type: library_type,
           guppy_basecaller_setting: @pipeline_run.guppy_basecaller_setting,
           minimap_host_db: minimap_host_path(library_type, host_genome),

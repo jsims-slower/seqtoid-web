@@ -68,7 +68,7 @@ class InputFile < ApplicationRecord
   end
 
   def multipart_upload_id
-    S3Util.latest_multipart_upload(ENV['SAMPLES_BUCKET_NAME'], file_path)
+    S3Util.latest_multipart_upload(SAMPLES_BUCKET_NAME, file_path)
   end
 
   def file_extension
