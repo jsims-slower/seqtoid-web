@@ -61,7 +61,6 @@ declare -a rails_commands=(
     "db:create"
     #"local_user_creation:admin[test.user@test.com,test]"
     "db:migrate:with_data"
-    "db:seed"
     "seed:migrate"
 )
 
@@ -77,8 +76,8 @@ done
 
 echo "running updates"
 
-echo "/tmp/czecs upgrade --timeout 900 --task-definition-arn ${task_definition_arn} ${cluster} idseq-${env}-web"
-/tmp/czecs upgrade --timeout 900 --task-definition-arn "${task_definition_arn}" "${cluster}" "idseq-${env}-web"
+echo "/tmp/czecs upgrade --timeout 1800 --task-definition-arn ${task_definition_arn} ${cluster} idseq-${env}-web"
+/tmp/czecs upgrade --timeout 1800 --task-definition-arn "${task_definition_arn}" "${cluster}" "idseq-${env}-web"
 
 #
 # Deploy Resque and Shoryuken
@@ -110,9 +109,9 @@ echo "running rake tasks"
 declare -a rake_commands=(
     #"--tasks"
     #"features:list"
-    #"taxon_lineage_slice:remove_slice"
+    "taxon_lineage_slice:remove_slice"
     "taxon_lineage_slice:import_data_from_s3"
-    #"taxon_lineage_slice:remove_taxon_lineage_slice_es_index"
+    "taxon_lineage_slice:remove_taxon_lineage_slice_es_index"
     "taxon_lineage_slice:create_taxon_lineage_slice_es_index"
     # TODO: Not sure if loading Taxon Descriptions is required or not
     "load_taxon_descriptions[s3://seqtoid-public-references/phase1/taxonomy/2018-04-01-utc-1522569777-unixtime__2018-04-04-utc-1522862260-unixtime/2.9/taxid2description.json]"
