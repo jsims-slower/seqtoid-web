@@ -28,7 +28,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       db:
-        image: bitnami/mysql:5.7
+        image: bitnamilegacy/mysql:5.7
         options: >-
           --health-cmd "mysqladmin ping -h localhost"
           --health-interval 10s

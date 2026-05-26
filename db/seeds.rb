@@ -30,13 +30,13 @@ ActiveRecord::Base.transaction do
 
   AppConfig.create({"key"=>"consensus-genome-version", "value"=>"3.5.5"})
 
-  AppConfig.create({"key"=>"short-read-mngs-version", "value"=>"8.3.11"})
+  AppConfig.create({"key"=>"short-read-mngs-version", "value"=>"8.3.15"})
 
-  AppConfig.create({"key"=>"phylotree-ng-version", "value"=>"6.11.0"})
+  AppConfig.create({"key"=>"phylotree-ng-version", "value"=>"6.11.0"}) # TODO: This doesn't exist in CZI at all, as their latest was 1.2.6
 
   AppConfig.create({"key"=>"amr-version", "value"=>"1.4.2"})
 
-  AppConfig.create({"key"=>"long-read-mngs-version", "value"=>"0.7.11"})
+  AppConfig.create({"key"=>"long-read-mngs-version", "value"=>"0.7.12"})
 
   AppConfig.create({"key"=>"sfn_single_wdl_arn", "value"=>"arn:aws:states:us-west-2:#{account_id}:stateMachine:idseq-swipe-#{environment_name}-default-wdl"})
 
