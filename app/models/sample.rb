@@ -108,6 +108,8 @@ class Sample < ApplicationRecord
   TIEBREAKER_SORT_KEY = "id".freeze
   TAXON_FILTER_THRESHOLD_KEYS = [:count_type, :metric, :operator, :value].freeze
 
+  NAME_PREFIX = "Sample_".freeze
+
   scope :sort_by_metadata, lambda { |sort_key, order_dir|
     # Note: if the samples do not contain the specified metadata, all metadata.string_validated_value's will be nil
     # and samples will be sorted by TIEBREAKER_SORT_KEY

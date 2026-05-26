@@ -523,35 +523,61 @@ class ProjectsController < ApplicationController
   # TODO: Consider consolidating into a general sample validator
   # Takes an array of sample names.
   # Returns an array of sample names that has no name collisions with existing samples or with each other.
+  # NOTE: Sample names can no longer be based on the uploaded file names, due to legal restrictions.
+  #       Thus, Sample names are now unique based on an incrementing nummeric index (counter).
+  #       IE: "Sample_<index>" where <index> is incremented every new sample.
   def validate_sample_names
     sample_names = params[:sample_names]
     ignore_unuploaded = params[:ignore_unuploaded]
-    new_sample_names = []
 
-    existing_names = if ignore_unuploaded
-                       # Ignore checking for sample name conflicts if the samples haven't uploaded yet
-                       Sample
-                         .where(project: @project)
-                         .where.not(status: Sample::STATUS_CREATED)
-                         .pluck(:name)
-                         .map(&:downcase)
-                     else
-                       Sample.where(project: @project).pluck(:name).map(&:downcase)
-                     end
+    # existing_names = if ignore_unuploaded
+    #                    # Ignore checking for sample name conflicts if the samples haven't uploaded yet
+    #                    Sample
+    #                      .where(project: @project)
+    #                      .where.not(status: Sample::STATUS_CREATED)
+    #                      .pluck(:name)
+    #                      .map(&:downcase)
+    #                  else
+    #                    Sample.where(project: @project).pluck(:name).map(&:downcase)
+    #                  end
+    # puts("ProjectsController.existing_names=#{existing_names}")
+    #
+    # sample_names.each do |sample_name|
+    #   i = 0
+    #   cur_sample_name = sample_name
+    #
+    #   # If the sample name already exists in the project, add a _1, _2, _3, etc.
+    #   while existing_names.include?(cur_sample_name.downcase)
+    #     i += 1
+    #     cur_sample_name = sample_name + "_#{i}"
+    #   end
+    #
+    #   new_sample_names << cur_sample_name
+    #   # Add the validated sample name to existing names, so subsequent names don't collide.
+    #   existing_names << cur_sample_name.downcase
+    # end
 
-    sample_names.each do |sample_name|
-      i = 0
-      cur_sample_name = sample_name
+    # NOTICE: There is (still) a race condition, where parallel calls to this method could occur for the same Project.
+    #         This should be rare tho.
+    #         One solution is to mix-in the user ID, or something similar.
+    last_index = if ignore_unuploaded
+                   # Ignore checking for sample name conflicts if the samples haven't uploaded yet
+                   Sample
+                     .where(project: @project)
+                     .where.not(status: Sample::STATUS_CREATED)
+                     .where("name REGEXP :regex", regex: "^#{Sample::NAME_PREFIX}[0-9]+$")
+                     .order("name_index DESC")
+                     .pick(Arel.sql("CAST(SUBSTRING(name, #{Sample::NAME_PREFIX.length + 1}) as UNSIGNED) as name_index")) || -1
+                 else
+                   Sample
+                     .where(project: @project)
+                     .where("name REGEXP :regex", regex: "^#{Sample::NAME_PREFIX}[0-9]+$")
+                     .order("name_index DESC")
+                     .pick(Arel.sql("CAST(SUBSTRING(name, #{Sample::NAME_PREFIX.length + 1}) as UNSIGNED) as name_index")) || -1
+                 end
 
-      # If the sample name already exists in the project, add a _1, _2, _3, etc.
-      while existing_names.include?(cur_sample_name.downcase)
-        i += 1
-        cur_sample_name = sample_name + "_#{i}"
-      end
-
-      new_sample_names << cur_sample_name
-      # Add the validated sample name to existing names, so subsequent names don't collide.
-      existing_names << cur_sample_name.downcase
+    new_sample_names = sample_names.map.with_index(1) do |_, name_index|
+      "#{Sample::NAME_PREFIX}#{last_index + name_index}"
     end
 
     render json: new_sample_names
