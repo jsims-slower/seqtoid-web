@@ -160,18 +160,14 @@ class HomeController < ApplicationController
                else
                  "run.wdl"
                end
-    Rails.logger.info "S3 BUCKET: #{S3_WORKFLOWS_BUCKET}"
-    Rails.logger.info "S3 KEY: #{workflow}-v#{version}/#{filename}"
+    s3_key = "#{workflow}-v#{version}/#{filename}"
     begin
-      response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: "#{workflow}-v#{version}/#{filename}")
-      Rails.logger.info response.to_h
+      response = AwsClient[:s3].get_object(bucket: S3_WORKFLOWS_BUCKET, key: s3_key)
+      Rails.logger.debug "Found Workflow in bucket [#{S3_WORKFLOWS_BUCKET}] key [#{s3_key}]: #{response.to_h}"
       return response[:content_length] > 0
-    rescue Aws::S3::Errors::NoSuchKey => e
-      Rails.logger.error "S3 object not found: #{e.message}"
-      return false
     rescue StandardError => e
-      Rails.logger.error "Error fetching S3 object: #{e.message}"
-      return false
+      Rails.logger.error "Error fetching S3 object for bucket [#{S3_WORKFLOWS_BUCKET}] key [#{s3_key}]: #{e.message}"
+      raise
     end
   end
 
@@ -185,7 +181,7 @@ class HomeController < ApplicationController
     begin
       check_valid_workflow(workflow_name, version) || raise("Updating workflow failed could not find wdl file")
       AppConfigHelper.set_workflow_version(workflow_name, version)
-    rescue Aws::S3::Errors::AccessDenied
+    rescue Aws::S3::Errors::AccessDenied, Aws::S3::Errors::NoSuchKey
       render json: {
         status: "Updating workflow failed could not find wdl file",
       }
