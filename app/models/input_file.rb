@@ -62,7 +62,7 @@ class InputFile < ApplicationRecord
     if matched_single
       return [
         matched_single[1],
-        ".#{matched_paired[2]}",
+        ".#{matched_single[2]}",
       ]
     end
     # TODO: Should never reach here
