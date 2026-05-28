@@ -784,7 +784,7 @@ module SamplesHelper
         sample = Sample.new(sample_attributes)
         # NOTE: Input file names are now obfuscated, and no longer match the name of the uploaded files
         input_file_salt = InputFile.generate_salt
-        sample.input_files.each { |f| f.name ||= InputFile.hash_name(File.basename(f.source), input_file_salt) }
+        sample.input_files.each { |f| f.name = InputFile.hash_name(File.basename(f.source), input_file_salt) }
 
         # Add these as temporary attributes to this sample object.
         if sample_attributes[:basespace_access_token]
