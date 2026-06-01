@@ -1,6 +1,7 @@
 {
   "project": "idseq",
   "env": "staging",
+  "rails_env": "staging",
   "name": "web",
   "region": "us-west-2",
   "cpu_web": 2048,

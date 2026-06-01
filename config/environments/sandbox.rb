@@ -72,22 +72,20 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "idseq-#{Rails.env}"
 
-  config.action_mailer.default_url_options = { host: "dev.seqtoid.org" }
+  config.action_mailer.default_url_options = { host: "#{Rails.env}.seqtoid.org" }
 
   config.hosts << "dev.seqtoid.org"
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # We configure IDseq to use cloudfront CDN when available.
-  config.asset_host = ENV["CZID_CLOUDFRONT_ENDPOINT"] || "dev.seqtoid.org"
+  config.asset_host = ENV["CZID_CLOUDFRONT_ENDPOINT"] || "#{Rails.env}.seqtoid.org"
   # Custom config for idseq to enable CORS headers by environment. See rack_cors.rb.
   config.allowed_cors_origins = [
-    "https://dev.seqtoid.org",
-    "https://www.dev.seqtoid.org",
-    "https://assets.dev.seqtoid.org",
+    "https://#{Rails.env}.seqtoid.org",
+    "https://www.#{Rails.env}.seqtoid.org",
+    "https://assets.#{Rails.env}.seqtoid.org",
   ]
 
-  config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.idseq.net" => "#{Rails.env}.idseq.net"
-  config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.czid.org" => "#{Rails.env}.czid.org"
-  config.middleware.use Rack::HostRedirect, "www.dev.seqtoid.org" => "dev.seqtoid.org"
+  config.middleware.use Rack::HostRedirect, "www.#{Rails.env}.seqtoid.org" => "#{Rails.env}.seqtoid.org"
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
